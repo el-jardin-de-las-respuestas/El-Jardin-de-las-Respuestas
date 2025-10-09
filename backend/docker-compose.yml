@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: jardin_postgres
+    restart: always
+    ports:
+      - 5000:5432
+    environment:
+      POSTGRES_USER: jardinuser
+      POSTGRES_PASSWORD: RG&58Pbx@B
+      POSTGRES_DB: jardindb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:latest
+    container_name: jardin_adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
