@@ -1,0 +1,62 @@
+/* Override Driver.js styles to match our Soft Girl aesthetic */
+
+.driver-popover {
+  border-radius: 2rem !important;
+  border: 2px solid rgba(255, 209, 220, 0.4) !important;
+  box-shadow: 0 16px 50px rgba(255, 209, 220, 0.6) !important;
+  background: #FDFDFD !important;
+}
+
+.driver-popover-title {
+  font-weight: 500 !important;
+  color: #4a3f47 !important;
+}
+
+.driver-popover-description {
+  color: #9d8892 !important;
+}
+
+.driver-popover-progress-text {
+  color: #9d8892 !important;
+}
+
+.driver-popover-navigation-btns button {
+  border-radius: 1.5rem !important;
+  padding: 0.5rem 1.5rem !important;
+  font-weight: 500 !important;
+  transition: all 0.2s !important;
+}
+
+.driver-popover-next-btn {
+  background: #A3687F !important;
+  color: #FDFDFD !important;
+  box-shadow: 0 4px 20px rgba(255, 209, 220, 0.6) !important;
+}
+
+.driver-popover-next-btn:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 8px 30px rgba(255, 209, 220, 0.8) !important;
+}
+
+.driver-popover-prev-btn {
+  background: transparent !important;
+  color: #A3687F !important;
+  border: 2px solid rgba(255, 209, 220, 0.4) !important;
+}
+
+.driver-popover-prev-btn:hover {
+  background: rgba(255, 209, 220, 0.2) !important;
+}
+
+.driver-popover-close-btn {
+  color: #9d8892 !important;
+}
+
+.driver-popover-close-btn:hover {
+  color: #4a3f47 !important;
+}
+
+.driver-active-element {
+  outline: 2px solid #A3687F !important;
+  outline-offset: 4px !important;
+}
