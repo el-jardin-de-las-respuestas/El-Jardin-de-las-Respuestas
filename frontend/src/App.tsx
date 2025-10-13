@@ -5,8 +5,8 @@ import "./styles/driver.css";
 import { Navigation } from "./components/Navigation";
 import { HomePage } from "./components/HomePage";
 import { AuthPage } from "./components/AuthPage";
-import { BibliotecaPage } from "./components/BibliotecaPage";
-import { ComunicacionPage } from "./components/ComunicacionPage";
+import { BibliotecaPage } from "./components/LibraryPage";
+import { ComunicacionPage } from "./components/ComunicationPage";
 import { Toaster } from "./components/ui/sonner";
 import { toast } from "sonner";
 

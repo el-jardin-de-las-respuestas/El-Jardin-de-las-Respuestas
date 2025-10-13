@@ -7,7 +7,6 @@ import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { MessageCircle, Users, Send, Shield, ThumbsUp, MessageSquare } from "lucide-react";
-
 import chatMessages from "@data/chatMessages.json";
 import forumTopics from "@data/forumTopics.json";
 
