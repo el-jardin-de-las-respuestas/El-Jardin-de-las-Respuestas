@@ -1,0 +1,33 @@
+[
+    {
+      "id": 1,
+      "author": "Usuario123",
+      "title": "¿Cómo hablar con mis padres sobre ESI?",
+      "excerpt": "Me gustaría conversar con mis papás sobre estos temas pero no sé cómo empezar...",
+      "replies": 12,
+      "likes": 24,
+      "category": "Familia",
+      "timeAgo": "Hace 2 horas"
+    },
+    {
+      "id": 2,
+      "author": "AmigoConfidente",
+      "title": "Recursos sobre identidad de género",
+      "excerpt": "¿Alguien puede recomendar buenos recursos para entender mejor la identidad de género?",
+      "replies": 8,
+      "likes": 15,
+      "category": "Identidad",
+      "timeAgo": "Hace 5 horas"
+    },
+    {
+      "id": 3,
+      "author": "CuriosxSiempre",
+      "title": "Mi experiencia aprendiendo sobre consentimiento",
+      "excerpt": "Quiero compartir cómo cambió mi perspectiva después de aprender sobre el consentimiento...",
+      "replies": 20,
+      "likes": 45,
+      "category": "Consentimiento",
+      "timeAgo": "Hace 1 día"
+    }
+  ]
+  

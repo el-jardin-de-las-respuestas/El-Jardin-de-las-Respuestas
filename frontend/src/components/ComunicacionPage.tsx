@@ -8,73 +8,12 @@ import { Badge } from "./ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { MessageCircle, Users, Send, Shield, ThumbsUp, MessageSquare } from "lucide-react";
 
+import chatMessages from "@data/chatMessages.json";
+import forumTopics from "@data/forumTopics.json";
+
 export function ComunicacionPage() {
-  const [chatMessage, setchatMessage] = useState("");
+  const [chatMessage, setChatMessage] = useState("");
   const [forumPost, setForumPost] = useState("");
-
-  const chatMessages = [
-    {
-      id: 1,
-      sender: "Dra. María González",
-      role: "Ginecóloga",
-      message:
-        "¡Hola! Bienvenidx al chat. Estoy aquí para responder tus preguntas sobre salud sexual. Todo lo que hablemos es confidencial.",
-      timestamp: "10:30",
-      isDoctor: true,
-    },
-    {
-      id: 2,
-      sender: "Tú",
-      message: "Hola, tengo algunas dudas sobre métodos anticonceptivos.",
-      timestamp: "10:32",
-      isDoctor: false,
-    },
-    {
-      id: 3,
-      sender: "Dra. María González",
-      role: "Ginecóloga",
-      message:
-        "Por supuesto, con mucho gusto te ayudo. ¿Hay algún método específico sobre el que quieras saber más?",
-      timestamp: "10:33",
-      isDoctor: true,
-    },
-  ];
-
-  const forumTopics = [
-    {
-      id: 1,
-      author: "Usuario123",
-      title: "¿Cómo hablar con mis padres sobre ESI?",
-      excerpt:
-        "Me gustaría conversar con mis papás sobre estos temas pero no sé cómo empezar...",
-      replies: 12,
-      likes: 24,
-      category: "Familia",
-      timeAgo: "Hace 2 horas",
-    },
-    {
-      id: 2,
-      author: "AmigoConfidente",
-      title: "Recursos sobre identidad de género",
-      excerpt:
-        "¿Alguien puede recomendar buenos recursos para entender mejor la identidad de género?",
-      replies: 8,
-      likes: 15,
-      category: "Identidad",
-      timeAgo: "Hace 5 horas",
-    },
-    {
-      id: 3,
-      author: "CuriosxSiempre",
-      title: "Mi experiencia aprendiendo sobre consentimiento",
-      excerpt:
-        "Quiero compartir cómo cambió mi perspectiva después de aprender sobre el consentimiento...",
-      replies: 20,
-      likes: 45,
-      category: "Consentimiento",
-      timeAgo: "Hace 1 día",
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-background px-6 py-12">
@@ -96,20 +35,19 @@ export function ComunicacionPage() {
         {/* Tabs */}
         <Tabs defaultValue="chat" className="w-full">
           <TabsList className="mb-8 grid w-full max-w-md mx-auto grid-cols-2 rounded-[2rem] border-2 border-secondary/40 bg-secondary/20 p-2">
-            <TabsTrigger value="chat" className="rounded-[1.5rem]" id="chat-tab">
+            <TabsTrigger value="chat" className="rounded-[1.5rem]">
               <MessageCircle className="mr-2 size-4" />
               Chat 1:1
             </TabsTrigger>
-            <TabsTrigger value="forum" className="rounded-[1.5rem]" id="forum-tab">
+            <TabsTrigger value="forum" className="rounded-[1.5rem]">
               <Users className="mr-2 size-4" />
               Foro
             </TabsTrigger>
           </TabsList>
 
-          {/* Chat Tab */}
+          {/* Chat */}
           <TabsContent value="chat">
             <Card className="mx-auto max-w-4xl overflow-hidden rounded-[3rem] border-2 border-secondary/40 shadow-[0_16px_50px_var(--color-shadow-soft)]">
-              {/* Chat Header */}
               <div className="border-b-2 border-secondary/40 bg-secondary/10 px-6 py-4">
                 <div className="flex items-center gap-4">
                   <Avatar className="size-12 border-2 border-primary">
@@ -125,7 +63,6 @@ export function ComunicacionPage() {
                 </div>
               </div>
 
-              {/* Messages */}
               <div className="h-96 space-y-4 overflow-y-auto bg-background p-6">
                 {chatMessages.map((msg) => (
                   <div
@@ -162,7 +99,6 @@ export function ComunicacionPage() {
                 ))}
               </div>
 
-              {/* Input */}
               <div className="border-t-2 border-secondary/40 bg-secondary/10 p-4">
                 <div className="flex gap-3">
                   <Input
@@ -179,10 +115,9 @@ export function ComunicacionPage() {
             </Card>
           </TabsContent>
 
-          {/* Forum Tab */}
+          {/* Foro */}
           <TabsContent value="forum">
             <div className="mx-auto max-w-5xl">
-              {/* New Post */}
               <Card className="mb-8 rounded-[3rem] border-2 border-secondary/40 p-6 shadow-[0_8px_30px_var(--color-shadow-soft)]">
                 <h3 className="mb-4">Crear Nueva Publicación</h3>
                 <Textarea
@@ -196,7 +131,6 @@ export function ComunicacionPage() {
                 </Button>
               </Card>
 
-              {/* Topics */}
               <div className="space-y-6">
                 {forumTopics.map((topic) => (
                   <Card
