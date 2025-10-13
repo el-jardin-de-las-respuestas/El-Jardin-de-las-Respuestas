@@ -1,7 +1,11 @@
 "use client";
 
 import * as React from "react";
+<<<<<<< HEAD
 import * as AvatarPrimitive from "@radix-ui/react-avatar@1.1.3";
+=======
+import * as AvatarPrimitive from "@radix-ui/react-avatar";
+>>>>>>> e3c7280 (commit new)
 
 import { cn } from "./utils";
 

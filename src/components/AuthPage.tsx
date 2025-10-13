@@ -1,161 +1,116 @@
-import { useState } from "react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Card } from "./ui/card";
-import { Flower2, Eye, EyeOff } from "lucide-react";
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Checkbox } from './ui/checkbox';
+import { Heart } from 'lucide-react';
 
-interface AuthPageProps {
-  onLogin: () => void;
-}
+type AuthPageProps = {
+  onLogin: (email: string, password: string) => void;
+  onRegister: (email: string, password: string, name: string) => void;
+};
 
-export function AuthPage({ onLogin }: AuthPageProps) {
+export function AuthPage({ onLogin, onRegister }: AuthPageProps) {
   const [isLogin, setIsLogin] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    age: "",
-  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock login - en producción esto conectaría con Supabase
-    onLogin();
+    if (isLogin) {
+      onLogin(email, password);
+    } else {
+      if (acceptedTerms) {
+        onRegister(email, password, name);
+      }
+    }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-6 py-12">
-      <Card className="w-full max-w-md rounded-[3rem] border-2 border-secondary/40 p-8 shadow-[0_16px_50px_var(--color-shadow-soft)] md:p-10">
-        {/* Logo */}
-        <div className="mb-8 flex flex-col items-center">
-          <div className="mb-4 flex size-20 items-center justify-center rounded-[2rem] bg-secondary/30">
-            <Flower2 className="size-10 text-primary" />
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12 bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-pink-950/10 dark:via-purple-950/10 dark:to-blue-950/10">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1 text-center">
+          <div className="flex justify-center mb-2">
+            <Heart className="h-12 w-12 text-pink-500 fill-pink-500" />
           </div>
-          <h2 className="text-center">
-            {isLogin ? "Bienvenidx de Vuelta" : "Únete al Jardín"}
-          </h2>
-          <p className="mt-2 text-center text-muted-foreground">
+          <CardTitle>
+            {isLogin ? 'Bienvenida de nuevo' : 'Crear cuenta'}
+          </CardTitle>
+          <CardDescription>
             {isLogin
-              ? "Ingresa a tu espacio seguro"
-              : "Crea tu cuenta y comienza a aprender"}
-          </p>
-        </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Email */}
-          <div className="space-y-2">
-            <Label htmlFor="email">Correo Electrónico</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="tu@email.com"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="rounded-[2rem] border-2 border-secondary/40 bg-input-background px-6 py-6 focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]"
-              required
-            />
-          </div>
-
-          {/* Age (only for registration) */}
-          {!isLogin && (
+              ? 'Ingresa tus datos para acceder a la plataforma'
+              : 'Regístrate para acceder a todos los recursos de ESI'}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {!isLogin && (
+              <div className="space-y-2">
+                <Label htmlFor="name">Nombre completo</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Tu nombre"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+            )}
             <div className="space-y-2">
-              <Label htmlFor="age">Edad</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="age"
-                type="number"
-                placeholder="Tu edad"
-                min="12"
-                value={formData.age}
-                onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                className="rounded-[2rem] border-2 border-secondary/40 bg-input-background px-6 py-6 focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]"
+                id="email"
+                type="email"
+                placeholder="tu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <p className="text-sm text-muted-foreground">
-                Esta plataforma está diseñada para personas de 12 años en adelante
-              </p>
             </div>
-          )}
-
-          {/* Password */}
-          <div className="space-y-2">
-            <Label htmlFor="password">Contraseña</Label>
-            <div className="relative">
+            <div className="space-y-2">
+              <Label htmlFor="password">Contraseña</Label>
               <Input
                 id="password"
-                type={showPassword ? "text" : "password"}
+                type="password"
                 placeholder="••••••••"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="rounded-[2rem] border-2 border-secondary/40 bg-input-background px-6 py-6 pr-14 focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
-                {showPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
-              </button>
-            </div>
-          </div>
-
-          {/* Confirm Password (only for registration) */}
-          {!isLogin && (
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
-              <Input
-                id="confirmPassword"
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                value={formData.confirmPassword}
-                onChange={(e) =>
-                  setFormData({ ...formData, confirmPassword: e.target.value })
-                }
-                className="rounded-[2rem] border-2 border-secondary/40 bg-input-background px-6 py-6 focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
-          )}
-
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            className="w-full rounded-[2rem] py-6 shadow-[0_8px_30px_var(--color-shadow-soft)]"
-            id="auth-submit"
-          >
-            {isLogin ? "Ingresar" : "Crear Cuenta"}
-          </Button>
-
-          {/* Toggle Auth Mode */}
-          <div className="text-center">
+            {!isLogin && (
+              <div className="flex items-start space-x-2">
+                <Checkbox
+                  id="terms"
+                  checked={acceptedTerms}
+                  onCheckedChange={(checked) => setAcceptedTerms(checked as boolean)}
+                />
+                <label
+                  htmlFor="terms"
+                  className="text-sm text-muted-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Acepto los términos y condiciones y la política de privacidad
+                </label>
+              </div>
+            )}
+            <Button type="submit" className="w-full" disabled={!isLogin && !acceptedTerms}>
+              {isLogin ? 'Iniciar sesión' : 'Registrarme'}
+            </Button>
+          </form>
+          <div className="mt-4 text-center text-sm">
+            {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}{' '}
             <button
-              type="button"
               onClick={() => setIsLogin(!isLogin)}
-              className="text-muted-foreground hover:text-primary"
+              className="text-primary hover:underline"
             >
-              {isLogin ? (
-                <>
-                  ¿No tienes cuenta?{" "}
-                  <span className="text-primary">Regístrate aquí</span>
-                </>
-              ) : (
-                <>
-                  ¿Ya tienes cuenta? <span className="text-primary">Ingresa aquí</span>
-                </>
-              )}
+              {isLogin ? 'Regístrate' : 'Inicia sesión'}
             </button>
           </div>
-        </form>
-
-        {/* Privacy Note */}
-        <div className="mt-8 rounded-[2rem] bg-secondary/20 p-4 text-center">
-          <p className="text-sm text-muted-foreground">
-            🔒 Tu privacidad es nuestra prioridad. Tus datos están seguros y protegidos.
-          </p>
-        </div>
+        </CardContent>
       </Card>
     </div>
   );
