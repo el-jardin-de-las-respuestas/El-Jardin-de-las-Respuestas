@@ -1,0 +1,26 @@
+[
+    {
+      "id": 1,
+      "sender": "Dra. María González",
+      "role": "Ginecóloga",
+      "message": "¡Hola! Bienvenidx al chat. Estoy aquí para responder tus preguntas sobre salud sexual. Todo lo que hablemos es confidencial.",
+      "timestamp": "10:30",
+      "isDoctor": true
+    },
+    {
+      "id": 2,
+      "sender": "Tú",
+      "message": "Hola, tengo algunas dudas sobre métodos anticonceptivos.",
+      "timestamp": "10:32",
+      "isDoctor": false
+    },
+    {
+      "id": 3,
+      "sender": "Dra. María González",
+      "role": "Ginecóloga",
+      "message": "Por supuesto, con mucho gusto te ayudo. ¿Hay algún método específico sobre el que quieras saber más?",
+      "timestamp": "10:33",
+      "isDoctor": true
+    }
+  ]
+  

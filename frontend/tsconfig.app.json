@@ -22,7 +22,19 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* 🔹 Alias */
+    "baseUrl": "src",
+    "paths": {
+      "@data/*": ["data/*"],
+      "@components/*": ["components/*"],
+      "@pages/*": ["pages/*"]
+    },
+
+    /* 🔹 Para JSON */
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "include": ["src"]
 }

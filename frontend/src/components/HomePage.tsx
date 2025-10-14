@@ -99,7 +99,7 @@ export function HomePage({ onNavigate, onStartTour }: HomePageProps) {
                 Conversaciones privadas y seguras con profesionales de la salud sexual.
                 Todas tus dudas serán respondidas con empatía y profesionalismo.
               </p>
-              <Button variant="outline" className="rounded-[2rem]">
+              <Button variant="outline" className="rounded-[2rem]"   onClick={() => onNavigate('comunicacion')}>
                 Iniciar Chat
               </Button>
             </Card>
