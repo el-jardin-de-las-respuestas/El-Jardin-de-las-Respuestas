@@ -13,6 +13,7 @@ import { AboutPage } from './components/AboutPage';
 import { CommunityPage } from './components/CommunityPage';
 import { BlogPage } from './components/BlogPage';
 import { TestimonialsPage } from './components/TestimonialsPage';
+import { ComunicacionPage } from './components/ComunicacionPage';
 import { FAQPage } from './components/FAQPage';
 import { ProfilePage } from './components/ProfilePage';
 import { CycleTrackerPage } from './components/CycleTrackerPage';
@@ -41,7 +42,7 @@ function AppContent() {
   };
 
   const handleNavigate = (page: string) => {
-    const protectedPages = ['catalogs', 'resources', 'community', 'blog', 'profile', 'cycle-tracker'];
+    const protectedPages = ['catalogs', 'resources', 'community', 'blog', 'profile', 'cycle-tracker', 'comunicacion'];
     if (protectedPages.includes(page)) {
       if (!isAuthenticated) {
         setCurrentPage('auth');
@@ -76,6 +77,8 @@ function AppContent() {
         return <ProfilePage userName={userName} />;
       case 'cycle-tracker':
         return <CycleTrackerPage />;
+      case 'comunicacion':           
+      return <ComunicacionPage />; 
       default:
         return <HomePage onNavigate={handleNavigate} isAuthenticated={isAuthenticated} />;
     }
