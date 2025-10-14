@@ -1,6 +1,6 @@
 import { Moon, Sun, Menu, X, Flower2, User } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import { useState } from 'react';
 
 type HeaderProps = {
