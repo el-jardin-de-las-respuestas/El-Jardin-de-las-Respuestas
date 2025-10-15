@@ -13,7 +13,7 @@ import { AboutPage } from './components/AboutPage';
 import { CommunityPage } from './components/CommunityPage';
 import { BlogPage } from './components/BlogPage';
 import { TestimonialsPage } from './components/TestimonialsPage';
-import { ComunicacionPage } from './components/ComunicacionPage';
+import { ComunicacionPage } from './components/ComunicationPage';
 import { FAQPage } from './components/FAQPage';
 import { ProfilePage } from './components/ProfilePage';
 import { CycleTrackerPage } from './components/CycleTrackerPage';

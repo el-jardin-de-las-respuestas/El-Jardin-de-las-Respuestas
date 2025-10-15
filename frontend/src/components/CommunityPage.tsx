@@ -1,65 +1,62 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Textarea } from './ui/textarea';
-import { Avatar, AvatarFallback } from './ui/avatar';
-import { Heart, MessageCircle, Share2, Users } from 'lucide-react';
-import { useState } from 'react';
-import { Badge } from './ui/badge';
+import { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
+import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Heart, Users } from "lucide-react";
+import { Badge } from "./ui/badge";
+import { CommunityPost, fetchCommunityPosts, createForumPost, likePost } from "../services/api";
 
 export function CommunityPage() {
-  const [newPost, setNewPost] = useState('');
+  const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>([]);
+  const [newPost, setNewPost] = useState("");
 
+  // Temas del foro base
   const forumTopics = [
-    { title: 'Experiencias con anticonceptivos', posts: 234, active: true },
-    { title: 'Apoyo emocional', posts: 189, active: true },
-    { title: 'Dudas sobre el ciclo menstrual', posts: 156, active: false },
-    { title: 'Consultas médicas generales', posts: 298, active: true },
-    { title: 'Derechos y legislación', posts: 87, active: false },
+    { title: "Experiencias con anticonceptivos", active: true },
+    { title: "Apoyo emocional", active: true },
+    { title: "Dudas sobre el ciclo menstrual", active: false },
+    { title: "Consultas médicas generales", active: true },
+    { title: "Derechos y legislación", active: false },
   ];
 
-  const communityPosts = [
-    {
-      author: 'María L.',
-      initials: 'ML',
-      time: 'Hace 2 horas',
-      content: '¿Alguien tiene experiencia con el DIU de cobre? Estoy considerando cambiarlo por el hormonal y me gustaría saber sus opiniones.',
-      likes: 12,
-      comments: 8,
-      tags: ['anticonceptivos', 'DIU'],
-    },
-    {
-      author: 'Ana S.',
-      initials: 'AS',
-      time: 'Hace 5 horas',
-      content: 'Quiero agradecer a esta comunidad por todo el apoyo. Hoy tuve mi primera consulta ginecológica y fue muy positiva gracias a toda la información que encontré aquí.',
-      likes: 45,
-      comments: 23,
-      tags: ['testimonios', 'agradecimiento'],
-    },
-    {
-      author: 'Laura P.',
-      initials: 'LP',
-      time: 'Hace 1 día',
-      content: '¿Alguna app recomendada para hacer seguimiento del ciclo menstrual? Busco algo simple pero completo.',
-      likes: 18,
-      comments: 15,
-      tags: ['ciclo menstrual', 'tecnología'],
-    },
-  ];
+  // Traer posts reales al cargar la página
+  useEffect(() => {
+    fetchCommunityPosts()
+      .then(setCommunityPosts)
+      .catch(console.error);
+  }, []);
+
+  // Crear nuevo post
+  const handleCreatePost = async () => {
+    if (!newPost.trim()) return;
+    try {
+      const post = await createForumPost(newPost);
+      setCommunityPosts(prev => [post, ...prev]);
+      setNewPost("");
+    } catch (error) {
+      console.error(error);
+      alert("Error al publicar el post");
+    }
+  };
+
+  // Dar like a un post
+  const handleLike = async (postId: number) => {
+    try {
+      const updatedPost = await likePost(postId);
+      setCommunityPosts(prev => prev.map(p => (p.id === postId ? updatedPost : p)));
+    } catch (error) {
+      console.error(error);
+      alert("Error al dar like");
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="mb-8">
-        <h1>Comunidad</h1>
-        <p className="text-muted-foreground mt-2">
-          Un espacio seguro para compartir experiencias, hacer preguntas y apoyarnos mutuamente
-        </p>
-      </div>
-
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* Main Content */}
+        {/* --- CONTENIDO PRINCIPAL --- */}
         <div className="lg:col-span-2 space-y-6">
-          {/* New Post Card */}
+          {/* Crear post */}
           <Card>
             <CardHeader>
               <CardTitle>Compartir con la comunidad</CardTitle>
@@ -71,31 +68,28 @@ export function CommunityPage() {
                 onChange={(e) => setNewPost(e.target.value)}
                 className="min-h-[100px]"
               />
-              <div className="flex justify-between items-center">
-                <p className="text-xs text-muted-foreground">
-                  Este es un espacio respetuoso y confidencial
-                </p>
-                <Button disabled={!newPost.trim()}>Publicar</Button>
+              <div className="flex justify-end">
+                <Button disabled={!newPost.trim()} onClick={handleCreatePost}>
+                  Publicar
+                </Button>
               </div>
             </CardContent>
           </Card>
 
-          {/* Community Posts */}
-          {communityPosts.map((post, index) => (
-            <Card key={index}>
+          {/* Posts reales */}
+          {communityPosts.map((post) => (
+            <Card key={post.id}>
               <CardHeader>
-                <div className="flex items-start gap-3">
+                <div className="flex items-center gap-3">
                   <Avatar>
-                    <AvatarFallback className="bg-pink-100 dark:bg-pink-900 text-pink-700 dark:text-pink-300">
-                      {post.initials}
-                    </AvatarFallback>
+                    <AvatarFallback>{post.initials}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
-                    <div className="flex items-center justify-between">
+                    <div className="flex justify-between items-center">
                       <h4>{post.author}</h4>
                       <span className="text-xs text-muted-foreground">{post.time}</span>
                     </div>
-                    <div className="flex gap-2 mt-2">
+                    <div className="flex gap-2 mt-1">
                       {post.tags.map((tag, i) => (
                         <Badge key={i} variant="secondary" className="text-xs">
                           {tag}
@@ -105,30 +99,22 @@ export function CommunityPage() {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-2">
                 <p>{post.content}</p>
-                <div className="flex items-center gap-6 pt-2 border-t">
-                  <button className="flex items-center gap-2 text-sm text-muted-foreground hover:text-pink-500 transition-colors">
-                    <Heart className="h-4 w-4" />
-                    <span>{post.likes}</span>
-                  </button>
-                  <button className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
-                    <MessageCircle className="h-4 w-4" />
-                    <span>{post.comments}</span>
-                  </button>
-                  <button className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
-                    <Share2 className="h-4 w-4" />
-                    <span>Compartir</span>
-                  </button>
-                </div>
+                <button
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-red-500"
+                  onClick={() => handleLike(post.id)}
+                >
+                  <Heart className="h-4 w-4" /> {post.likes}
+                </button>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        {/* Sidebar */}
+        {/* --- SIDEBAR DINÁMICO --- */}
         <div className="space-y-6">
-          {/* Community Stats */}
+          {/* Estadísticas */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -143,42 +129,52 @@ export function CommunityPage() {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Publicaciones hoy</span>
-                <span className="font-semibold">127</span>
+                <span className="font-semibold">{communityPosts.length}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Respuestas dadas</span>
-                <span className="font-semibold">3,456</span>
+                <span className="font-semibold">
+                  {communityPosts.reduce((acc, post) => acc + (post.comments || 0), 0)}
+                </span>
               </div>
             </CardContent>
           </Card>
 
-          {/* Forum Topics */}
+          {/* Temas del foro */}
           <Card>
             <CardHeader>
               <CardTitle>Temas del Foro</CardTitle>
               <CardDescription>Explora las conversaciones activas</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              {forumTopics.map((topic, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between p-3 rounded-lg hover:bg-accent cursor-pointer transition-colors"
-                >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <h4 className="text-sm">{topic.title}</h4>
-                      {topic.active && (
-                        <span className="h-2 w-2 rounded-full bg-green-500"></span>
-                      )}
+              {forumTopics.map((topic, index) => {
+                const count = communityPosts.filter((p) =>
+                  p.tags.some((tag) =>
+                    tag.toLowerCase().includes(topic.title.toLowerCase())
+                  )
+                ).length;
+
+                return (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 rounded-lg hover:bg-accent cursor-pointer transition-colors"
+                  >
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-sm">{topic.title}</h4>
+                        {topic.active && (
+                          <span className="h-2 w-2 rounded-full bg-green-500"></span>
+                        )}
+                      </div>
+                      <p className="text-xs text-muted-foreground">{count} publicaciones</p>
                     </div>
-                    <p className="text-xs text-muted-foreground">{topic.posts} publicaciones</p>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </CardContent>
           </Card>
 
-          {/* Community Guidelines */}
+          {/* Normas */}
           <Card className="bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900">
             <CardHeader>
               <CardTitle className="text-sm">Normas de la Comunidad</CardTitle>
