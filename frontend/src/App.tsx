@@ -1,3 +1,4 @@
+//pages
 import { useState } from 'react';
 import { ThemeProvider } from './components/shared/ThemeProvider';
 import { AuthProvider } from './context/AuthContext';
@@ -5,11 +6,17 @@ import { useAuth } from './hooks/useAuth';
 import { Header } from './components/shared/Header';
 import { TourGuide } from './components/shared/TourGuide';
 import { HelpButton } from './components/shared/HelpButton';
+
+import { Toaster } from './components/ui/sonner';
+import { toast } from 'sonner';
+import type { Page } from './types';
+import './styles/driver-custom.css';
+//pages
 import { HomePage } from './components/HomePage';
-import { AuthPage } from './components/AuthPage';
+import { AuthPage } from './components/pages/AuthPage';
 import { CatalogsPage } from './components/CatalogsPage';
 import { ResourcesPage } from './components/ResourcesPage';
-import { AboutPage } from './components/AboutPage';
+import { AboutPage } from './components/pages/AboutPage';
 import { CommunityPage } from './components/CommunityPage';
 import { BlogPage } from './components/BlogPage';
 import { TestimonialsPage } from './components/TestimonialsPage';
@@ -17,11 +24,6 @@ import { ComunicacionPage } from './components/ComunicationPage';
 import { FAQPage } from './components/FAQPage';
 import { ProfilePage } from './components/ProfilePage';
 import { CycleTrackerPage } from './components/CycleTrackerPage';
-import { Toaster } from './components/ui/sonner';
-import { toast } from 'sonner';
-import type { Page } from './types';
-import './styles/driver-custom.css';
-
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const { isAuthenticated, userName, login, register, logout } = useAuth();
