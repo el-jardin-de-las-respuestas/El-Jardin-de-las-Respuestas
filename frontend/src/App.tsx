@@ -1,135 +1,112 @@
-import { useState } from "react";
-import { driver } from "driver.js";
-import "driver.js/dist/driver.css";
-import "./styles/driver.css";
-import { Navigation } from "./components/Navigation";
-import { HomePage } from "./components/HomePage";
-import { AuthPage } from "./components/AuthPage";
-import { BibliotecaPage } from "./components/LibraryPage";
-import { ComunicacionPage } from "./components/ComunicationPage";
-import { Toaster } from "./components/ui/sonner";
-import { toast } from "sonner";
+import { useState } from 'react';
+import { ThemeProvider } from './components/shared/ThemeProvider';
+import { AuthProvider } from './context/AuthContext';
+import { useAuth } from './hooks/useAuth';
+import { Header } from './components/shared/Header';
+import { TourGuide } from './components/shared/TourGuide';
+import { HelpButton } from './components/shared/HelpButton';
+import { HomePage } from './components/HomePage';
+import { AuthPage } from './components/AuthPage';
+import { CatalogsPage } from './components/CatalogsPage';
+import { ResourcesPage } from './components/ResourcesPage';
+import { AboutPage } from './components/AboutPage';
+import { CommunityPage } from './components/CommunityPage';
+import { BlogPage } from './components/BlogPage';
+import { TestimonialsPage } from './components/TestimonialsPage';
+import { ComunicacionPage } from './components/ComunicacionPage';
+import { FAQPage } from './components/FAQPage';
+import { ProfilePage } from './components/ProfilePage';
+import { CycleTrackerPage } from './components/CycleTrackerPage';
+import { Toaster } from './components/ui/sonner';
+import { toast } from 'sonner';
+import type { Page } from './types';
+import './styles/driver-custom.css';
 
-export default function App() {
-  const [currentPage, setCurrentPage] = useState("home");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [hasSeenTour, setHasSeenTour] = useState(false);
+function AppContent() {
+  const [currentPage, setCurrentPage] = useState<Page>('home');
+  const { isAuthenticated, userName, login, register, logout } = useAuth();
 
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-    setCurrentPage("home");
-    toast.success("¡Bienvenidx a El Jardín de las Respuestas!", {
-      description: "Tu espacio seguro de aprendizaje",
-    });
-    
-    // Start tour after a short delay
-    setTimeout(() => {
-      if (!hasSeenTour) {
-        startTour();
-      }
-    }, 1000);
+  const handleLogin = (email: string, password: string) => {
+    login(email, password);
+    setCurrentPage('catalogs');
+  };
+
+  const handleRegister = (email: string, password: string, name: string) => {
+    register(email, password, name);
+    setCurrentPage('catalogs');
   };
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
-    setCurrentPage("home");
-    toast.info("Has cerrado sesión correctamente");
+    logout();
+    setCurrentPage('home');
   };
 
   const handleNavigate = (page: string) => {
-    // Redirect to auth if trying to access protected pages
-    if (!isAuthenticated && (page === "biblioteca" || page === "comunicacion")) {
-      setCurrentPage("login");
-      toast.info("Por favor inicia sesión para acceder a esta sección");
-      return;
+    const protectedPages = ['catalogs', 'resources', 'community', 'blog', 'profile', 'cycle-tracker', 'comunicacion'];
+    if (protectedPages.includes(page)) {
+      if (!isAuthenticated) {
+        setCurrentPage('auth');
+        toast.error('Debes iniciar sesión para acceder a este contenido');
+        return;
+      }
     }
-    setCurrentPage(page);
-  };
-
-  const startTour = () => {
-    const driverObj = driver({
-      showProgress: true,
-      showButtons: ["next", "previous", "close"],
-      nextBtnText: "Siguiente →",
-      prevBtnText: "← Anterior",
-      doneBtnText: "¡Entendido!",
-      progressText: "{{current}} de {{total}}",
-      steps: [
-        {
-          element: "#cta-register",
-          popover: {
-            title: "🌸 Bienvenidx al Jardín",
-            description:
-              "Este es un espacio seguro donde puedes aprender sobre Educación Sexual Integral sin juicios ni tabúes.",
-            side: "bottom",
-            align: "center",
-          },
-        },
-        {
-          element: "#biblioteca-preview",
-          popover: {
-            title: "📚 Biblioteca ESI",
-            description:
-              "Accede a contenido educativo validado por profesionales. Artículos, guías y recursos sobre todos los temas de ESI.",
-            side: "top",
-            align: "center",
-          },
-        },
-        {
-          element: "#chat-preview",
-          popover: {
-            title: "💬 Chat con Ginecólogas",
-            description:
-              "Conecta en privado con profesionales de la salud. Tus conversaciones son confidenciales y moderadas para tu seguridad.",
-            side: "left",
-            align: "center",
-          },
-        },
-        {
-          element: "#forum-preview",
-          popover: {
-            title: "👥 Foro Comunitario",
-            description:
-              "Comparte experiencias y aprende de otrxs en un ambiente respetuoso. Todos los mensajes pasan por un filtro de moderación por IA.",
-            side: "right",
-            align: "center",
-          },
-        },
-      ],
-      onDestroyStarted: () => {
-        setHasSeenTour(true);
-        driverObj.destroy();
-      },
-    });
-
-    driverObj.drive();
+    setCurrentPage(page as Page);
   };
 
   const renderPage = () => {
-    if (!isAuthenticated && (currentPage === "login" || currentPage === "registro")) {
-      return <AuthPage onLogin={handleLogin} />;
-    }
-
     switch (currentPage) {
-      case "biblioteca":
-        return <BibliotecaPage />;
-      case "comunicacion":
-        return <ComunicacionPage />;
+      case 'home':
+        return <HomePage onNavigate={handleNavigate} isAuthenticated={isAuthenticated} />;
+      case 'auth':
+        return <AuthPage onLogin={handleLogin} onRegister={handleRegister} />;
+      case 'catalogs':
+        return <CatalogsPage />;
+      case 'resources':
+        return <ResourcesPage />;
+      case 'about':
+        return <AboutPage />;
+      case 'community':
+        return <CommunityPage />;
+      case 'blog':
+        return <BlogPage />;
+      case 'testimonials':
+        return <TestimonialsPage />;
+      case 'faq':
+        return <FAQPage />;
+      case 'profile':
+        return <ProfilePage userName={userName} />;
+      case 'cycle-tracker':
+        return <CycleTrackerPage />;
+      case 'comunicacion':           
+      return <ComunicacionPage />; 
       default:
-        return <HomePage onNavigate={handleNavigate} onStartTour={startTour} />;
+        return <HomePage onNavigate={handleNavigate} isAuthenticated={isAuthenticated} />;
     }
   };
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation
+      <Header
         currentPage={currentPage}
         onNavigate={handleNavigate}
         isAuthenticated={isAuthenticated}
         onLogout={handleLogout}
+        userName={userName}
       />
-      {renderPage()}
-      <Toaster position="top-center" />
+      <TourGuide currentPage={currentPage} />
+      <main>{renderPage()}</main>
+      <HelpButton />
+      <Toaster />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

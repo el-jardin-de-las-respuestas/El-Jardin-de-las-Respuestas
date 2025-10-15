@@ -3,6 +3,9 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@nestjs/common": "^11.1.6",
+        "@nestjs/core": "^11.1.6",
+        "@nestjs/mapped-types": "^2.1.0",
         "@radix-ui/react-accordion": "^1.2.3",
         "@radix-ui/react-alert-dialog": "^1.1.15",
         "@radix-ui/react-aspect-ratio": "^1.1.2",
@@ -48,10 +51,14 @@
         "vaul": "^1.1.2"
     },
     "devDependencies": {
+        "@nestjs/testing": "^11.1.6",
         "@types/node": "^20.10.0",
         "@types/react": "^19.2.2",
         "@types/react-dom": "^19.2.1",
         "@vitejs/plugin-react-swc": "^3.10.2",
+        "autoprefixer": "^10.4.21",
+        "postcss": "^8.5.6",
+        "tailwindcss": "^3.4.18",
         "vite": "6.3.5"
     },
     "scripts": {

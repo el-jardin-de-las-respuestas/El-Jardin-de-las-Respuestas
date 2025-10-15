@@ -1,0 +1,58 @@
+src/
+├─ assets/
+│  ├─ images/
+│  ├─ icons/
+│  └─ fonts/
+│
+├─ components/
+│  ├─ Header.tsx
+│  ├─ Navbar.tsx
+│  ├─ HeroSection.tsx
+│  ├─ ProfileAvatar.tsx
+│  └─ ...
+│
+├─ ui/
+│  ├─ Button.tsx
+│  ├─ Input.tsx
+│  ├─ Card.tsx
+│  ├─ Modal.tsx
+│  ├─ Icon.tsx
+│  └─ index.ts
+│
+├─ layouts/
+│  ├─ MainLayout.tsx
+│  └─ AuthLayout.tsx
+│
+├─ pages/
+│  ├─ public/
+│  │  ├─ HomePublic.tsx
+│  │  ├─ LoginPage.tsx
+│  │  ├─ RegisterPage.tsx
+│  │  └─ FAQPage.tsx
+│  │
+│  ├─ private/
+│  │  ├─ HomePrivate.tsx
+│  │  ├─ ProfilePage.tsx
+│  │  └─ AboutPage.tsx
+│  │
+│  └─ NotFound.tsx
+│
+├─ context/
+│  └─ AuthContext.tsx
+│
+├─ hooks/
+│  └─ useTours.ts
+│
+├─ routes/
+│  ├─ appRoutes.ts
+│  └─ index.tsx
+│
+├─ styles/
+│  ├─ globals.css
+│  └─ theme.css
+│
+├─ types/
+│  └─ User.ts
+│
+├─ App.tsx
+└─ main.tsx
