@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -8,22 +7,124 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(uuid()) @db.Uuid
-  username  String  @unique
-  role      Role     @default(USER)
-  email     String   @unique
-  birthdate DateTime
-  password  String
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("users")
+model Role {
+  id_role Int    @id @default(autoincrement())
+  name    String
+  users   User[]
 }
 
-enum Role {
-  USER
-  ADMIN
-  MODERATOR
+model User {
+  id_user       Int      @id @default(autoincrement())
+  username      String
+  email         String   @unique
+  password      String
+  age           Int?
+  registered_at DateTime @default(now())
+  id_role       Int
+  role          Role     @relation(fields: [id_role], references: [id_role])
+
+  posts             Post[]
+  comments          Comment[]
+  forums            Forum[]
+  professional      Professional?
+  messages          Message[]
+  chatUsers         ChatUser[]
+  consultationUsers ConsultationUser[]
+}
+
+model Professional {
+  id_professional     Int     @id @default(autoincrement())
+  userId              Int     @unique
+  user                User    @relation(fields: [userId], references: [id_user])
+  specialty           String
+  registration_number String
+  bio                 String?
+
+  consultationProfessionals ConsultationProfessional[]
+}
+
+model Forum {
+  id_forum    Int      @id @default(autoincrement())
+  title       String
+  description String
+  created_at  DateTime @default(now())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id_user])
+  posts       Post[]
+}
+
+model Post {
+  id_post      Int       @id @default(autoincrement())
+  title        String
+  content      String
+  published_at DateTime  @default(now())
+  id_forum     Int
+  id_user      Int
+  forum        Forum     @relation(fields: [id_forum], references: [id_forum])
+  user         User      @relation(fields: [id_user], references: [id_user])
+  comments     Comment[]
+}
+
+model Comment {
+  id_comment   Int      @id @default(autoincrement())
+  content      String
+  commented_at DateTime @default(now())
+  id_post      Int
+  id_user      Int
+  post         Post     @relation(fields: [id_post], references: [id_post])
+  user         User     @relation(fields: [id_user], references: [id_user])
+}
+
+model Chat {
+  id_chat    Int        @id @default(autoincrement())
+  created_at DateTime   @default(now())
+  messages   Message[]
+  chatUsers  ChatUser[]
+}
+
+model ChatUser {
+  id_chat Int
+  id_user Int
+  chat    Chat @relation(fields: [id_chat], references: [id_chat])
+  user    User @relation(fields: [id_user], references: [id_user])
+
+  @@id([id_chat, id_user])
+}
+
+model Message {
+  id_message Int      @id @default(autoincrement())
+  content    String
+  sent_at    DateTime @default(now())
+  id_chat    Int
+  id_user    Int
+  chat       Chat     @relation(fields: [id_chat], references: [id_chat])
+  user       User     @relation(fields: [id_user], references: [id_user])
+}
+
+model Consultation {
+  id_consultation   Int      @id @default(autoincrement())
+  reason            String
+  consultation_date DateTime
+  status            String
+
+  consultationUsers         ConsultationUser[]
+  consultationProfessionals ConsultationProfessional[]
+}
+
+model ConsultationUser {
+  id_consultation Int
+  id_user         Int
+  consultation    Consultation @relation(fields: [id_consultation], references: [id_consultation])
+  user            User         @relation(fields: [id_user], references: [id_user])
+
+  @@id([id_consultation, id_user])
+}
+
+model ConsultationProfessional {
+  id_consultation Int
+  id_professional Int
+  consultation    Consultation @relation(fields: [id_consultation], references: [id_consultation])
+  professional    Professional @relation(fields: [id_professional], references: [id_professional])
+
+  @@id([id_consultation, id_professional])
 }
