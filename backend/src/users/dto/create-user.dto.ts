@@ -11,8 +11,9 @@ import { Type } from 'class-transformer';
 
 
 export class CreateUserDto {
+  @IsNotEmpty()
   @IsString({ message: 'Name must be of type string' })
-  name: string;
+  username: string;
 
   @IsNotEmpty({ message: 'Email is mandatory' })
   @IsEmail()
@@ -20,7 +21,6 @@ export class CreateUserDto {
 
   @IsNotEmpty({ message: 'Birthdate is mandatory' })
   @Type(() => Date)
-  @IsDate({ message: 'Birthdate must be of type Date' })
   birthdate: Date;
 
   @IsNotEmpty({ message: 'Password is mandatory' })
@@ -29,6 +29,8 @@ export class CreateUserDto {
   @MaxLength(100, {
     message: 'Password must not exceed 100 characters.',
   })
+
+  @IsNotEmpty()
   password: string;
 
 }
