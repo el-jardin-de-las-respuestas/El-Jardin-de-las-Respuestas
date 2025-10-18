@@ -4,7 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { SafeUser } from 'src/types/user.types';
-
+import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
@@ -18,19 +18,27 @@ export class UsersService {
     isActive: true,
     createdAt: true,
     updatedAt: true,
-    name:true,
+    username: true,
     role: true
   };
-  
+
   private readonly saltRounds = 10
 
   async create(createUserDto: CreateUserDto): Promise<SafeUser> {
+    const existingEmail = await this.findOneByEmail(createUserDto.email);
+    if (existingEmail) {
+      throw new BadRequestException('Email already registered');
+    }
+    const existingUsername = await this.findOneByUsername(createUserDto.username)
+    if (existingUsername) {
+      throw new BadRequestException('Username already registered');
+    }
     const hash = await this.hashPassword(createUserDto.password)
     const newUser = await this.prisma.user.create({
       data: {
-        name: createUserDto.name,
+        username: createUserDto.username,
         email: createUserDto.email,
-        birthdate: createUserDto.birthdate,
+        birthdate: new Date(createUserDto.birthdate),
         password: hash,
         isActive: true
       },
@@ -41,7 +49,7 @@ export class UsersService {
   }
 
   async findAll() {
-    return this.prisma.user.findMany({select: this.safeUserSelect});
+    return this.prisma.user.findMany({ select: this.safeUserSelect });
   }
 
   async findOneById(id: string) {
@@ -52,7 +60,11 @@ export class UsersService {
     return this.prisma.user.findUnique({ where: { email }, select: this.safeUserSelect });
   }
 
-  async updateById(id: string, updateUserDto: UpdateUserDto) : Promise <SafeUser> {
+  async findOneByUsername(username: string) {
+    return this.prisma.user.findUnique({ where: { username }, select: this.safeUserSelect });
+  }
+
+  async updateById(id: string, updateUserDto: UpdateUserDto): Promise<SafeUser> {
     try {
       if (updateUserDto.password) {
         const saltRounds: number = 10
@@ -77,13 +89,13 @@ export class UsersService {
 
   async removeById(id: string): Promise<SafeUser> {
     try {
-      return await this.prisma.user.delete({ where: { id }, select: this.safeUserSelect});
+      return await this.prisma.user.delete({ where: { id }, select: this.safeUserSelect });
     } catch (err: any) {
       throw new Error(`Could not delete user: ${err.message}`)
     }
   }
-  
+
   private async hashPassword(password: string): Promise<string> {
-  return bcrypt.hash(password, this.saltRounds);
-}
+    return bcrypt.hash(password, this.saltRounds);
+  }
 }
