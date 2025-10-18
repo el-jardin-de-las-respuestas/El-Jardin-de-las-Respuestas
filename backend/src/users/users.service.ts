@@ -8,42 +8,47 @@ import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   // Use of select to avoid exposing the hashed password to the frontend
   private readonly safeUserSelect = {
     id: true,
     email: true,
     birthdate: true,
-    isActive: true,
+    is_active: true,
     createdAt: true,
     updatedAt: true,
     username: true,
-    role: true
+    role: true,
   };
 
-  private readonly saltRounds = 10
+  private readonly saltRounds = 10;
 
   async create(createUserDto: CreateUserDto): Promise<SafeUser> {
     const existingEmail = await this.findOneByEmail(createUserDto.email);
     if (existingEmail) {
       throw new BadRequestException('Email already registered');
     }
-    const existingUsername = await this.findOneByUsername(createUserDto.username)
+    const existingUsername = await this.findOneByUsername(
+      createUserDto.username,
+    );
     if (existingUsername) {
       throw new BadRequestException('Username already registered');
     }
-    const hash = await this.hashPassword(createUserDto.password)
+    const hash = await this.hashPassword(createUserDto.password);
     const newUser = await this.prisma.user.create({
       data: {
         username: createUserDto.username,
         email: createUserDto.email,
         birthdate: new Date(createUserDto.birthdate),
         password: hash,
-        isActive: true
+        is_active: true,
+        role: {
+          create: { name: 'default' },
+        },
       },
-      select: this.safeUserSelect
-    })
+      select: this.safeUserSelect, 
+    });
 
     return newUser;
   }
@@ -53,28 +58,44 @@ export class UsersService {
   }
 
   async findOneById(id: string) {
-    return this.prisma.user.findUnique({ where: { id }, select: this.safeUserSelect });
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: this.safeUserSelect,
+    });
   }
 
   async findOneByEmail(email: string) {
-    return this.prisma.user.findUnique({ where: { email }, select: this.safeUserSelect });
+    return this.prisma.user.findUnique({
+      where: { email },
+      select: this.safeUserSelect,
+    });
   }
 
   async findOneByUsername(username: string) {
-    return this.prisma.user.findUnique({ where: { username }, select: this.safeUserSelect });
+    return this.prisma.user.findUnique({
+      where: { username },
+      select: this.safeUserSelect,
+    });
   }
 
-  async updateById(id: string, updateUserDto: UpdateUserDto): Promise<SafeUser> {
+  async updateById(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<SafeUser> {
     try {
       if (updateUserDto.password) {
-        const saltRounds: number = 10
-        updateUserDto.password = await this.hashPassword(updateUserDto.password)
+        const saltRounds: number = 10;
+        updateUserDto.password = await this.hashPassword(
+          updateUserDto.password,
+        );
       }
       return await this.prisma.user.update({
-        where: { id }, data: updateUserDto, select: this.safeUserSelect
-      })
+        where: { id },
+        data: updateUserDto,
+        select: this.safeUserSelect,
+      });
     } catch (err: any) {
-      throw new Error(`Could not update user: ${err.message}`)
+      throw new Error(`Could not update user: ${err.message}`);
     }
   }
 
@@ -86,12 +107,14 @@ export class UsersService {
     return await this.updateById(id, { isActive: false });
   }
 
-
   async removeById(id: string): Promise<SafeUser> {
     try {
-      return await this.prisma.user.delete({ where: { id }, select: this.safeUserSelect });
+      return await this.prisma.user.delete({
+        where: { id },
+        select: this.safeUserSelect,
+      });
     } catch (err: any) {
-      throw new Error(`Could not delete user: ${err.message}`)
+      throw new Error(`Could not delete user: ${err.message}`);
     }
   }
 
