@@ -8,22 +8,145 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Role {
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[]
+}
+
 model User {
-  id        String   @id @default(uuid()) @db.Uuid
-  username  String  @unique
-  role      Role     @default(USER)
-  email     String   @unique
-  birthdate DateTime
-  password  String
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id           String   @id @default(uuid()) @db.Uuid
+  username     String   @unique
+  email        String   @unique
+  password     String
+  birthdate    DateTime
+  registeredAt DateTime @default(now()) @map("registered_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  id_role      Int
+  is_active    Boolean  @default(true)
+  role         Role     @relation(fields: [id_role], references: [id])
+
+  posts             Post[]
+  comments          Comment[]
+  forums            Forum[]
+  professional      Professional?
+  messages          Message[]
+  chatUsers         ChatUser[]
+  consultationUsers ConsultationUser[]
 
   @@map("users")
 }
 
-enum Role {
-  USER
-  ADMIN
-  MODERATOR
+model Professional {
+  id                  Int     @id @default(autoincrement())
+  userId              String  @unique @db.Uuid
+  user                User    @relation(fields: [userId], references: [id])
+  specialty           String
+  registration_number String
+  bio                 String?
+
+  consultationProfessionals ConsultationProfessional[]
+
+  @@map("professionals")
+}
+
+model Forum {
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String
+  description String
+  created_at  DateTime @default(now())
+  userId      String   @db.Uuid
+  user        User     @relation(fields: [userId], references: [id])
+  posts       Post[]
+
+  @@map("forums")
+}
+
+model Post {
+  id           String    @id @default(uuid()) @db.Uuid
+  title        String
+  content      String
+  published_at DateTime  @default(now())
+  id_forum     String    @db.Uuid
+  id_user      String    @db.Uuid
+  forum        Forum     @relation(fields: [id_forum], references: [id])
+  user         User      @relation(fields: [id_user], references: [id])
+  comments     Comment[]
+
+  @@map("posts")
+}
+
+model Comment {
+  id           String   @id @default(uuid()) @db.Uuid
+  content      String
+  commented_at DateTime @default(now())
+  id_post      String   @db.Uuid
+  id_user      String   @db.Uuid
+  post         Post     @relation(fields: [id_post], references: [id])
+  user         User     @relation(fields: [id_user], references: [id])
+
+  @@map("comments")
+}
+
+model Chat {
+  id         Int        @id @default(autoincrement())
+  created_at DateTime   @default(now())
+  messages   Message[]
+  chatUsers  ChatUser[]
+
+  @@map("chats")
+}
+
+model ChatUser {
+  id_chat Int
+  id_user String @db.Uuid
+  chat    Chat   @relation(fields: [id_chat], references: [id])
+  user    User   @relation(fields: [id_user], references: [id])
+
+  @@id([id_chat, id_user])
+  @@map("chat_users")
+}
+
+model Message {
+  id      Int      @id @default(autoincrement())
+  content String
+  sent_at DateTime @default(now())
+  id_chat Int
+  id_user String  @db.Uuid
+  chat    Chat     @relation(fields: [id_chat], references: [id])
+  user    User     @relation(fields: [id_user], references: [id])
+
+  @@map("messages")
+}
+
+model Consultation {
+  id                Int      @id @default(autoincrement())
+  reason            String
+  consultation_date DateTime
+  status            String
+
+  consultationUsers         ConsultationUser[]
+  consultationProfessionals ConsultationProfessional[]
+
+  @@map("consultations")
+}
+
+model ConsultationUser {
+  id_consultation Int
+  id_user         String       @db.Uuid
+  consultation    Consultation @relation(fields: [id_consultation], references: [id])
+  user            User         @relation(fields: [id_user], references: [id])
+
+  @@id([id_consultation, id_user])
+  @@map("consultation_users")
+}
+
+model ConsultationProfessional {
+  id_consultation Int
+  id_professional Int
+  consultation    Consultation @relation(fields: [id_consultation], references: [id])
+  professional    Professional @relation(fields: [id_professional], references: [id])
+
+  @@id([id_consultation, id_professional])
+  @@map("consultation_professionals")
 }

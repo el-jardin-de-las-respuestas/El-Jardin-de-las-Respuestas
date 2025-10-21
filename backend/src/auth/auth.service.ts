@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -12,7 +11,7 @@ export class AuthService {
     const user = await this.findOneByEmail(createAuthDto.email)
     const isMatch = await bcrypt.compare(createAuthDto.password, user!.password);
       if (!isMatch) {
-      throw new Error('Credenciales inválidas');
+      throw new Error('Invalid credentials');
     }
   }
 
