@@ -23,7 +23,7 @@ import { TestimonialsPage } from './components/TestimonialsPage';
 import { ComunicacionPage } from './components/ComunicationPage';
 import { FAQPage } from './components/FAQPage';
 import { ProfilePage } from './components/ProfilePage';
-import { CycleTrackerPage } from './components/CycleTrackerPage';
+
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const { isAuthenticated, userName, login, register, logout } = useAuth();
@@ -44,7 +44,7 @@ function AppContent() {
   };
 
   const handleNavigate = (page: string) => {
-    const protectedPages = ['catalogs', 'resources', 'community', 'blog', 'profile', 'cycle-tracker', 'comunicacion'];
+    const protectedPages = ['catalogs', 'resources', 'community', 'blog', 'profile', 'cycle-tracker', 'communication'];
     if (protectedPages.includes(page)) {
       if (!isAuthenticated) {
         setCurrentPage('auth');
@@ -77,9 +77,7 @@ function AppContent() {
         return <FAQPage />;
       case 'profile':
         return <ProfilePage userName={userName} />;
-      case 'cycle-tracker':
-        return <CycleTrackerPage />;
-      case 'comunicacion':           
+      case 'communication':           
       return <ComunicacionPage />; 
       default:
         return <HomePage onNavigate={handleNavigate} isAuthenticated={isAuthenticated} />;
