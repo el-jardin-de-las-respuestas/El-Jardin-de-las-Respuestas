@@ -11,7 +11,6 @@ export type Page =
   | 'testimonials' 
   | 'faq' 
   | 'profile' 
-  | 'cycle-tracker';
 
 export interface User {
   name: string;

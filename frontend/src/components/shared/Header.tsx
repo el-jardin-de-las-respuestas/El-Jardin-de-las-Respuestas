@@ -24,7 +24,7 @@ export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, use
         { id: 'blog', label: 'Blog' },
         { id: 'testimonials', label: 'Testimonios' },
         { id: 'faq', label: 'FAQ' },
-        { id: 'cycle-tracker', label: 'Mi Ciclo' },
+
       ]
     : [
         { id: 'home', label: 'Inicio' },
