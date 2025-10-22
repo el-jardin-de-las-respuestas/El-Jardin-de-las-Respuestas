@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { MessageCircle, Send, Shield } from "lucide-react";
 import chatMessages from "@data/chatMessages.json";
 
-export function ComunicacionPage() {
+export function ComunicationPage() {
   const [chatMessage, setChatMessage] = useState("");
 
   return (

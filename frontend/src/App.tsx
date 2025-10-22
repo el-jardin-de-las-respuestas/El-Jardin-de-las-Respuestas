@@ -1,4 +1,3 @@
-//pages
 import { useState } from 'react';
 import { ThemeProvider } from './components/shared/ThemeProvider';
 import { AuthProvider } from './context/AuthContext';
@@ -6,22 +5,21 @@ import { useAuth } from './hooks/useAuth';
 import { Header } from './components/shared/Header';
 import { TourGuide } from './components/shared/TourGuide';
 import { HelpButton } from './components/shared/HelpButton';
-
 import { Toaster } from './components/ui/sonner';
 import { toast } from 'sonner';
 import type { Page } from './types';
 import './styles/driver-custom.css';
 //pages
-import { HomePage } from './components/HomePage';
+import { HomePage } from './components/pages/HomePage';
 import { AuthPage } from './components/pages/AuthPage';
-import { CatalogsPage } from './components/CatalogsPage';
+import { CatalogsPage } from './components/pages/CatalogsPage';
 import { ResourcesPage } from './components/ResourcesPage';
 import { AboutPage } from './components/pages/AboutPage';
-import { CommunityPage } from './components/CommunityPage';
-import { BlogPage } from './components/BlogPage';
-import { TestimonialsPage } from './components/TestimonialsPage';
-import { ComunicacionPage } from './components/ComunicationPage';
-import { FAQPage } from './components/FAQPage';
+import { CommunityPage } from './components/pages/CommunityPage';
+import { BlogPage } from './components/pages/BlogPage';
+import { TestimonialsPage } from './components/pages/TestimonialsPage';
+import { ComunicationPage } from './components/ComunicationPage';
+import { FAQPage } from './components/pages/FAQPage';
 import { ProfilePage } from './components/ProfilePage';
 
 function AppContent() {
@@ -77,8 +75,10 @@ function AppContent() {
         return <FAQPage />;
       case 'profile':
         return <ProfilePage userName={userName} />;
-      case 'communication':           
-      return <ComunicacionPage />; 
+      case 'cycle-tracker':
+        return <CycleTrackerPage />;
+      case 'comunication':           
+      return <ComunicationPage />; 
       default:
         return <HomePage onNavigate={handleNavigate} isAuthenticated={isAuthenticated} />;
     }
