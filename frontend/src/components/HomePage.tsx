@@ -84,11 +84,11 @@ export function HomePage({ onNavigate, onStartTour }: HomePageProps) {
       <section className="px-6 py-16" id="communication-preview">
         <div className="mx-auto max-w-6xl">
           <h2 className="mb-12 text-center">Canales de Comunicación Seguros</h2>
-          <div className="grid md:grid-cols-1">
+          <div className="grid gap-8 md:grid-cols-2">
             {/* Chat Module */}
             <Card
               className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-gradient-to-br from-card to-secondary/10 p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
-              onClick={() => onNavigate("comunicacion")}
+              onClick={() => onNavigate("communication")}
               id="chat-preview"
             >
               <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-primary/10">
@@ -99,8 +99,27 @@ export function HomePage({ onNavigate, onStartTour }: HomePageProps) {
                 Conversaciones privadas y seguras con profesionales de la salud sexual.
                 Todas tus dudas serán respondidas con empatía y profesionalismo.
               </p>
-              <Button variant="outline" className="rounded-[2rem]"   onClick={() => onNavigate('comunicacion')}>
+              <Button variant="outline" className="rounded-[2rem]"   onClick={() => onNavigate('communication')}>
                 Iniciar Chat
+              </Button>
+            </Card>
+
+            {/* Forum Module */}
+            <Card
+              className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-gradient-to-br from-card to-secondary/10 p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
+              onClick={() => onNavigate("comunicacion")}
+              id="forum-preview"
+            >
+              <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-primary/10">
+                <Users className="size-10 text-primary" />
+              </div>
+              <h3 className="mb-3">Foro Comunitario</h3>
+              <p className="mb-4 text-muted-foreground">
+                Comparte experiencias y aprende de otrxs en un ambiente moderado y respetuoso.
+                Construimos juntos un espacio de apoyo.
+              </p>
+              <Button variant="outline" className="rounded-[2rem]">
+                Ver Foro
               </Button>
             </Card>
           </div>

@@ -30,12 +30,12 @@ function AppContent() {
 
   const handleLogin = (email: string, password: string) => {
     login(email, password);
-    setCurrentPage('catalogs');
+    setCurrentPage('home');
   };
 
   const handleRegister = (email: string, password: string, name: string) => {
     register(email, password, name);
-    setCurrentPage('catalogs');
+    setCurrentPage('home');
   };
 
   const handleLogout = () => {

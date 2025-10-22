@@ -40,7 +40,7 @@ export function useTour() {
         popover: {
           title: '🌸 ¡Bienvenida a El Jardín de las Respuestas!',
           description: 'Vamos a hacer un recorrido rápido para que conozcas todas las funciones disponibles. ¡Empecemos!',
-          side: 'center',
+          side: 'top',
           align: 'center',
         },
       },
@@ -85,14 +85,7 @@ export function useTour() {
           side: 'bottom',
         },
       },
-      {
-        element: '[data-tour="nav-cycle"]',
-        popover: {
-          title: '📅 Rastreador de Ciclo',
-          description: 'Lleva un registro de tu ciclo menstrual, síntomas y patrones para comprender mejor tu cuerpo.',
-          side: 'bottom',
-        },
-      },
+
       {
         element: '[data-tour="theme-toggle"]',
         popover: {
@@ -102,19 +95,11 @@ export function useTour() {
         },
       },
       {
-        element: '[data-tour="profile-button"]',
-        popover: {
-          title: '👤 Tu Perfil',
-          description: 'Administra tu información, privacidad y preferencias de notificaciones.',
-          side: 'left',
-        },
-      },
-      {
         element: 'body',
         popover: {
           title: '¡Todo listo! 🎉',
           description: 'Ya conoces las funciones principales. Recuerda: tu privacidad es importante y puedes usar la plataforma de forma anónima. ¡Explora con confianza!',
-          side: 'center',
+          side: 'top',
           align: 'center',
         },
       },
