@@ -10,6 +10,9 @@ export type Page =
   | 'blog'
   | 'faq' 
   | 'profile' 
+  | 'communication'
+  | 'library'
+  | 'article';
 
 export interface User {
   name: string;

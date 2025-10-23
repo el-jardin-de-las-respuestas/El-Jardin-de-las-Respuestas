@@ -9,6 +9,7 @@ import { Toaster } from './components/ui/sonner';
 import { toast } from 'sonner';
 import type { Page } from './types';
 import './styles/driver-custom.css';
+// 📄 Pages
 import { HomePage } from './components/pages/HomePage';
 import { AuthPage } from './components/pages/AuthPage';
 import { ResourcesPage } from './components/pages/ResourcesPage';
@@ -20,10 +21,14 @@ import { BlogPage } from './components/pages/BlogPage';
 import { ComunicationPage } from './components/ComunicationPage';
 import { FAQPage } from './components/pages/FAQPage';
 import { ProfilePage } from './components/ProfilePage';
+// 🆕 Nuevas páginas
+import LibraryEsi from "./components/LibraryEsi"; 
+import ArticleDetail from "./components/ArticleDetail";
 
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
+  const [selectedArticleId, setSelectedArticleId] = useState<number | null>(null); // 👈 Nuevo estado
   const { isAuthenticated, userName, login, register, logout } = useAuth();
 
   const handleLogin = (email: string, password: string) => {
@@ -41,38 +46,61 @@ function AppContent() {
     setCurrentPage('home');
   };
 
-  const handleNavigate = (page: string) => {
-    const protectedPages = ['resources', 'community', 'blog', 'profile', 'cycle-tracker', 'communication'];
+  // 👇 Modificamos para aceptar un id opcional
+  const handleNavigate = (page: string, id?: number) => {
+    const protectedPages = [
+      'resources', 'community', 'blog', 'profile', 'cycle-tracker', 'communication'
+    ];
+
     if (protectedPages.includes(page) && !isAuthenticated) {
       setCurrentPage('auth');
       toast.error('Debes iniciar sesión para acceder a este contenido');
       return;
     }
+
+    // 👇 Guardamos el id si lo hay
+    if (id) setSelectedArticleId(id);
+
     setCurrentPage(page as Page);
   };
 
+
   const renderPage = () => {
     switch (currentPage) {
-      case 'home':
+      case "home":
         return <HomePage onNavigate={handleNavigate} isAuthenticated={isAuthenticated} />;
-      case 'auth':
+  
+      case "auth":
         return <AuthPage onLogin={handleLogin} onRegister={handleRegister} />;
       case 'professional-registration':
         return <ProfessionalRegistrationPage />;
         case 'resources': 
         return <ResourcesPage />;
-      case 'about':
+  
+      case "about":
         return <AboutPage />;
-      case 'community':
+  
+      case "community":
         return <CommunityPage />;
-      case 'blog':
+  
+      case "blog":
         return <BlogPage />;
       case 'faq':
         return <FAQPage />;
-      case 'profile':
+  
+      case "profile":
         return <ProfilePage userName={userName} />;
-      case 'communication':           
-      return <ComunicationPage />; 
+  
+      case "communication":
+        return <ComunicationPage />;
+  
+      // 🆕 nuevas rutas
+      case "library":
+        return <LibraryEsi onNavigate={handleNavigate} />; // ✅ pasa la función onNavigate
+  
+      case "article":
+        return <ArticleDetail id={selectedArticleId} onNavigate={handleNavigate} />; // ✅ pasa el id y onNavigate
+  
       default:
         return <HomePage onNavigate={handleNavigate} isAuthenticated={isAuthenticated} />;
     }

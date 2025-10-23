@@ -2,7 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Public } from 'src/decorators/public-decorator';
+import { Public } from 'src/decorators/public.decorator';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -13,30 +14,34 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Public()
+  @Roles('admin')
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
+  
+  @Roles('admin')
   @Get(':id')
-  findOneById(@Param('id') id: string) {
-    return this.usersService.findOneByEmail(id);
+  findOneById(@Param('id') id: number) {
+    return this.usersService.findOneById(id);
   }
 
+  @Roles('admin')
   @Get(':email')
   findOneByEmail(@Param('email') email: string) {
     return this.usersService.findOneByEmail(email);
   }
 
+  @Roles('admin')
   @Patch(':id')
-  updateById(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  updateById(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.updateById(id, updateUserDto);
   }
   
-
+  @Roles('admin')
   @Delete(':id')
-  removeById(@Param('id') id: string) {
+  removeById(@Param('id') id: number) {
     return this.usersService.removeById(id);
   }
 

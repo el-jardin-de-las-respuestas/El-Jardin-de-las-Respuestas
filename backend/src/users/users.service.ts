@@ -42,7 +42,6 @@ export class UsersService {
         email: createUserDto.email,
         birthdate: new Date(createUserDto.birthdate),
         password: hash,
-        is_active: true,
         role: {
           create: { name: 'default' },
         },
@@ -57,7 +56,7 @@ export class UsersService {
     return this.prisma.user.findMany({ select: this.safeUserSelect });
   }
 
-  async findOneById(id: string) {
+  async findOneById(id: number) {
     return this.prisma.user.findUnique({
       where: { id },
       select: this.safeUserSelect,
@@ -79,7 +78,7 @@ export class UsersService {
   }
 
   async updateById(
-    id: string,
+    id: number,
     updateUserDto: UpdateUserDto,
   ): Promise<SafeUser> {
     try {
@@ -99,15 +98,15 @@ export class UsersService {
     }
   }
 
-  async activateUser(id: string): Promise<SafeUser> {
+  async activateUser(id: number): Promise<SafeUser> {
     return await this.updateById(id, { isActive: true });
   }
 
-  async deactivateUser(id: string): Promise<SafeUser> {
+  async deactivateUser(id: number): Promise<SafeUser> {
     return await this.updateById(id, { isActive: false });
   }
 
-  async removeById(id: string): Promise<SafeUser> {
+  async removeById(id: number): Promise<SafeUser> {
     try {
       return await this.prisma.user.delete({
         where: { id },

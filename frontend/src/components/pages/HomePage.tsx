@@ -41,20 +41,28 @@ export function HomePage({ onNavigate }: HomePageProps) {
             className="size-full object-cover"
           />
         </div>
-
-        <div className="relative mx-auto max-w-4xl text-center">
+        <div className="relative mx-auto max-w-4xl text-center px-4 sm:px-6 lg:px-0">
+          {/* Flor decorativa */}
           <div className="mb-6 flex justify-center">
-            <Flower2 className="size-16 text-primary" />
+            <Flower2 className="w-16 h-16 text-pink-500" /> {/* Flor en color rosa */}
           </div>
-          <h1 className="mb-6">Bienvenidx a El Jardín de las Respuestas</h1>
-          <p className="mx-auto mb-8 max-w-2xl text-muted-foreground">
+
+          {/* Título */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-pink-700">
+            Bienvenidx a El Jardín de las Respuestas
+          </h1>
+
+          {/* Descripción */}
+          <p className="mx-auto mb-8 max-w-2xl text-gray-600 text-sm sm:text-base leading-relaxed">
             Un espacio seguro y empático donde puedes aprender sobre educación sexual integral,
             hacer preguntas y conectar con profesionales de la salud. Tu autonomía, tu seguridad.
           </p>
+
+          {/* Botones */}
           <div className="flex flex-wrap justify-center gap-4">
             <Button
               onClick={() => onNavigate("registro")}
-              className="rounded-[2rem] px-8 shadow-[0_8px_30px_var(--color-shadow-soft)]"
+              className="rounded-[2rem] px-8 py-3 shadow-[0_8px_30px_var(--color-shadow-soft)] text-white bg-pink-500 hover:bg-pink-600 transition-colors"
               id="cta-register"
             >
               Comenzar mi Viaje
@@ -62,36 +70,50 @@ export function HomePage({ onNavigate }: HomePageProps) {
             <Button
               variant="outline"
               onClick={startWelcomeTour}
-              className="rounded-[2rem] border-2 border-secondary px-8 shadow-[0_4px_20px_var(--color-shadow-soft)]"
+              className="rounded-[2rem] border-2 border-pink-400 px-8 py-3 shadow-[0_4px_20px_var(--color-shadow-soft)] text-pink-500 hover:bg-pink-50 transition-colors"
             >
               Explorar el Jardín
             </Button>
           </div>
-        </div>
-      </section>
+     </div>
+ </section>
 
-      {/* Categories Carousel */}
-      <section className="px-6 py-16" id="biblioteca-preview">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="mb-8 text-center">Explora la Biblioteca ESI</h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {categories.map((category, index) => (
-              <Card
-                key={index}
-                className="cursor-pointer rounded-[2rem] border-2 border-secondary/40 bg-card p-6 transition-all hover:scale-105 hover:shadow-[0_12px_40px_var(--color-shadow-soft)]"
-                onClick={() => onNavigate("biblioteca")}
-              >
-                <div className="mb-4 flex size-16 items-center justify-center rounded-[1.5rem] bg-secondary/30 text-3xl">
-                  {category.icon}
-                </div>
-                <h3 className="mb-2">{category.title}</h3>
-                <p className="text-muted-foreground">{category.description}</p>
-              </Card>
-            ))}
+ {/* Categories Carousel */}
+<section className="px-4 sm:px-6 lg:px-8 py-16 bg-pink-50">
+  <div className="mx-auto max-w-7xl">
+    <h2 className="mb-10 text-center text-3xl sm:text-4xl font-bold text-pink-700">
+      Explora la Biblioteca ESI
+    </h2>
+
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {categories.map((category, index) => (
+        <Card
+          key={index}
+          className="cursor-pointer rounded-[2rem] border-2 border-pink-200 bg-white p-6 flex flex-col items-center transition-all hover:scale-105 hover:shadow-[0_12px_40px_rgba(233,30,99,0.2)]"
+          onClick={() => onNavigate("library")}
+        >
+          {/* Icono circular */}
+          <div className="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-pink-100 text-3xl text-pink-500">
+            {category.icon}
           </div>
-        </div>
-      </section>
 
+          {/* Título */}
+          <h3 className="mb-2 text-lg font-semibold text-pink-600 text-center">
+            {category.title}
+          </h3>
+
+          {/* Descripción */}
+          <p className="text-gray-500 text-sm text-center">
+            {category.description}
+          </p>
+        </Card>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+  
       {/* Communication Modules */}
       <section className="px-6 py-16" id="communication-preview">
         <div className="mx-auto max-w-6xl">
