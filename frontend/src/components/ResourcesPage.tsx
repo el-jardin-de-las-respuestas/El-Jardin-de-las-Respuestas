@@ -16,12 +16,33 @@ export function ResourcesPage() {
     'Centros de planificación familiar',
   ];
 
-  const downloadableResources = [
-    { title: 'Guía de Métodos Anticonceptivos', type: 'PDF', size: '2.5 MB' },
-    { title: 'Manual de Derechos Sexuales', type: 'PDF', size: '1.8 MB' },
-    { title: 'Calendario Menstrual Imprimible', type: 'PDF', size: '500 KB' },
-    { title: 'Guía de Prevención de ITS', type: 'PDF', size: '3.2 MB' },
-  ];
+    const downloadableResources = [
+      {
+        title: 'Guía de Métodos Anticonceptivos',
+        type: 'PDF',
+        size: '2.5 MB',
+        url: '/downloads/Guía_Metodos_Anticonceptivos.pdf',
+      },
+      {
+        title: 'Manual de Derechos Sexuales',
+        type: 'PDF',
+        size: '1.8 MB',
+        url: '/downloads/Manual_Derechos_Sexuales.pdf', 
+      },
+      {
+        title: 'Calendario Menstrual Imprimible',
+        type: 'PDF',
+        size: '500 KB',
+        url: '/downloads/Calendario_Menstrual.pdf',
+      },
+      {
+        title: 'Guía de Prevención de ITS',
+        type: 'PDF',
+        size: '3.2 MB',
+        url: '/downloads/Guía_Prevención_ITS_V2022.pdf',
+      },
+    ];
+
 
   const externalLinks = [
     { name: 'Ministerio de Salud', url: 'https://www.argentina.gob.ar/salud', description: 'Información oficial sobre salud sexual' },
@@ -84,31 +105,44 @@ export function ResourcesPage() {
         </Card>
 
         {/* Downloadable Resources */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Download className="h-5 w-5 text-green-500" />
-              Material Descargable
-            </CardTitle>
-            <CardDescription>Guías y recursos en formato PDF</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {downloadableResources.map((resource, index) => (
-              <div key={index} className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors">
-                <div className="flex items-center gap-3">
-                  <Book className="h-5 w-5 text-green-500" />
-                  <div>
-                    <p>{resource.title}</p>
-                    <p className="text-xs text-muted-foreground">{resource.type} • {resource.size}</p>
-                  </div>
-                </div>
-                <Button size="sm" variant="ghost">
-                  <Download className="h-4 w-4" />
-                </Button>
+<Card>
+  <CardHeader>
+    <CardTitle className="flex items-center gap-2">
+      <Download className="h-5 w-5 text-green-500" />
+      Material Descargable
+    </CardTitle>
+    <CardDescription>Guías y recursos en formato PDF</CardDescription>
+  </CardHeader>
+      <CardContent className="space-y-3">
+        {downloadableResources.map((resource, index) => (
+          <div
+            key={index}
+            className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <Book className="h-5 w-5 text-green-500" />
+              <div>
+                <p>{resource.title}</p>
+                <p className="text-xs text-muted-foreground">
+                  {resource.type} • {resource.size}
+                </p>
               </div>
-            ))}
-          </CardContent>
-        </Card>
+            </div>
+            <Button asChild size="sm" variant="ghost">
+              <a
+                href={resource.url}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center"
+              >
+                <Download className="h-4 w-4" />
+              </a>
+            </Button>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
 
         {/* External Links */}
         <Card>
@@ -119,17 +153,25 @@ export function ResourcesPage() {
             </CardTitle>
             <CardDescription>Sitios web de referencia</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3">
+         <CardContent className="space-y-3">
             {externalLinks.map((link, index) => (
               <div key={index} className="border-l-2 border-purple-500 pl-4 py-2">
                 <h4 className="flex items-center gap-2">
-                  {link.name}
-                  <ExternalLink className="h-4 w-4" />
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-purple-600 hover:underline"
+                  >
+                    {link.name}
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
                 </h4>
                 <p className="text-sm text-muted-foreground">{link.description}</p>
               </div>
             ))}
-          </CardContent>
+        </CardContent>
+
         </Card>
       </div>
 

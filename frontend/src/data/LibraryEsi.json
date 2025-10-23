@@ -1,0 +1,51 @@
+[
+    {
+      "id": 1,
+      "titulo": "Cambios en la Pubertad: Lo que Necesitas Saber🌸",
+      "categoria": "Cuerpo y Desarrollo",
+      "duracion": "5 min",
+      "descripcion": "Una guía completa sobre los cambios físicos y emocionales durante la pubertad, explicados de manera clara y sin tabúes.",
+      "imagen": "/img/puberty.jpg"
+    },
+    {
+      "id": 2,
+      "titulo": "¿Qué es el Consentimiento y Por Qué es Importante?🤝",
+      "categoria": "Consentimiento",
+      "duracion": "7 min",
+      "descripcion": "Aprende sobre los límites personales, cómo expresarlos y cómo respetar los de los demás en todas las relaciones.",
+      "imagen": "/img/consent.jpg"
+    },
+    {
+      "id": 3,
+      "titulo": "Identidad de Género y Orientación Sexual🌈",
+      "categoria": "Identidad y Género",
+      "duracion": "10 min",
+      "descripcion": "Explora la diversidad de identidades y orientaciones, y aprende a comprender y respetar la tuya y la de los demás.",
+      "imagen": "/img/gender.jpg"
+    },
+    {
+      "id": 4,
+      "titulo": "Relaciones Saludables: Señales de Alerta💕",
+      "categoria": "Relaciones Saludables",
+      "duracion": "8 min",
+      "descripcion": "Identifica los signos de una relación saludable versus una tóxica. Tu bienestar emocional es fundamental.",
+      "imagen": "/img/relaciones.jpg"
+    },
+    {
+      "id": 5,
+      "titulo": "Métodos Anticonceptivos: Guía Completa🩺",
+      "categoria": "Salud Sexual",
+      "duracion": "12 min",
+      "descripcion": "Información detallada sobre los diferentes métodos anticonceptivos, su eficacia y cómo acceder a ellos.",
+      "imagen": "/img/anticonceptivos.jpg"
+    },
+    {
+      "id": 6,
+      "titulo": "Tus Derechos Sexuales y Reproductivos⚖️",
+      "categoria": "Derechos Sexuales",
+      "duracion": "6 min",
+      "descripcion": "Conoce tus derechos legales en materia de salud sexual y reproductiva, y cómo ejercerlos.",
+      "imagen": "/img/derechos.jpg"
+    }
+  ]
+  
