@@ -21,25 +21,25 @@ export function ResourcesPage() {
         title: 'Guía de Métodos Anticonceptivos',
         type: 'PDF',
         size: '2.5 MB',
-        url: '/downloads/Metodos_anticonceptivos_Guia_practica_para_profesionales_de_la_salud_MSAL.pdf',
+        url: '/downloads/Guía_Metodos_Anticonceptivos.pdf',
       },
       {
         title: 'Manual de Derechos Sexuales',
         type: 'PDF',
         size: '1.8 MB',
-        url: '/downloads/Manual_Derechos_Sexuales.pdf', // ✅ versión local
+        url: '/downloads/Manual_Derechos_Sexuales.pdf', 
       },
       {
         title: 'Calendario Menstrual Imprimible',
         type: 'PDF',
         size: '500 KB',
-        url: '/downloads/calendario-menstrual.pdf',
+        url: '/downloads/Calendario_Menstrual.pdf',
       },
       {
         title: 'Guía de Prevención de ITS',
         type: 'PDF',
         size: '3.2 MB',
-        url: 'https://www.argentina.gob.ar/sites/default/files/bancos/2022-08/Prevencion_combinada_del_VIH_y_las_ITS.pdf',
+        url: '/downloads/Guía_Prevención_ITS_V2022.pdf',
       },
     ];
 
