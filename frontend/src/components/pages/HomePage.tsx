@@ -2,13 +2,24 @@ import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { MessageCircle, BookOpen, Users, Flower2 } from "lucide-react";
 import { ImageWithFallback } from "../design/ImageWithFallback";
+import { useTour } from '../../hooks/useTour';
+import { useEffect } from 'react';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
-  onStartTour: () => void;
 }
 
-export function HomePage({ onNavigate, onStartTour }: HomePageProps) {
+export function HomePage({ onNavigate }: HomePageProps) {
+  const { startWelcomeTour, shouldShowTour } = useTour();
+
+ 
+  useEffect(() => {
+    if (shouldShowTour()) {
+      startWelcomeTour();
+    }
+  }, []);
+
+
   const categories = [
     { title: "Cuerpo y Desarrollo", icon: "🌸", description: "Conoce tu cuerpo y sus cambios" },
     { title: "Relaciones Saludables", icon: "💕", description: "Vínculos basados en el respeto" },
@@ -49,7 +60,7 @@ export function HomePage({ onNavigate, onStartTour }: HomePageProps) {
             </Button>
             <Button
               variant="outline"
-              onClick={onStartTour}
+              onClick={startWelcomeTour}
               className="rounded-[2rem] border-2 border-secondary px-8 shadow-[0_4px_20px_var(--color-shadow-soft)]"
             >
               Explorar el Jardín
