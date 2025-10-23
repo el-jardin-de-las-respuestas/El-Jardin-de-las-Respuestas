@@ -24,7 +24,6 @@ export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, use
         { id: 'blog', label: 'Blog' },
         { id: 'testimonials', label: 'Testimonios' },
         { id: 'faq', label: 'FAQ' },
-
       ]
     : [
         { id: 'home', label: 'Inicio' },
@@ -34,15 +33,15 @@ export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, use
       ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-[rgba(211,167,201,0.6)]">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-[rgba(211,167,201,0.6)] dark:bg-gray-900">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <button 
           onClick={() => onNavigate('home')}
           className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           data-tour="logo"
         >
-          <Flower2 className="h-6 w-6 text-pink-500" />
-          <span className="font-semibold text-lg">El Jardín de las Respuestas</span>
+          <Flower2 className="h-6 w-6 text-pink-500 dark:text-pink-400" />
+          <span className="font-semibold text-lg text-black dark:text-white">El Jardín de las Respuestas</span>
         </button>
 
         {/* Desktop Navigation */}
@@ -52,7 +51,7 @@ export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, use
               key={item.id}
               onClick={() => onNavigate(item.id)}
               className={`transition-colors hover:text-primary text-sm ${
-                currentPage === item.id ? 'text-primary' : 'text-muted-foreground'
+                currentPage === item.id ? 'text-primary' : 'text-muted-foreground dark:text-gray-300'
               }`}
               data-tour={`nav-${item.id}`}
             >
@@ -67,7 +66,7 @@ export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, use
               variant="ghost"
               size="icon"
               onClick={() => onNavigate('profile')}
-              className="hidden md:flex"
+              className="hidden md:flex text-black dark:text-white"
               aria-label="Mi perfil"
               data-tour="profile-button"
             >
@@ -81,6 +80,7 @@ export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, use
             onClick={toggleTheme}
             aria-label="Cambiar tema"
             data-tour="theme-toggle"
+            className="text-black dark:text-white"
           >
             {theme === 'light' ? (
               <Moon className="h-5 w-5" />
@@ -103,7 +103,7 @@ export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, use
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className="lg:hidden text-black dark:text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -113,11 +113,11 @@ export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, use
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t bg-background">
+        <div className="lg:hidden border-t bg-background dark:bg-gray-900">
           <nav className="container mx-auto flex flex-col gap-3 p-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
             {isAuthenticated && userName && (
               <div className="pb-3 border-b border-border">
-                <p className="text-sm text-muted-foreground">Hola, {userName}</p>
+                <p className="text-sm text-muted-foreground dark:text-gray-300">Hola, {userName}</p>
               </div>
             )}
             {navItems.map((item) => (
@@ -128,7 +128,7 @@ export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, use
                   setMobileMenuOpen(false);
                 }}
                 className={`text-left transition-colors hover:text-primary px-2 py-1 ${
-                  currentPage === item.id ? 'text-primary' : 'text-muted-foreground'
+                  currentPage === item.id ? 'text-primary' : 'text-muted-foreground dark:text-gray-300'
                 }`}
               >
                 {item.label}
@@ -141,7 +141,7 @@ export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, use
                     onNavigate('profile');
                     setMobileMenuOpen(false);
                   }}
-                  className="text-left transition-colors hover:text-primary px-2 py-1 text-muted-foreground flex items-center gap-2"
+                  className="text-left transition-colors hover:text-primary px-2 py-1 text-muted-foreground dark:text-gray-300 flex items-center gap-2"
                 >
                   <User className="h-4 w-4" />
                   Mi Perfil

@@ -1,4 +1,3 @@
-//pages
 import { useState } from 'react';
 import { ThemeProvider } from './components/shared/ThemeProvider';
 import { AuthProvider } from './context/AuthContext';
@@ -11,7 +10,7 @@ import { Toaster } from './components/ui/sonner';
 import { toast } from 'sonner';
 import type { Page } from './types';
 import './styles/driver-custom.css';
-//pages
+
 import { HomePage } from './components/HomePage';
 import { AuthPage } from './components/pages/AuthPage';
 import { CatalogsPage } from './components/CatalogsPage';
@@ -45,12 +44,10 @@ function AppContent() {
 
   const handleNavigate = (page: string) => {
     const protectedPages = ['catalogs', 'resources', 'community', 'blog', 'profile', 'cycle-tracker', 'communication'];
-    if (protectedPages.includes(page)) {
-      if (!isAuthenticated) {
-        setCurrentPage('auth');
-        toast.error('Debes iniciar sesión para acceder a este contenido');
-        return;
-      }
+    if (protectedPages.includes(page) && !isAuthenticated) {
+      setCurrentPage('auth');
+      toast.error('Debes iniciar sesión para acceder a este contenido');
+      return;
     }
     setCurrentPage(page as Page);
   };
@@ -77,15 +74,15 @@ function AppContent() {
         return <FAQPage />;
       case 'profile':
         return <ProfilePage userName={userName} />;
-      case 'communication':           
-      return <ComunicacionPage />; 
+      case 'communication':
+        return <ComunicacionPage />;
       default:
         return <HomePage onNavigate={handleNavigate} isAuthenticated={isAuthenticated} />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white dark:bg-gray-950 text-black dark:text-white transition-colors">
       <Header
         currentPage={currentPage}
         onNavigate={handleNavigate}
