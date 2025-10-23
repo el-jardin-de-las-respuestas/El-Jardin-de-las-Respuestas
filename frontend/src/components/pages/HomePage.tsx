@@ -5,6 +5,7 @@ import { ImageWithFallback } from "../design/ImageWithFallback";
 import { useTour } from '../../hooks/useTour';
 import { useEffect } from 'react';
 
+import { VolunteerSection } from "./VolunteerSection";
 interface HomePageProps {
   onNavigate: (page: string) => void;
 }
@@ -12,7 +13,7 @@ interface HomePageProps {
 export function HomePage({ onNavigate }: HomePageProps) {
   const { startWelcomeTour, shouldShowTour } = useTour();
 
- 
+
   useEffect(() => {
     if (shouldShowTour()) {
       startWelcomeTour();
@@ -40,7 +41,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
             className="size-full object-cover"
           />
         </div>
-        
+
         <div className="relative mx-auto max-w-4xl text-center">
           <div className="mb-6 flex justify-center">
             <Flower2 className="size-16 text-primary" />
@@ -110,7 +111,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 Conversaciones privadas y seguras con profesionales de la salud sexual.
                 Todas tus dudas serán respondidas con empatía y profesionalismo.
               </p>
-              <Button variant="outline" className="rounded-[2rem]"   onClick={() => onNavigate('communication')}>
+              <Button variant="outline" className="rounded-[2rem]" onClick={() => onNavigate('communication')}>
                 Iniciar Chat
               </Button>
             </Card>
@@ -136,6 +137,8 @@ export function HomePage({ onNavigate }: HomePageProps) {
           </div>
         </div>
       </section>
+
+      <VolunteerSection onNavigate={onNavigate} />
 
       {/* Footer CTA */}
       <section className="px-6 py-20">

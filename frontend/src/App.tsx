@@ -11,15 +11,16 @@ import type { Page } from './types';
 import './styles/driver-custom.css';
 import { HomePage } from './components/pages/HomePage';
 import { AuthPage } from './components/pages/AuthPage';
-import { CatalogsPage } from './components/pages/CatalogsPage';
-import { ResourcesPage } from './components/ResourcesPage';
+import { ResourcesPage } from './components/pages/ResourcesPage';
 import { AboutPage } from './components/pages/AboutPage';
 import { CommunityPage } from './components/pages/CommunityPage';
+import { ProfessionalRegistrationPage } from './components/pages/ProfessionalRegistrationPage';
+
 import { BlogPage } from './components/pages/BlogPage';
-import { TestimonialsPage } from './components/pages/TestimonialsPage';
 import { ComunicationPage } from './components/ComunicationPage';
 import { FAQPage } from './components/pages/FAQPage';
 import { ProfilePage } from './components/ProfilePage';
+
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -41,7 +42,7 @@ function AppContent() {
   };
 
   const handleNavigate = (page: string) => {
-    const protectedPages = ['catalogs', 'resources', 'community', 'blog', 'profile', 'cycle-tracker', 'communication'];
+    const protectedPages = ['resources', 'community', 'blog', 'profile', 'cycle-tracker', 'communication'];
     if (protectedPages.includes(page) && !isAuthenticated) {
       setCurrentPage('auth');
       toast.error('Debes iniciar sesión para acceder a este contenido');
@@ -56,9 +57,9 @@ function AppContent() {
         return <HomePage onNavigate={handleNavigate} isAuthenticated={isAuthenticated} />;
       case 'auth':
         return <AuthPage onLogin={handleLogin} onRegister={handleRegister} />;
-      case 'catalogs':
-        return <CatalogsPage />;
-      case 'resources': 
+      case 'professional-registration':
+        return <ProfessionalRegistrationPage />;
+        case 'resources': 
         return <ResourcesPage />;
       case 'about':
         return <AboutPage />;
@@ -66,8 +67,6 @@ function AppContent() {
         return <CommunityPage />;
       case 'blog':
         return <BlogPage />;
-      case 'testimonials':
-        return <TestimonialsPage />;
       case 'faq':
         return <FAQPage />;
       case 'profile':

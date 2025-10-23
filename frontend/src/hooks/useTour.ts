@@ -109,31 +109,6 @@ export function useTour() {
     driverInstance.drive();
   };
 
-  const startCatalogsTour = () => {
-    if (!driverInstance) return;
-
-    const steps: DriveStep[] = [
-      {
-        element: '[data-tour="catalogs-tabs"]',
-        popover: {
-          title: 'Explora por categorías',
-          description: 'Navega entre diferentes temas para encontrar la información que necesitas.',
-          side: 'top',
-        },
-      },
-      {
-        element: '[data-tour="search-catalogs"]',
-        popover: {
-          title: 'Busca información',
-          description: 'Usa la búsqueda para encontrar rápidamente temas específicos.',
-          side: 'bottom',
-        },
-      },
-    ];
-
-    driverInstance.setConfig({ steps });
-    driverInstance.drive();
-  };
 
   const shouldShowTour = () => {
     return !localStorage.getItem('tourCompleted');
@@ -141,7 +116,6 @@ export function useTour() {
 
   return {
     startWelcomeTour,
-    startCatalogsTour,
     shouldShowTour,
   };
 }

@@ -2,13 +2,12 @@
 
 export type Page = 
   | 'home' 
-  | 'auth' 
-  | 'catalogs' 
+  | 'auth'
+  | 'professional-registration'
   | 'resources' 
   | 'about' 
   | 'community' 
-  | 'blog' 
-  | 'testimonials' 
+  | 'blog'
   | 'faq' 
   | 'profile' 
 
