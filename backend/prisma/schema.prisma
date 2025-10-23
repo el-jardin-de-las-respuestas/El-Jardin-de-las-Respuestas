@@ -73,6 +73,14 @@ model Post {
   comments    Comment[]
 }
 
+model Library {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  icon        String?
+  createdAt   DateTime @default(now())
+}
+
 model Comment {
   id         Int      @id @default(autoincrement())
   content    String
