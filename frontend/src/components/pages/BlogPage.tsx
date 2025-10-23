@@ -1,7 +1,7 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Badge } from './ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Badge } from '../ui/badge';
 import { Calendar, Clock, User } from 'lucide-react';
-import { Input } from './ui/input';
+import { Input } from '../ui/input';
 import { useState } from 'react';
 
 export function BlogPage() {

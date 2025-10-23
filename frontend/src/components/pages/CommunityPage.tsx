@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
-import { Button } from "./ui/button";
-import { Textarea } from "./ui/textarea";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@components/ui/card";
+import { Button } from "@components/ui/button";
+import { Textarea } from "@components/ui/textarea";
+import { Avatar, AvatarFallback } from "@components/ui/avatar";
 import { Heart, Users } from "lucide-react";
-import { Badge } from "./ui/badge";
-import { CommunityPost, fetchCommunityPosts, createForumPost, likePost } from "../services/api";
+import { Badge } from "@components/ui/badge";
+//import { CommunityPost, fetchCommunityPosts, createForumPost, likePost } from "@components/services/api";
 
 export function CommunityPage() {
   const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>([]);

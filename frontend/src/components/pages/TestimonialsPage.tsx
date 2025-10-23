@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader } from './ui/card';
-import { Avatar, AvatarFallback } from './ui/avatar';
+import { Card, CardContent, CardHeader } from '../ui/card';
+import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Quote, Star } from 'lucide-react';
-import { Badge } from './ui/badge';
+import { Badge } from '../ui/badge';
 
 export function TestimonialsPage() {
   const testimonials = [
