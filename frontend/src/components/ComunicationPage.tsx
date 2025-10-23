@@ -97,7 +97,14 @@ export function ComunicationPage() {
                     placeholder="Escribe tu mensaje..."
                     value={chatMessage}
                     onChange={(e) => setChatMessage(e.target.value)}
-                    className="flex-1 rounded-[2rem] border-2 border-secondary/40 bg-background px-6 py-5"
+                     className="
+                              rounded-[2rem] border-2 border-secondary/40 
+                              bg-white text-gray-900 
+                              dark:bg-gray-900 dark:text-white dark:border-gray-700
+                              placeholder:text-gray-400 dark:placeholder:text-gray-500
+                              px-6 py-6
+                              focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]
+                            "
                   />
                   <Button className="rounded-[2rem] px-6 shadow-[0_4px_20px_var(--color-shadow-soft)]">
                     <Send className="size-4" />

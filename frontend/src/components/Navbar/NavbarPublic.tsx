@@ -1,4 +1,3 @@
-// src/components/Navbar/NavbarPublic.tsx
 const NavbarPublic = () => {
   return (
     <nav style={{ padding: '1rem', background: '#333', color: 'white' }}>

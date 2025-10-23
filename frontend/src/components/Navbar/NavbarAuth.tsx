@@ -1,4 +1,3 @@
-// src/components/Navbar/NavbarAuth.tsx
 const NavbarAuth = () => {
   return (
     <nav style={{ padding: '1rem', background: '#333', color: 'white' }}>
