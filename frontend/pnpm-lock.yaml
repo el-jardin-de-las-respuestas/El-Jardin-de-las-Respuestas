@@ -134,6 +134,9 @@ importers:
       react-resizable-panels:
         specifier: ^2.1.7
         version: 2.1.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-router-dom:
+        specifier: ^7.9.4
+        version: 7.9.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       recharts:
         specifier: ^2.15.2
         version: 2.15.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1410,6 +1413,10 @@ packages:
     resolution: {integrity: sha512-5IKcdX0nnYavi6G7TtOhwkYzyjfJlatbjMjuLSfE2kYT5pMDOilZ4OvMhi637CcDICTmz3wARPoyhqyX1Y+XvA==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
+  cookie@1.0.2:
+    resolution: {integrity: sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==}
+    engines: {node: '>=18'}
+
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
@@ -1873,6 +1880,23 @@ packages:
       react: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
       react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
 
+  react-router-dom@7.9.4:
+    resolution: {integrity: sha512-f30P6bIkmYvnHHa5Gcu65deIXoA2+r3Eb6PJIAddvsT9aGlchMatJ51GgpU470aSqRRbFX22T70yQNUGuW3DfA==}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
+
+  react-router@7.9.4:
+    resolution: {integrity: sha512-SD3G8HKviFHg9xj7dNODUKDFgpG4xqD5nhyd0mYoB5iISepuZAvzSr8ywxgxKJ52yRzf/HWtVHc9AWwoTbljvA==}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+
   react-smooth@4.0.4:
     resolution: {integrity: sha512-gnGKTpYwqL0Iii09gHobNolvX4Kiq4PKx6eWBCYYix+8cdw+cGo3do906l1NBPKkSWx1DghC1dlWG9L2uGd61Q==}
     peerDependencies:
@@ -1941,6 +1965,9 @@ packages:
 
   scheduler@0.23.2:
     resolution: {integrity: sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==}
+
+  set-cookie-parser@2.7.1:
+    resolution: {integrity: sha512-IOc8uWeOZgnb3ptbCURJWNjWUPcO3ZnTTdzsurqERrP6nPyv+paC55vJM0LpOlT2ne+Ix+9+CRG1MNLlyZ4GjQ==}
 
   shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}
@@ -3246,6 +3273,8 @@ snapshots:
 
   consola@3.4.2: {}
 
+  cookie@1.0.2: {}
+
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
@@ -3646,6 +3675,20 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
+  react-router-dom@7.9.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-router: 7.9.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+
+  react-router@7.9.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      cookie: 1.0.2
+      react: 18.3.1
+      set-cookie-parser: 2.7.1
+    optionalDependencies:
+      react-dom: 18.3.1(react@18.3.1)
+
   react-smooth@4.0.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       fast-equals: 5.3.2
@@ -3749,6 +3792,8 @@ snapshots:
   scheduler@0.23.2:
     dependencies:
       loose-envify: 1.4.0
+
+  set-cookie-parser@2.7.1: {}
 
   shebang-command@2.0.0:
     dependencies:

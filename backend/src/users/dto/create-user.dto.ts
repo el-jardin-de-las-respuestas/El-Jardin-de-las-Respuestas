@@ -4,7 +4,9 @@ import {
   IsDate,
   IsEmail,
   MinLength,
-  MaxLength
+  MaxLength,
+  IsOptional,
+  IsNumber
 } from 'class-validator';
 
 import { Type } from 'class-transformer';
@@ -32,5 +34,9 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   password: string;
+
+  @IsOptional()
+  @IsNumber()
+  id_role?: number;
 
 }

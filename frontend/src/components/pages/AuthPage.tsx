@@ -54,7 +54,14 @@ export function AuthPage({ onLogin }: AuthPageProps) {
               placeholder="tu@email.com"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="rounded-[2rem] border-2 border-secondary/40 bg-input-background px-6 py-6 focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]"
+               className="
+                        rounded-[2rem] border-2 border-secondary/40 
+                        bg-white text-gray-900 
+                        dark:bg-gray-900 dark:text-white dark:border-gray-700
+                        placeholder:text-gray-400 dark:placeholder:text-gray-500
+                        px-6 py-6
+                        focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]
+                      "
               required
             />
           </div>
@@ -70,7 +77,14 @@ export function AuthPage({ onLogin }: AuthPageProps) {
                 min="12"
                 value={formData.age}
                 onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                className="rounded-[2rem] border-2 border-secondary/40 bg-input-background px-6 py-6 focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]"
+                 className="
+                          rounded-[2rem] border-2 border-secondary/40 
+                          bg-white text-gray-900 
+                          dark:bg-gray-900 dark:text-white dark:border-gray-700
+                          placeholder:text-gray-400 dark:placeholder:text-gray-500
+                          px-6 py-6
+                          focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]
+                        "
                 required
               />
               <p className="text-sm text-muted-foreground">
@@ -89,7 +103,14 @@ export function AuthPage({ onLogin }: AuthPageProps) {
                 placeholder="••••••••"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="rounded-[2rem] border-2 border-secondary/40 bg-input-background px-6 py-6 pr-14 focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]"
+                 className="
+                          rounded-[2rem] border-2 border-secondary/40 
+                          bg-white text-gray-900 
+                          dark:bg-gray-900 dark:text-white dark:border-gray-700
+                          placeholder:text-gray-400 dark:placeholder:text-gray-500
+                          px-6 py-6
+                          focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]
+                        "
                 required
               />
               <button
@@ -114,8 +135,14 @@ export function AuthPage({ onLogin }: AuthPageProps) {
                 onChange={(e) =>
                   setFormData({ ...formData, confirmPassword: e.target.value })
                 }
-                className="rounded-[2rem] border-2 border-secondary/40 bg-input-background px-6 py-6 focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]"
-                required
+                className="
+                          rounded-[2rem] border-2 border-secondary/40 
+                          bg-white text-gray-900 
+                          dark:bg-gray-900 dark:text-white dark:border-gray-700
+                          placeholder:text-gray-400 dark:placeholder:text-gray-500
+                          px-6 py-6
+                          focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]
+                        "
               />
             </div>
           )}

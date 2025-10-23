@@ -13,7 +13,7 @@ export function TourGuide({ currentPage }: TourGuideProps) {
 
   useEffect(() => {
     // Iniciar tour automáticamente cuando el usuario se autentica por primera vez
-    if (isAuthenticated && currentPage === 'catalogs' && shouldShowTour()) {
+    if (isAuthenticated && currentPage === 'home' && shouldShowTour()) {
       // Esperar un poco para que se renderice la página
       const timeout = setTimeout(() => {
         startWelcomeTour();

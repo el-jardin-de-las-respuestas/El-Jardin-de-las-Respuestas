@@ -2,17 +2,14 @@ import { useState } from "react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { MessageCircle, Users, Send, Shield, ThumbsUp, MessageSquare } from "lucide-react";
+import { MessageCircle, Send, Shield } from "lucide-react";
 import chatMessages from "@data/chatMessages.json";
-import forumTopics from "@data/forumTopics.json";
 
-export function ComunicacionPage() {
+export function ComunicationPage() {
   const [chatMessage, setChatMessage] = useState("");
-  const [forumPost, setForumPost] = useState("");
 
   return (
     <div className="min-h-screen bg-background px-6 py-12">
@@ -33,14 +30,10 @@ export function ComunicacionPage() {
 
         {/* Tabs */}
         <Tabs defaultValue="chat" className="w-full">
-          <TabsList className="mb-8 grid w-full max-w-md mx-auto grid-cols-2 rounded-[2rem] border-2 border-secondary/40 bg-secondary/20 p-2">
+          <TabsList className="mb-8 grid w-full max-w-md mx-auto grid-cols-1 rounded-[2rem] border-2 border-secondary/40 bg-secondary/20 p-2">
             <TabsTrigger value="chat" className="rounded-[1.5rem]">
               <MessageCircle className="mr-2 size-4" />
               Chat 1:1
-            </TabsTrigger>
-            <TabsTrigger value="forum" className="rounded-[1.5rem]">
-              <Users className="mr-2 size-4" />
-              Foro
             </TabsTrigger>
           </TabsList>
 
@@ -104,7 +97,14 @@ export function ComunicacionPage() {
                     placeholder="Escribe tu mensaje..."
                     value={chatMessage}
                     onChange={(e) => setChatMessage(e.target.value)}
-                    className="flex-1 rounded-[2rem] border-2 border-secondary/40 bg-background px-6 py-5"
+                     className="
+                              rounded-[2rem] border-2 border-secondary/40 
+                              bg-white text-gray-900 
+                              dark:bg-gray-900 dark:text-white dark:border-gray-700
+                              placeholder:text-gray-400 dark:placeholder:text-gray-500
+                              px-6 py-6
+                              focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]
+                            "
                   />
                   <Button className="rounded-[2rem] px-6 shadow-[0_4px_20px_var(--color-shadow-soft)]">
                     <Send className="size-4" />
@@ -112,62 +112,6 @@ export function ComunicacionPage() {
                 </div>
               </div>
             </Card>
-          </TabsContent>
-
-          {/* Foro */}
-          <TabsContent value="forum">
-            <div className="mx-auto max-w-5xl">
-              <Card className="mb-8 rounded-[3rem] border-2 border-secondary/40 p-6 shadow-[0_8px_30px_var(--color-shadow-soft)]">
-                <h3 className="mb-4">Crear Nueva Publicación</h3>
-                <Textarea
-                  placeholder="Comparte tus pensamientos, preguntas o experiencias con la comunidad..."
-                  value={forumPost}
-                  onChange={(e) => setForumPost(e.target.value)}
-                  className="mb-4 min-h-32 rounded-[2rem] border-2 border-secondary/40 bg-input-background p-6"
-                />
-                <Button className="rounded-[2rem] shadow-[0_4px_20px_var(--color-shadow-soft)]">
-                  Publicar
-                </Button>
-              </Card>
-
-              <div className="space-y-6">
-                {forumTopics.map((topic) => (
-                  <Card
-                    key={topic.id}
-                    className="cursor-pointer rounded-[2.5rem] border-2 border-secondary/40 p-6 transition-all hover:shadow-[0_12px_40px_var(--color-shadow-soft)]"
-                  >
-                    <div className="mb-3 flex items-start justify-between">
-                      <div className="flex items-center gap-3">
-                        <Avatar className="size-10 border-2 border-secondary">
-                          <AvatarFallback className="bg-secondary/30">
-                            {topic.author[0]}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <p className="text-sm">{topic.author}</p>
-                          <p className="text-xs text-muted-foreground">{topic.timeAgo}</p>
-                        </div>
-                      </div>
-                      <Badge className="rounded-[1rem] border-secondary/40 bg-secondary/30 text-foreground">
-                        {topic.category}
-                      </Badge>
-                    </div>
-                    <h3 className="mb-2">{topic.title}</h3>
-                    <p className="mb-4 text-muted-foreground">{topic.excerpt}</p>
-                    <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-2">
-                        <ThumbsUp className="size-4" />
-                        <span>{topic.likes}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <MessageSquare className="size-4" />
-                        <span>{topic.replies} respuestas</span>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
           </TabsContent>
         </Tabs>
       </div>

@@ -1,5 +1,5 @@
 // src/components/Navbar/Navbar.tsx
-import { useAuth } from "@hooks/useAuth";
+import { useAuth } from "hooks/useAuth.ts";
 import NavbarPublic from "./NavbarPublic";
 import NavbarAuth from "./NavbarAuth";
 
