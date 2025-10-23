@@ -36,7 +36,7 @@ El proyecto busca democratizar el acceso a información confiable sobre salud se
 | **Backend** | NestJS |
 | **ORM** | Prisma |
 | **Base de datos** | PostgreSQL |
-| **Frontend** | Next.js |
+| **Frontend** | React |
 | **Autenticación** | JWT |
 | **Contenedores** | Docker |
 
