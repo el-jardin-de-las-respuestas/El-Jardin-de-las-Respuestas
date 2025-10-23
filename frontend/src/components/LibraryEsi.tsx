@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import articlesData from "../data/LibraryEsi.json";
 import { Clock } from "lucide-react";
 
@@ -14,11 +13,15 @@ interface Article {
 
 const articles: Article[] = articlesData as Article[];
 
-const LibraryEsi: React.FC = () => {
+interface LibraryEsiProps {
+  onNavigate: (page: string, id?: number) => void;
+}
+
+const LibraryEsi: React.FC<LibraryEsiProps> = ({ onNavigate }) => {
   return (
     <section className="p-8 bg-pink-50 min-h-screen">
       <h1 className="text-3xl font-bold text-center mb-8 text-pink-700">
-        Blog
+        Bibloteca ESI 
       </h1>
       <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10">
         Contenido educativo validado por profesionales de la salud. Aprende a tu
@@ -26,36 +29,45 @@ const LibraryEsi: React.FC = () => {
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {articles.map((article) => (
-          <Link to={`/article/${article.id}`} key={article.id}>
-            <div className="bg-white rounded-2xl shadow hover:shadow-lg cursor-pointer overflow-hidden transition duration-300">
-              <img
-                src={article.imagen}
-                alt={article.titulo}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <h2 className="text-lg font-semibold text-pink-600">
-                    {article.titulo}
-                  </h2>
-                  <div className="flex items-center text-gray-500 text-sm">
-                    <Clock size={16} className="mr-1" />
-                    <span>{article.duracion}</span>
-                  </div>
-                </div>
-                <p className="text-sm font-medium text-gray-500 mb-2">
-                  {article.categoria}
-                </p>
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  {article.descripcion}
-                </p>
-              </div>
-            </div>
-          </Link>
-        ))}
+  {articles.map((article) => (
+    <div
+    key={article.id}
+    onClick={() => onNavigate("article", article.id)}
+    className="bg-white rounded-2xl shadow hover:shadow-lg cursor-pointer overflow-hidden transition duration-300 flex flex-col"
+  >
+    <img
+      src={article.imagen}
+      alt={article.titulo}
+      className="w-full h-48 object-cover"
+    />
+    <div className="p-6 flex flex-col flex-grow">
+      {/* Título */}
+      <h2 className="text-lg font-semibold text-pink-600 mb-2">
+        {article.titulo}
+      </h2>
+  
+      {/* Badge de categoría */}
+      <span className="text-sm font-medium text-white bg-pink-400 inline-block px-3 py-1 rounded-full mb-4 self-start">
+        {article.categoria}
+      </span>
+  
+      {/* Descripción */}
+      <p className="text-gray-700 text-sm leading-relaxed flex-grow">
+        {article.descripcion}
+      </p>
+  
+      {/* Duración abajo a la derecha */}
+      <div className="flex justify-end items-center mt-4 text-gray-500 text-sm">
+        <Clock size={16} className="mr-1" />
+        <span>{article.duracion}</span>
       </div>
-    </section>
+    </div>
+  </div>
+  
+       
+      ))}
+    </div>
+  </section>
   );
 };
 

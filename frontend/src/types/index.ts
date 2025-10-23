@@ -11,6 +11,9 @@ export type Page =
   | 'testimonials' 
   | 'faq' 
   | 'profile' 
+  | 'communication'
+  | 'library'
+  | 'article';
 
 export interface User {
   name: string;
