@@ -89,20 +89,21 @@ export function BlogPage() {
       </div>
 
       <div className="grid lg:grid-cols-4 gap-6">
-        {/* Sidebar */}
-        <div className="lg:col-span-1 space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">Buscar artículos</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Input
-                placeholder="Buscar..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </CardContent>
-          </Card>
+      {/* Sidebar */}
+      <div className="lg:col-span-1 space-y-6">
+        <Card className="bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-200 dark:border-gray-700 shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-base">Buscar artículos</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Input
+              placeholder="Buscar..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="bg-gray-50 dark:bg-gray-800 text-black dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500"
+            />
+          </CardContent>
+        </Card>
 
           <Card>
             <CardHeader>
