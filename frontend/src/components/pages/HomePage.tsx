@@ -49,7 +49,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
           {/* Título */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-pink-700">
-            Bienvenidx a El Jardín de las Respuestas
+            Te damos la bienvenida a El Jardín de las Respuestas
           </h1>
 
           {/* Descripción */}
