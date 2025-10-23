@@ -75,9 +75,7 @@ function AppContent() {
         return <FAQPage />;
       case 'profile':
         return <ProfilePage userName={userName} />;
-      case 'cycle-tracker':
-        return <CycleTrackerPage />;
-      case 'comunication':           
+      case 'communication':           
       return <ComunicationPage />; 
       default:
         return <HomePage onNavigate={handleNavigate} isAuthenticated={isAuthenticated} />;
