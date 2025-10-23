@@ -46,7 +46,7 @@ export function ResourcesPage() {
 
   const externalLinks = [
     { name: 'Ministerio de Salud', url: 'https://www.argentina.gob.ar/salud', description: 'Información oficial sobre salud sexual' },
-    { name: 'Portal ESI', url: 'https://www.argentina.gob.ar/educacion/esi', description: 'Recursos educativos del Ministerio de Educación' },
+    { name: 'Portal ESI', url: 'https://buenosaires.gob.ar/educacion/docentes/curriculum/educacion-sexual-integral', description: 'Recursos educativos del Ministerio de Educación' },
     { name: 'OMS - Salud Sexual', url: 'https://www.who.int', description: 'Guías internacionales de salud sexual' },
   ];
 
