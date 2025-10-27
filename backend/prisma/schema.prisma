@@ -44,7 +44,7 @@ model Professional {
   userId      Int    @unique
   user        User   @relation(fields: [userId], references: [id])
   specialty   String
-  registrationNumber String
+  registrationNumber String @unique
   bio         String?
 
   consultationProfessionals ConsultationProfessional[]

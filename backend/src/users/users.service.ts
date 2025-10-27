@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { SafeUser } from 'src/types/user.types';
 import { BadRequestException } from '@nestjs/common';
@@ -15,9 +15,7 @@ export class UsersService {
     id: true,
     email: true,
     birthdate: true,
-    is_active: true,
-    createdAt: true,
-    updatedAt: true,
+    registeredAt: true,
     username: true,
     role: true,
   };
@@ -93,7 +91,7 @@ export class UsersService {
         data: updateUserDto,
         select: this.safeUserSelect,
       });
-    } catch (err: any) {
+    } catch (err) {
       throw new Error(`Could not update user: ${err.message}`);
     }
   }

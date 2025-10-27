@@ -1,7 +1,7 @@
 // src/routes/AppRouter.tsx
 import { Routes, Route, Navigate } from "react-router-dom";
-import { ReactElement } from "react";
-import { useAuth } from "@hooks/useAuth";
+import  type { ReactElement } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 const PrivateRoute = ({ children }: { children: ReactElement }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -19,7 +19,7 @@ const PublicRoute = ({ children }: { children: ReactElement }) => {
   if (loading) {
     return <div>Cargando...</div>;
   }
-
+  
   return !isAuthenticated ? children : <Navigate to="/" />;
 };
 

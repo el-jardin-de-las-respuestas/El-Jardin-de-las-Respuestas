@@ -8,18 +8,23 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, 
-      forbidNonWhitelisted: true, 
+      whitelist: true,
+      forbidNonWhitelisted: true,
       transform: true,
       exceptionFactory: (errors) => {
         const messages = errors.map(
           (err) =>
-            `${err.property} - ${Object.values(err.constraints!).join(', ')}`
+            `${err.property} - ${Object.values(err.constraints!).join(', ')}`,
         );
         return new BadRequestException(messages);
       },
     }),
   );
+  app.enableCors({
+    origin: 'http://localhost:3000', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true
+  });
 
   await app.listen(process.env.PORT ?? 3000);
 }
