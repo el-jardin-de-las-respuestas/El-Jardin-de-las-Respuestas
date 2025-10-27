@@ -4,6 +4,7 @@ export type Page =
   | 'home' 
   | 'auth'
   | 'professional-registration'
+  | 'professional-login'
   | 'resources' 
   | 'about' 
   | 'community' 
@@ -12,7 +13,12 @@ export type Page =
   | 'profile' 
   | 'communication'
   | 'library'
-  | 'article';
+  | 'article'
+  | 'professional-registration'
+  | 'professional-login'
+  | 'professional-dashboard'
+  | 'professional-library'
+  | 'professional-chat';
 
 export interface User {
   name: string;

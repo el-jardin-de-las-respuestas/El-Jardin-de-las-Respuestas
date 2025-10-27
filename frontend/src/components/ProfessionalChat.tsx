@@ -13,13 +13,13 @@ import {
   CheckCheck,
   AlertTriangle,
 } from "lucide-react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 interface ProfessionalChatProps {
   onBack: () => void;
 }
 
-export function ProfessionalChat({ onBack }: ProfessionalChatProps) {
+export default function ProfessionalChat({ onBack }: ProfessionalChatProps) {
   const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [message, setMessage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");

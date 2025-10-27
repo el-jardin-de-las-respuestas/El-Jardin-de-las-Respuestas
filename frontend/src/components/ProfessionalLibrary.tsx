@@ -15,13 +15,13 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 interface ProfessionalBibliotecaProps {
   onBack: () => void;
 }
 
-export function ProfessionalLibrary({ onBack }: ProfessionalBibliotecaProps) {
+export default function ProfessionalLibrary({ onBack }: ProfessionalBibliotecaProps) {
   const [view, setView] = useState<"list" | "create" | "edit">("list");
   const [formData, setFormData] = useState({
     title: "",

@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
 interface ProfessionalLoginPageProps {
-  onNavigate?: (page: string) => void;
+  onNavigate?: (page: string, id?: number) => void;
+  onProfessionalLogin?: () => void;
 }
 
-export function ProfessionalLoginPage({ onNavigate }: ProfessionalLoginPageProps) {
+export function ProfessionalLoginPage({ onNavigate, onProfessionalLogin }: ProfessionalLoginPageProps) {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -21,23 +22,27 @@ export function ProfessionalLoginPage({ onNavigate }: ProfessionalLoginPageProps
     try {
       // Simular llamada a API de autenticación
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Aquí iría tu lógica real de autenticación
       // const response = await fetch('/api/auth/professional/login', {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
       //   body: JSON.stringify(formData)
       // });
-      
+
       // Por ahora simulamos un login exitoso
       console.log('Login exitoso:', formData.email);
-      
+
       // Guardar token o datos de sesión
       localStorage.setItem('userType', 'professional');
       localStorage.setItem('userEmail', formData.email);
-      
+
+      if (onProfessionalLogin) {
+        onProfessionalLogin();
+      }
+
       setMessage({ type: 'success', text: '¡Bienvenido de vuelta!' });
-      
+
       // Redirigir al dashboard de profesionales
       setTimeout(() => {
         if (onNavigate) {
@@ -84,11 +89,10 @@ export function ProfessionalLoginPage({ onNavigate }: ProfessionalLoginPageProps
         <div className="p-6">
           {/* Mensaje de éxito/error */}
           {message && (
-            <div className={`mb-4 p-3 rounded-lg ${
-              message.type === 'success' 
-                ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-800' 
+            <div className={`mb-4 p-3 rounded-lg ${message.type === 'success'
+                ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-800'
                 : 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300 border border-red-200 dark:border-red-800'
-            }`}>
+              }`}>
               {message.text}
             </div>
           )}
@@ -96,8 +100,8 @@ export function ProfessionalLoginPage({ onNavigate }: ProfessionalLoginPageProps
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Correo Electrónico */}
             <div className="space-y-2">
-              <label 
-                htmlFor="email" 
+              <label
+                htmlFor="email"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
                 Correo Electrónico
@@ -117,8 +121,8 @@ export function ProfessionalLoginPage({ onNavigate }: ProfessionalLoginPageProps
 
             {/* Contraseña */}
             <div className="space-y-2">
-              <label 
-                htmlFor="password" 
+              <label
+                htmlFor="password"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
                 Contraseña
@@ -150,7 +154,7 @@ export function ProfessionalLoginPage({ onNavigate }: ProfessionalLoginPageProps
 
             {/* Botón de login */}
             <button
-              type="submit" 
+              type="submit"
               className="w-full bg-pink-600 hover:bg-pink-700 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isSubmitting}
             >
@@ -170,12 +174,12 @@ export function ProfessionalLoginPage({ onNavigate }: ProfessionalLoginPageProps
                 Regístrate como voluntario
               </button>
             </p>
-            
+
             <p className="text-sm text-gray-600 dark:text-gray-400">
               ¿Eres estudiante?{' '}
               <button
                 onClick={() => onNavigate && onNavigate('auth')}
-                className="text-pink-600 hover:text-pink-700 dark:text-pink-400 dark:hover:text-pink-300 font-medium hover:underline"
+                className="text-pink-600 hover:text-pink-500 dark:text-pink-400 dark:hover:text-pink-300 font-medium hover:underline"
                 disabled={isSubmitting}
               >
                 Ingresa aquí
@@ -192,7 +196,7 @@ export function ProfessionalLoginPage({ onNavigate }: ProfessionalLoginPageProps
               </h3>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-              Accede a tu panel de control para responder consultas, crear contenido educativo, 
+              Accede a tu panel de control para responder consultas, crear contenido educativo,
               moderar el foro y contribuir a crear un espacio seguro de aprendizaje para adolescentes.
             </p>
           </div>
