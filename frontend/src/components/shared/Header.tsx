@@ -2,6 +2,7 @@ import { Moon, Sun, Menu, X, Flower2, User } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
 import { Button } from '../ui/button';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type HeaderProps = {
   currentPage: string;
@@ -14,7 +15,7 @@ type HeaderProps = {
 export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, userName }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+ const navigate = useNavigate();
   const navItems = isAuthenticated
     ? [
         { id: 'home', label: 'Inicio' },

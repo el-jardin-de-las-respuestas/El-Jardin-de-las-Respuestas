@@ -6,9 +6,10 @@ import { Prisma } from 'generated/prisma';
 import { PrismaModule } from './prisma/prisma.module';
 import { PostForoModule } from './post-foro/post-foro.module';
 import { LibraryModule } from './library/library.module';
+import { ProfessionalModule } from './professional/professional.module';
 
 @Module({
-  imports: [AuthModule,PrismaModule, PostForoModule, LibraryModule],
+  imports: [AuthModule,PrismaModule, PostForoModule, LibraryModule, ProfessionalModule],
   controllers: [AppController],
   providers: [AppService],
 })
