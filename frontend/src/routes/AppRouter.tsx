@@ -1,49 +1,55 @@
 // src/routes/AppRouter.tsx
 import { Routes, Route, Navigate } from "react-router-dom";
-import type { ReactElement } from "react";
+import  type { ReactElement } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { AuthPage } from "@components/pages/AuthPage";
 
 const PrivateRoute = ({ children }: { children: ReactElement }) => {
-    const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
 
-    if (loading) {
-        return <div>Cargando...</div>;
-    }
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
 
-    return isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 const PublicRoute = ({ children }: { children: ReactElement }) => {
-    const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
 
-    if (loading) {
-        return <div>Cargando...</div>;
-    }
-
-    return !isAuthenticated ? children : <Navigate to="/" />;
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
+  
+  return !isAuthenticated ? children : <Navigate to="/" />;
 };
 
 const AppRouter = () => {
-    return (
-        <Routes>
-            <Route path="/" element={<div>Home Page</div>} />
-            <Route path="/about" element={<div>About Page</div>} />
+  return (
+    <Routes>
+      <Route path="/" element={<div>Home Page</div>} />
+      <Route path="/about" element={<div>About Page</div>} />
+      
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <div>Login Page</div>
+          </PublicRoute>
+        }
+      />
 
-            <Route path="/auth" element={<AuthPage />} />
+      <Route
+        path="/profile"
+        element={
+          <PrivateRoute>
+            <div>Profile Page</div>
+          </PrivateRoute>
+        }
+      />
 
-            <Route
-                path="/profile"
-                element={
-                    <PrivateRoute>
-                        <div>Profile Page</div>
-                    </PrivateRoute>
-                }
-            />
-
-            <Route path="*" element={<div>404 - Página no encontrada</div>} />
-        </Routes>
-    );
+      <Route path="*" element={<div>404 - Página no encontrada</div>} />
+    </Routes>
+  );
 };
 
 export default AppRouter;

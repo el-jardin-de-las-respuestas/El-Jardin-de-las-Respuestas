@@ -16,11 +16,14 @@ import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'sonner'; 
 
 registerLocale("es", es);
+interface AuthPageProps {
+    onLogin: () => void;
+}
 
-
-export function AuthPage() {
+export function AuthPage({onLogin} : AuthPageProps) {
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const schema = isLogin ? loginSchema : fullRegisterSchema;
@@ -60,12 +63,16 @@ export function AuthPage() {
                     data
                 );
                 auth.login(res.data.access_token);
-                navigate("/");
+                onLogin();
+                toast.success("✅ Inicio de sesión exitoso");
             } else {
                 await axios.post(
                     "http://localhost:4000/users/register",
-                    sanitizeUserData(data as TRegisterFormData)
+                    sanitizeUserData(data as TRegisterFormData) 
                 );
+                toast.success("✅ ¡Se ha registrado correctamente! Ahora puedes iniciar sesión.");
+                setIsLogin(true);
+                reset({ email: "", password: "" });
             }
         } catch (err: any) {
             const backendErrors = err.response?.data?.errors;
@@ -257,7 +264,7 @@ export function AuthPage() {
                         className="w-full rounded-[2rem] py-6 shadow-[0_8px_30px_var(--color-shadow-soft)]"
                         id="auth-submit"
                     >
-                        {isLogin ? "    " : "Crear Cuenta"}
+                        {isLogin ? "Ingresar" : "Crear Cuenta"}
                     </Button>
 
                     {/* Toggle Auth Mode */}

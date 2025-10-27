@@ -26,6 +26,7 @@ import LibraryEsi from "./components/LibraryEsi";
 import ArticleDetail from "./components/ArticleDetail";
 
 
+
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [selectedArticleId, setSelectedArticleId] = useState<number | null>(null); // 👈 Nuevo estado
