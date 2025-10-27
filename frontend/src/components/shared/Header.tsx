@@ -21,7 +21,7 @@ export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, use
         { id: 'home', label: 'Inicio' },
         { id: 'resources', label: 'Recursos' },
         { id: 'community', label: 'Comunidad' },
-        { id: 'blog', label: 'Blog' },
+        { id: 'blog', label: 'Biblioteca' },
         { id: 'faq', label: 'FAQ' },
       ]
     : [
