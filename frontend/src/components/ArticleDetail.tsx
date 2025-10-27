@@ -2,6 +2,15 @@ import React from "react";
 import articlesData from "../data/LibraryEsi.json";
 import { Clock } from "lucide-react";
 
+interface Seccion {
+  tipo: string;
+  titulo?: string;
+  texto?: string;
+  descripcion?: string;
+  contenido?: string[];
+  items?: string[];
+}
+
 interface Article {
   id: number;
   titulo: string;
@@ -9,6 +18,7 @@ interface Article {
   duracion: string;
   descripcion: string;
   imagen: string;
+  secciones?: Seccion[];
 }
 
 interface ArticleDetailProps {
@@ -59,9 +69,92 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ id, onNavigate }) => {
         <p className="text-sm font-medium text-gray-500 mb-4">
           {article.categoria}
         </p>
-        <p className="text-gray-700 text-sm leading-relaxed">
+        <p className="text-gray-700 text-sm leading-relaxed mb-6">
           {article.descripcion}
         </p>
+
+        {/* 🧩 Render dinámico de secciones */}
+        {article.secciones?.map((sec, i) => {
+          switch (sec.tipo) {
+            case "intro":
+              return (
+                <div key={i} className="bg-pink-100 p-4 rounded-2xl mb-6">
+                  <p className="text-gray-700">{sec.texto}</p>
+                </div>
+              );
+
+            case "texto":
+              return (
+                <div key={i} className="mb-6">
+                  <h2 className="text-xl font-semibold text-[#a3687f] mb-2">
+                    {sec.titulo}
+                  </h2>
+                  {sec.contenido?.map((p, j) => (
+                    <p key={j} className="text-gray-700 mb-2">
+                      {p}
+                    </p>
+                  ))}
+                </div>
+              );
+
+            case "lista":
+              return (
+                <div key={i} className="mb-6">
+                  <h2 className="text-xl font-semibold text-[#a3687f] mb-4">
+                    {sec.titulo}
+                  </h2>
+                  {sec.descripcion && (
+                    <p className="text-gray-700 mb-4">{sec.descripcion}</p>
+                  )}
+                  <ul className="space-y-2">
+                    {sec.items?.map((item, j) => (
+                      <li key={j} className="flex items-start">
+                        <span className="w-3 h-3 rounded-full bg-[#a3687f] mr-3 mt-1"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+
+            case "numerada":
+              return (
+                <div key={i} className="bg-pink-100 p-6 rounded-2xl mb-6">
+                  <h2 className="text-xl font-semibold text-[#a3687f] mb-4">
+                    {sec.titulo}
+                  </h2>
+                  {sec.items?.map((item, j) => (
+                    <div
+                      key={j}
+                      className="flex items-start mb-3 bg-white p-3 rounded-xl shadow-sm"
+                    >
+                      <div className="flex items-center justify-center w-6 h-6 rounded-full bg-[#a3687f] text-white mr-3 text-sm font-bold">
+                        {j + 1}
+                      </div>
+                      <p className="text-gray-700">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              );
+
+            case "recursos":
+              return (
+                <div key={i} className="bg-pink-100 p-6 rounded-2xl mb-6">
+                  <h2 className="text-xl font-semibold text-[#a3687f] mb-4">
+                    {sec.titulo}
+                  </h2>
+                  <ul className="space-y-2 text-gray-700">
+                    {sec.items?.map((item, j) => (
+                      <li key={j}>• {item}</li>
+                    ))}
+                  </ul>
+                </div>
+              );
+
+            default:
+              return null;
+          }
+        })}
       </div>
     </section>
   );
