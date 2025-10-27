@@ -18,8 +18,7 @@ import { CommunityPage } from './components/pages/CommunityPage';
 // 🆕 Nuevas páginas
 import { ProfessionalRegistrationPage } from './components/pages/ProfessionalRegistrationPage';
 import { ProfessionalLoginPage } from './components/pages/ProfessionalLoginPage';
-// Se elimina la importación de ProfessionalNavbar porque App.tsx ya no la usa directamente
-// import { ProfessionalNavbar } from './components/Navbar/ProfessionalNavbar';
+
 
 import { BlogPage } from './components/pages/BlogPage';
 import { ComunicationPage } from './components/ComunicationPage';
@@ -36,12 +35,10 @@ function AppContent() {
   const [selectedArticleId, setSelectedArticleId] = useState<number | null>(null);
   const [isProfessional, setIsProfessional] = useState(false);
   
-  // Se usa useEffect para leer de localStorage solo una vez al cargar
   useEffect(() => {
     const userType = localStorage.getItem('userType');
     if (userType === 'professional') {
       setIsProfessional(true);
-      // Si ya está logueado como profesional, lo mandamos a su panel
       setCurrentPage('professional-dashboard');
     }
   }, []);
@@ -58,11 +55,10 @@ function AppContent() {
     setCurrentPage('home');
   };
 
-  // ✅ CAMBIO 1: Se añade la navegación al dashboard al iniciar sesión como profesional
   const handleProfessionalLogin = () => {
     setIsProfessional(true);
     localStorage.setItem('userType', 'professional');
-    // Esto es clave: te lleva a la página correcta después del login
+
     setCurrentPage('professional-dashboard'); 
   };
 

@@ -44,11 +44,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
         <div className="relative mx-auto max-w-4xl text-center px-4 sm:px-6 lg:px-0">
           {/* Flor decorativa */}
           <div className="mb-6 flex justify-center">
-            <Flower2 className="w-16 h-16 text-pink-400" /> {/* Flor en color rosa */}
+            <Flower2 className="w-16 h-16 text-pink-500" /> {/* Flor en color rosa */}
           </div>
 
           {/* Título */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-pink-300">
             Te damos la bienvenida a El Jardín de las Respuestas
           </h1>
 
@@ -74,7 +74,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
  {/* Categories Carousel */}
 <section className="px-4 sm:px-6 lg:px-8 py-16 bg-pink-50">
   <div className="mx-auto max-w-7xl">
-    <h2 className="mb-10 text-center text-3xl sm:text-4xl font-bold bg-gradient-to-r from-rose-400 to-pink-400 bg-clip-text text-transparent">
+    <h2 className="mb-10 text-center text-3xl sm:text-4xl font-bold text-pink-700">
       Explora la Biblioteca ESI
     </h2>
 
