@@ -1,17 +1,47 @@
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@components/ui/card";
-import { Button } from "@components/ui/button";
-import { Textarea } from "@components/ui/textarea";
-import { Avatar, AvatarFallback } from "@components/ui/avatar";
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../ui/card";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Heart, Users } from "lucide-react";
-import { Badge } from "@components/ui/badge";
-//import { CommunityPost, fetchCommunityPosts, createForumPost, likePost } from "@components/services/api";
+import { Badge } from "../ui/badge";
+
+interface CommunityPost {
+  id: number;
+  author: string;
+  initials: string;
+  time: string;
+  content: string;
+  tags: string[];
+  likes: number;
+  comments?: number;
+}
 
 export function CommunityPage() {
-  const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>([]);
+  const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>([
+    {
+      id: 1,
+      author: "María González",
+      initials: "MG",
+      time: "hace 2 horas",
+      content: "¿Alguien tiene experiencia con anticonceptivos de larga duración? Estoy considerando opciones.",
+      tags: ["anticonceptivos", "consulta"],
+      likes: 12,
+      comments: 5
+    },
+    {
+      id: 2,
+      author: "Ana Rodríguez",
+      initials: "AR",
+      time: "hace 5 horas",
+      content: "Gracias a esta comunidad me siento más informada sobre mi ciclo menstrual. ¡Son increíbles!",
+      tags: ["ciclo menstrual", "agradecimiento"],
+      likes: 24,
+      comments: 3
+    }
+  ]);
   const [newPost, setNewPost] = useState("");
 
-  // Temas del foro base
   const forumTopics = [
     { title: "Experiencias con anticonceptivos", active: true },
     { title: "Apoyo emocional", active: true },
@@ -20,35 +50,28 @@ export function CommunityPage() {
     { title: "Derechos y legislación", active: false },
   ];
 
-  // Traer posts reales al cargar la página
-  useEffect(() => {
-    fetchCommunityPosts()
-      .then(setCommunityPosts)
-      .catch(console.error);
-  }, []);
-
-  // Crear nuevo post
-  const handleCreatePost = async () => {
+  const handleCreatePost = () => {
     if (!newPost.trim()) return;
-    try {
-      const post = await createForumPost(newPost);
-      setCommunityPosts(prev => [post, ...prev]);
-      setNewPost("");
-    } catch (error) {
-      console.error(error);
-      alert("Error al publicar el post");
-    }
+    
+    const post: CommunityPost = {
+      id: Date.now(),
+      author: "Usuario Anónimo",
+      initials: "UA",
+      time: "ahora",
+      content: newPost,
+      tags: ["general"],
+      likes: 0,
+      comments: 0
+    };
+    
+    setCommunityPosts(prev => [post, ...prev]);
+    setNewPost("");
   };
 
-  // Dar like a un post
-  const handleLike = async (postId: number) => {
-    try {
-      const updatedPost = await likePost(postId);
-      setCommunityPosts(prev => prev.map(p => (p.id === postId ? updatedPost : p)));
-    } catch (error) {
-      console.error(error);
-      alert("Error al dar like");
-    }
+  const handleLike = (postId: number) => {
+    setCommunityPosts(prev => 
+      prev.map(p => p.id === postId ? { ...p, likes: p.likes + 1 } : p)
+    );
   };
 
   return (
@@ -76,7 +99,7 @@ export function CommunityPage() {
             </CardContent>
           </Card>
 
-          {/* Posts reales */}
+          {/* Posts */}
           {communityPosts.map((post) => (
             <Card key={post.id}>
               <CardHeader>
@@ -86,7 +109,7 @@ export function CommunityPage() {
                   </Avatar>
                   <div className="flex-1">
                     <div className="flex justify-between items-center">
-                      <h4>{post.author}</h4>
+                      <h4 className="font-semibold">{post.author}</h4>
                       <span className="text-xs text-muted-foreground">{post.time}</span>
                     </div>
                     <div className="flex gap-2 mt-1">
@@ -100,9 +123,9 @@ export function CommunityPage() {
                 </div>
               </CardHeader>
               <CardContent className="space-y-2">
-                <p>{post.content}</p>
+                <p className="text-sm">{post.content}</p>
                 <button
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-red-500"
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-red-500 transition-colors"
                   onClick={() => handleLike(post.id)}
                 >
                   <Heart className="h-4 w-4" /> {post.likes}
@@ -112,7 +135,7 @@ export function CommunityPage() {
           ))}
         </div>
 
-        {/* --- SIDEBAR DINÁMICO --- */}
+        {/* --- SIDEBAR --- */}
         <div className="space-y-6">
           {/* Estadísticas */}
           <Card>
@@ -161,7 +184,7 @@ export function CommunityPage() {
                   >
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <h4 className="text-sm">{topic.title}</h4>
+                        <h4 className="text-sm font-medium">{topic.title}</h4>
                         {topic.active && (
                           <span className="h-2 w-2 rounded-full bg-green-500"></span>
                         )}

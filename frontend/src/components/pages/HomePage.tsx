@@ -5,6 +5,7 @@ import { ImageWithFallback } from "../design/ImageWithFallback";
 import { useTour } from '../../hooks/useTour';
 import { useEffect } from 'react';
 
+import { VolunteerSection } from "./VolunteerSection";
 interface HomePageProps {
   onNavigate: (page: string) => void;
 }
@@ -12,7 +13,7 @@ interface HomePageProps {
 export function HomePage({ onNavigate }: HomePageProps) {
   const { startWelcomeTour, shouldShowTour } = useTour();
 
- 
+
   useEffect(() => {
     if (shouldShowTour()) {
       startWelcomeTour();
@@ -48,7 +49,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
           {/* Título */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-pink-700">
-            Bienvenidx a El Jardín de las Respuestas
+            Te damos la bienvenida a El Jardín de las Respuestas
           </h1>
 
           {/* Descripción */}
@@ -59,13 +60,6 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
           {/* Botones */}
           <div className="flex flex-wrap justify-center gap-4">
-            <Button
-              onClick={() => onNavigate("registro")}
-              className="rounded-[2rem] px-8 py-3 shadow-[0_8px_30px_var(--color-shadow-soft)] text-white bg-pink-500 hover:bg-pink-600 transition-colors"
-              id="cta-register"
-            >
-              Comenzar mi Viaje
-            </Button>
             <Button
               variant="outline"
               onClick={startWelcomeTour}
@@ -132,7 +126,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 Conversaciones privadas y seguras con profesionales de la salud sexual.
                 Todas tus dudas serán respondidas con empatía y profesionalismo.
               </p>
-              <Button variant="outline" className="rounded-[2rem]"   onClick={() => onNavigate('communication')}>
+              <Button variant="outline" className="rounded-[2rem]" onClick={() => onNavigate('communication')}>
                 Iniciar Chat
               </Button>
             </Card>
@@ -158,6 +152,8 @@ export function HomePage({ onNavigate }: HomePageProps) {
           </div>
         </div>
       </section>
+
+      <VolunteerSection onNavigate={onNavigate} />
 
       {/* Footer CTA */}
       <section className="px-6 py-20">

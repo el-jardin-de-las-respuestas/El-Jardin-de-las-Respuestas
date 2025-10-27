@@ -18,17 +18,14 @@ export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, use
   const navItems = isAuthenticated
     ? [
         { id: 'home', label: 'Inicio' },
-        { id: 'catalogs', label: 'Catálogos' },
         { id: 'resources', label: 'Recursos' },
         { id: 'community', label: 'Comunidad' },
         { id: 'blog', label: 'Blog' },
-        { id: 'testimonials', label: 'Testimonios' },
         { id: 'faq', label: 'FAQ' },
       ]
     : [
         { id: 'home', label: 'Inicio' },
         { id: 'about', label: 'Acerca de' },
-        { id: 'testimonials', label: 'Testimonios' },
         { id: 'faq', label: 'FAQ' },
       ];
 

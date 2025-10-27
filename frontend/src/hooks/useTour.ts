@@ -54,18 +54,10 @@ export function useTour() {
         },
       },
       {
-        element: '[data-tour="nav-catalogs"]',
-        popover: {
-          title: '📚 Catálogos de Información',
-          description: 'Encuentra información verificada sobre salud reproductiva, anticonceptivos, derechos sexuales y más.',
-          side: 'bottom',
-        },
-      },
-      {
         element: '[data-tour="nav-resources"]',
         popover: {
           title: '🏥 Recursos y Apoyo',
-          description: 'Accede a centros de salud, líneas de ayuda y recursos descargables.',
+          description: 'Encuentra información verificada sobre salud reproductiva, anticonceptivos, derechos sexuales y más.',
           side: 'bottom',
         },
       },
@@ -80,7 +72,7 @@ export function useTour() {
       {
         element: '[data-tour="nav-blog"]',
         popover: {
-          title: '📝 Blog',
+          title: '📝 Bibloteca',
           description: 'Artículos escritos por profesionales de la salud sobre temas actuales y relevantes.',
           side: 'bottom',
         },
@@ -109,31 +101,6 @@ export function useTour() {
     driverInstance.drive();
   };
 
-  const startCatalogsTour = () => {
-    if (!driverInstance) return;
-
-    const steps: DriveStep[] = [
-      {
-        element: '[data-tour="catalogs-tabs"]',
-        popover: {
-          title: 'Explora por categorías',
-          description: 'Navega entre diferentes temas para encontrar la información que necesitas.',
-          side: 'top',
-        },
-      },
-      {
-        element: '[data-tour="search-catalogs"]',
-        popover: {
-          title: 'Busca información',
-          description: 'Usa la búsqueda para encontrar rápidamente temas específicos.',
-          side: 'bottom',
-        },
-      },
-    ];
-
-    driverInstance.setConfig({ steps });
-    driverInstance.drive();
-  };
 
   const shouldShowTour = () => {
     return !localStorage.getItem('tourCompleted');
@@ -141,7 +108,6 @@ export function useTour() {
 
   return {
     startWelcomeTour,
-    startCatalogsTour,
     shouldShowTour,
   };
 }
