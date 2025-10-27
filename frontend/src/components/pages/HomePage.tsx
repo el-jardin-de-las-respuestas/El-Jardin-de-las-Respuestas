@@ -61,13 +61,6 @@ export function HomePage({ onNavigate }: HomePageProps) {
           {/* Botones */}
           <div className="flex flex-wrap justify-center gap-4">
             <Button
-              onClick={() => onNavigate("registro")}
-              className="rounded-[2rem] px-8 py-3 shadow-[0_8px_30px_var(--color-shadow-soft)] text-white bg-pink-500 hover:bg-pink-600 transition-colors"
-              id="cta-register"
-            >
-              Comenzar mi Viaje
-            </Button>
-            <Button
               variant="outline"
               onClick={startWelcomeTour}
               className="rounded-[2rem] border-2 border-pink-400 px-8 py-3 shadow-[0_4px_20px_var(--color-shadow-soft)] text-pink-500 hover:bg-pink-50 transition-colors"
