@@ -134,7 +134,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
             {/* Forum Module */}
             <Card
               className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-gradient-to-br from-card to-secondary/10 p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
-              onClick={() => onNavigate("comunicacion")}
+              onClick={() => onNavigate("community")}
               id="forum-preview"
             >
               <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-primary/10">
