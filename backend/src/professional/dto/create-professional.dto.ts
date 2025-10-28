@@ -1,8 +1,7 @@
 import { IsString, IsNotEmpty, IsOptional, Length } from 'class-validator';
 
 export class CreateProfessionalDto {
-  @IsNotEmpty({ message: 'El ID de usuario es obligatorio' })
-  userId: number;
+
 
   @IsString()
   @IsNotEmpty({ message: 'La especialidad es obligatoria' })

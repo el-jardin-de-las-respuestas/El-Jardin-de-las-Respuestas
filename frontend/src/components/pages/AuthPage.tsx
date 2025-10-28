@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Card } from "../ui/card";
 import { Flower2, Eye, EyeOff } from "lucide-react";
@@ -9,7 +8,7 @@ import { es } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { fullRegisterSchema, loginSchema } from "../schemas/auth.ts";
+import { registerSchema, loginSchema } from "../schemas/auth.ts";
 import type { TRegisterFormData, TLoginFormData } from "../schemas/auth";
 import { inputClassName } from "../../styles/inputStyle";
 import axios from "axios";
@@ -26,7 +25,7 @@ interface AuthPageProps {
 export function AuthPage({onLogin} : AuthPageProps) {
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
-    const schema = isLogin ? loginSchema : fullRegisterSchema;
+    const schema = isLogin ? loginSchema : registerSchema;
     const {
         register,
         handleSubmit,
@@ -175,7 +174,7 @@ export function AuthPage({onLogin} : AuthPageProps) {
                                         locale="es"
                                         dateFormat="dd/MM/yyyy"
                                         customInput={
-                                            <Input
+                                            <input
                                                 value={
                                                     field.value
                                                         ? (
@@ -257,6 +256,7 @@ export function AuthPage({onLogin} : AuthPageProps) {
                             )}
                         </div>
                     )}
+                    
 
                     {/* Submit Button */}
                     <Button

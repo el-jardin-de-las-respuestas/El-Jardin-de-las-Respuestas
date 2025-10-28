@@ -30,7 +30,7 @@ export class CreateUserDto {
   @MaxLength(100, {
     message: 'Password must not exceed 100 characters.',
   })
-
+  
   @IsNotEmpty()
   password: string;
 
