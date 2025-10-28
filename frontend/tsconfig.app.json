@@ -29,7 +29,8 @@
     "paths": {
       "@data/*": ["data/*"],
       "@components/*": ["components/*"],
-      "@pages/*": ["pages/*"]
+      "@pages/*": ["pages/*"],
+      "@/*": ["*"]
     },
 
     /* 🔹 Para JSON */

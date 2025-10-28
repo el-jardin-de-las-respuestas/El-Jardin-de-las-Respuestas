@@ -54,6 +54,7 @@ export default defineConfig({
       '@data': path.resolve(__dirname, './src/data'),
       '@components': path.resolve(__dirname, './src/components'),
       '@pages': path.resolve(__dirname, './src/pages'),
+      
     },
   },
   build: {

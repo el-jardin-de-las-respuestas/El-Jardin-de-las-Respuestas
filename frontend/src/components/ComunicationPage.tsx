@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { socket } from "@/socket";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -6,10 +7,67 @@ import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { MessageCircle, Send, Shield } from "lucide-react";
-import chatMessages from "@data/chatMessages.json";
+
+interface Message {
+  id: number;
+  content: string;
+  sentAt: string;
+  user: {
+    id: number;
+    username: string;
+  };
+}
 
 export function ComunicationPage() {
   const [chatMessage, setChatMessage] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [chatId, setChatId] = useState<number | null>(null);
+  const userId = 1; // Reemplazar con el ID real del usuario logueado
+  const professionalId = 9; // Reemplazar con el ID real del profesional
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    socket.emit("joinChat", { userId, professionalId });
+
+    socket.on("joinedChat", ({ chatId }) => {
+      setChatId(chatId);
+    });
+
+    socket.on("chatHistory", (history: Message[]) => {
+      setMessages(history);
+    });
+
+    socket.on("message", (msg: Message) => {
+      setMessages((prev) => [...prev, msg]);
+    });
+
+    socket.on("chatError", (err) => {
+      console.error("Error del chat:", err);
+    });
+
+    return () => {
+      socket.off("joinedChat");
+      socket.off("chatHistory");
+      socket.off("message");
+      socket.off("chatError");
+    };
+  }, [userId, professionalId]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleSend = () => {
+    if (!chatId || !chatMessage.trim()) return;
+
+    socket.emit("sendMessage", {
+      chatId,
+      userId,
+      content: chatMessage,
+    });
+
+    setChatMessage("");
+  };
 
   return (
     <div className="min-h-screen bg-background px-6 py-12">
@@ -56,39 +114,36 @@ export function ComunicationPage() {
               </div>
 
               <div className="h-96 space-y-4 overflow-y-auto bg-background p-6">
-                {chatMessages.map((msg) => (
+                {messages.map((msg) => (
                   <div
                     key={msg.id}
-                    className={`flex ${msg.isDoctor ? "justify-start" : "justify-end"}`}
+                    className={`flex ${msg.user.id === professionalId ? "justify-start" : "justify-end"}`}
                   >
-                    <div
-                      className={`max-w-sm space-y-1 ${
-                        msg.isDoctor ? "items-start" : "items-end"
-                      }`}
-                    >
-                      {msg.isDoctor && (
+                    <div className={`max-w-sm space-y-1 ${msg.user.id === professionalId ? "items-start" : "items-end"}`}>
+                      {msg.user.id === professionalId && (
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <Avatar className="size-6 border border-primary">
-                            <AvatarFallback className="bg-primary/20 text-xs">
-                              MG
-                            </AvatarFallback>
+                            <AvatarFallback className="bg-primary/20 text-xs">MG</AvatarFallback>
                           </Avatar>
-                          <span>{msg.sender}</span>
+                          <span>{msg.user.username}</span>
                         </div>
                       )}
                       <div
                         className={`rounded-[1.5rem] px-4 py-3 ${
-                          msg.isDoctor
+                          msg.user.id === professionalId
                             ? "bg-secondary/30 text-foreground"
                             : "bg-primary text-primary-foreground"
                         }`}
                       >
-                        <p>{msg.message}</p>
+                        <p>{msg.content}</p>
                       </div>
-                      <span className="text-xs text-muted-foreground">{msg.timestamp}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {new Date(msg.sentAt).toLocaleTimeString()}
+                      </span>
                     </div>
                   </div>
                 ))}
+                <div ref={scrollRef} />
               </div>
 
               <div className="border-t-2 border-secondary/40 bg-secondary/10 p-4">
@@ -97,16 +152,13 @@ export function ComunicationPage() {
                     placeholder="Escribe tu mensaje..."
                     value={chatMessage}
                     onChange={(e) => setChatMessage(e.target.value)}
-                     className="
-                              rounded-[2rem] border-2 border-secondary/40 
-                              bg-white text-gray-900 
-                              dark:bg-gray-900 dark:text-white dark:border-gray-700
-                              placeholder:text-gray-400 dark:placeholder:text-gray-500
-                              px-6 py-6
-                              focus:border-primary focus:shadow-[0_0_0_3px_var(--color-shadow-soft)]
-                            "
+                    onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                    className="rounded-[2rem] border-2 border-secondary/40 px-6 py-6"
                   />
-                  <Button className="rounded-[2rem] px-6 shadow-[0_4px_20px_var(--color-shadow-soft)]">
+                  <Button
+                    onClick={handleSend}
+                    className="rounded-[2rem] px-6 shadow-[0_4px_20px_var(--color-shadow-soft)]"
+                  >
                     <Send className="size-4" />
                   </Button>
                 </div>
