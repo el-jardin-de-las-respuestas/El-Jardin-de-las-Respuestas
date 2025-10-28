@@ -59,19 +59,6 @@ export function Header({ currentPage, onNavigate, isAuthenticated, onLogout, use
         </nav>
 
         <div className="flex items-center gap-2">
-          {isAuthenticated && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => onNavigate('profile')}
-              className="hidden md:flex text-black dark:text-white"
-              aria-label="Mi perfil"
-              data-tour="profile-button"
-            >
-              <User className="h-5 w-5" />
-            </Button>
-          )}
-          
           <Button
             variant="ghost"
             size="icon"

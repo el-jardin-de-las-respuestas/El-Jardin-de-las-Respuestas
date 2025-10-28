@@ -120,9 +120,6 @@ function AppContent() {
       case 'faq':
         return <FAQPage />;
 
-      case "profile":
-        return <ProfilePage userName={userName} />;
-
       case "communication":
         return <ComunicationPage />;
 
