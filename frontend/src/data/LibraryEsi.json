@@ -5,7 +5,7 @@
     "categoria": "Cuerpo y Desarrollo",
     "duracion": "5 min",
     "descripcion": "Una guía completa sobre los cambios físicos y emocionales durante la pubertad, explicados de manera clara y sin tabúes.",
-    "imagen": "/img/puberty.jpg",
+    "imagen": "/img/pubertad.webp",
     "secciones": [
       {
         "tipo": "intro",
@@ -83,7 +83,7 @@
     "categoria": "Consentimiento",
     "duracion": "7 min",
     "descripcion": "Aprende sobre los límites personales, cómo expresarlos y cómo respetar los de los demás en todas las relaciones.",
-    "imagen": "/img/consent.jpg",
+    "imagen": "/img/consentimiento.webp",
     "secciones": [
       {
         "tipo": "intro",
@@ -125,7 +125,7 @@
     "categoria": "Identidad y Género",
     "duracion": "10 min",
     "descripcion": "Explora la diversidad de identidades y orientaciones, y aprende a comprender y respetar la tuya y la de los demás.",
-    "imagen": "/img/gender.jpg",
+    "imagen": "/img/orientacion.webp",
     "secciones": [
       {
         "tipo": "intro",
@@ -166,7 +166,7 @@
     "categoria": "Relaciones Saludables",
     "duracion": "8 min",
     "descripcion": "Identifica los signos de una relación saludable versus una tóxica. Tu bienestar emocional es fundamental.",
-    "imagen": "/img/relaciones.jpg",
+    "imagen": "/img/relaciones.webp",
     "secciones": [
       {
         "tipo": "intro",
@@ -211,7 +211,7 @@
     "categoria": "Salud Sexual",
     "duracion": "12 min",
     "descripcion": "Información detallada sobre los diferentes métodos anticonceptivos, su eficacia y cómo acceder a ellos.",
-    "imagen": "/img/anticonceptivos.jpg",
+    "imagen": "/img/anticonceptivos.webp",
     "secciones": [
       {
         "tipo": "intro",
@@ -255,7 +255,7 @@
     "categoria": "Derechos Sexuales",
     "duracion": "6 min",
     "descripcion": "Conoce tus derechos legales en materia de salud sexual y reproductiva, y cómo ejercerlos.",
-    "imagen": "/img/derechos.jpg",
+    "imagen": "/img/derechos.webp",
     "secciones": [
       {
         "tipo": "intro",
