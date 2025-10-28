@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // Importa useEffect
 import { ThemeProvider } from './components/shared/ThemeProvider';
 import { AuthProvider } from './context/AuthContext';
 import { useAuth } from './hooks/useAuth';
@@ -15,20 +15,35 @@ import { AuthPage } from './components/pages/AuthPage';
 import { ResourcesPage } from './components/pages/ResourcesPage';
 import { AboutPage } from './components/pages/AboutPage';
 import { CommunityPage } from './components/pages/CommunityPage';
+// 🆕 Nuevas páginas
 import { ProfessionalRegistrationPage } from './components/pages/ProfessionalRegistrationPage';
+import { ProfessionalLoginPage } from './components/pages/ProfessionalLoginPage';
+
 
 import { BlogPage } from './components/pages/BlogPage';
 import { ComunicationPage } from './components/ComunicationPage';
 import { FAQPage } from './components/pages/FAQPage';
 import { ProfilePage } from './components/ProfilePage';
+import ProfessionalLayout from './components/ProfessionalLayout';
+
 // 🆕 Nuevas páginas
-import LibraryEsi from "./components/LibraryEsi"; 
+import LibraryEsi from "./components/LibraryEsi";
 import ArticleDetail from "./components/ArticleDetail";
 
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
-  const [selectedArticleId, setSelectedArticleId] = useState<number | null>(null); // 👈 Nuevo estado
+  const [selectedArticleId, setSelectedArticleId] = useState<number | null>(null);
+  const [isProfessional, setIsProfessional] = useState(false);
+  
+  useEffect(() => {
+    const userType = localStorage.getItem('userType');
+    if (userType === 'professional') {
+      setIsProfessional(true);
+      setCurrentPage('professional-dashboard');
+    }
+  }, []);
+  
   const { isAuthenticated, userName, login, register, logout } = useAuth();
 
   const handleLogin = (email: string, password: string) => {
@@ -41,12 +56,20 @@ function AppContent() {
     setCurrentPage('home');
   };
 
+  const handleProfessionalLogin = () => {
+    setIsProfessional(true);
+    localStorage.setItem('userType', 'professional');
+
+    setCurrentPage('professional-dashboard'); 
+  };
+
   const handleLogout = () => {
     logout();
+    setIsProfessional(false);
+    localStorage.removeItem('userType');
     setCurrentPage('home');
   };
 
-  // 👇 Modificamos para aceptar un id opcional
   const handleNavigate = (page: string, id?: number) => {
     const protectedPages = [
       'resources', 'community', 'blog', 'profile', 'cycle-tracker', 'communication'
@@ -58,49 +81,58 @@ function AppContent() {
       return;
     }
 
-    // 👇 Guardamos el id si lo hay
     if (id) setSelectedArticleId(id);
 
     setCurrentPage(page as Page);
   };
 
-
   const renderPage = () => {
     switch (currentPage) {
       case "home":
         return <HomePage onNavigate={handleNavigate} isAuthenticated={isAuthenticated} />;
-  
+
       case "auth":
         return <AuthPage onLogin={handleLogin} onRegister={handleRegister} />;
+
       case 'professional-registration':
-        return <ProfessionalRegistrationPage />;
-        case 'resources': 
+        return <ProfessionalRegistrationPage onNavigate={handleNavigate} />;
+      
+      case 'professional-login':
+        return <ProfessionalLoginPage
+          onNavigate={handleNavigate}
+          onProfessionalLogin={handleProfessionalLogin}
+        />;
+
+      case 'professional-dashboard':
+        return <ProfessionalLayout onLogout={handleLogout} />;
+
+      case 'resources':
         return <ResourcesPage />;
-  
+
       case "about":
         return <AboutPage />;
-  
+
       case "community":
         return <CommunityPage />;
-  
+
       case "blog":
         return <BlogPage />;
+
       case 'faq':
         return <FAQPage />;
-  
+
       case "profile":
         return <ProfilePage userName={userName} />;
-  
+
       case "communication":
         return <ComunicationPage />;
-  
-      // 🆕 nuevas rutas
+
       case "library":
-        return <LibraryEsi onNavigate={handleNavigate} />; // ✅ pasa la función onNavigate
-  
+        return <LibraryEsi onNavigate={handleNavigate} />;
+
       case "article":
-        return <ArticleDetail id={selectedArticleId} onNavigate={handleNavigate} />; // ✅ pasa el id y onNavigate
-  
+        return <ArticleDetail id={selectedArticleId} onNavigate={handleNavigate} />;
+
       default:
         return <HomePage onNavigate={handleNavigate} isAuthenticated={isAuthenticated} />;
     }
@@ -108,13 +140,17 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 text-black dark:text-white transition-colors">
-      <Header
-        currentPage={currentPage}
-        onNavigate={handleNavigate}
-        isAuthenticated={isAuthenticated}
-        onLogout={handleLogout}
-        userName={userName}
-      />
+      
+      {!isProfessional && (
+        <Header
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          isAuthenticated={isAuthenticated}
+          onLogout={handleLogout}
+          userName={userName}
+        />
+      )}
+
       <TourGuide currentPage={currentPage} />
       <main>{renderPage()}</main>
       <HelpButton />

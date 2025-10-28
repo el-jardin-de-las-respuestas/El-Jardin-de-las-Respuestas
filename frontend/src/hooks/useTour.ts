@@ -72,7 +72,7 @@ export function useTour() {
       {
         element: '[data-tour="nav-blog"]',
         popover: {
-          title: '📝 Bibloteca',
+          title: '📝 Biblioteca',
           description: 'Artículos escritos por profesionales de la salud sobre temas actuales y relevantes.',
           side: 'bottom',
         },

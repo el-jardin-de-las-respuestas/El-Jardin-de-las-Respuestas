@@ -7,7 +7,7 @@ import { Textarea } from '../ui/textarea';
 import { toast } from 'sonner';
 
 interface ProfessionalRegistrationPageProps {
-  onNavigate?: (page: string) => void;
+  onNavigate?: (page: string, id?: number) => void;
 }
 
 export function ProfessionalRegistrationPage({ onNavigate }: ProfessionalRegistrationPageProps) {
@@ -226,7 +226,16 @@ export function ProfessionalRegistrationPage({ onNavigate }: ProfessionalRegistr
             <p className="text-sm text-muted-foreground">
               ¿Ya tienes cuenta?{' '}
               <button
-                onClick={() => onNavigate && onNavigate('professional-login')}  // ✅ CORRECTO
+                onClick={() => {
+                  console.log('Click detectado!');
+                  console.log('onNavigate existe?:', onNavigate);
+                  if (onNavigate) {
+                    console.log('Navegando a professional-login');
+                    onNavigate('professional-login');
+                  } else {
+                    console.log('ERROR: onNavigate es undefined');
+                  }
+                }}
                 className="text-pink-600 hover:text-pink-700 dark:text-pink-400 dark:hover:text-pink-300 font-medium hover:underline"
                 disabled={isSubmitting}
               >

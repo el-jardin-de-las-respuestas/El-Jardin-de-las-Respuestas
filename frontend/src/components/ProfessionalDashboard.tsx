@@ -15,7 +15,7 @@ interface ProfessionalDashboardProps {
   onNavigate: (section: string) => void;
 }
 
-export function ProfessionalDashboard({ onNavigate }: ProfessionalDashboardProps) {
+export default function ProfessionalDashboard({ onNavigate }: ProfessionalDashboardProps) {
   const stats = [
     {
       icon: <BookOpen className="size-6" />,

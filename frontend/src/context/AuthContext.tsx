@@ -1,32 +1,43 @@
-/* eslint-disable react-refresh/only-export-components */
-
-import { createContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
 
 type AuthContextType = {
-  isAuthenticated: boolean;
-  login: () => void;
-  logout: () => void;
+    isAuthenticated: boolean;
+    token: string | null;
+    login: (token: string) => void;
+    logout: () => void;
+    loading: boolean;
 };
 
-// ✅ Este es el contexto real que usará useAuth()
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-// ✅ Este es el proveedor que envolverá tu aplicación
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [token, setToken] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = () => setIsAuthenticated(true);
-  const logout = () => setIsAuthenticated(false);
+    const login = (jwt: string) => {
+        setToken(jwt);
+        setIsAuthenticated(true);
+        localStorage.setItem("token", jwt);
+    };
+    const logout = () => {
+        setToken(null);
+        setIsAuthenticated(false);
+        localStorage.removeItem("token");
+    };
+    useEffect(() => {
+        const savedToken = localStorage.getItem("token");
+        if (savedToken) {
+            setToken(savedToken);
+            setIsAuthenticated(true);
+        }
+        setLoading(false); 
+    }, []);
 
-  // Simular sesión persistente (opcional)
-  useEffect(() => {
-    const saved = localStorage.getItem('auth');
-    if (saved === 'true') setIsAuthenticated(true);
-  }, []);
-
-  return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+    return (
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, token, loading}}>
+            {children}
+        </AuthContext.Provider>
+    );
 }

@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === null) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("AuthContext no está disponible");
   }
   return context;
 }

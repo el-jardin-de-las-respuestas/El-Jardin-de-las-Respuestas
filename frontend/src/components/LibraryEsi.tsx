@@ -21,7 +21,7 @@ const LibraryEsi: React.FC<LibraryEsiProps> = ({ onNavigate }) => {
   return (
     <section className="p-8 bg-pink-50 min-h-screen">
       <h1 className="text-3xl font-bold text-center mb-8 text-pink-700">
-        Bibloteca ESI 
+        Biblioteca ESI 
       </h1>
       <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10">
         Contenido educativo validado por profesionales de la salud. Aprende a tu

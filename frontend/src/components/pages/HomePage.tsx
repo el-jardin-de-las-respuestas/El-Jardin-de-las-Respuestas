@@ -48,7 +48,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
           </div>
 
           {/* Título */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-pink-700">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-pink-300">
             Te damos la bienvenida a El Jardín de las Respuestas
           </h1>
 
