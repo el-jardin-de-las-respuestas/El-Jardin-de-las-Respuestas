@@ -20,7 +20,6 @@ import { ProfessionalRegistrationPage } from './components/pages/ProfessionalReg
 import { ProfessionalLoginPage } from './components/pages/ProfessionalLoginPage';
 
 
-import { BlogPage } from './components/pages/BlogPage';
 import { ComunicationPage } from './components/ComunicationPage';
 import { FAQPage } from './components/pages/FAQPage';
 import { ProfilePage } from './components/ProfilePage';
@@ -116,7 +115,7 @@ function AppContent() {
         return <CommunityPage />;
 
       case "blog":
-        return <BlogPage />;
+         return <LibraryEsi onNavigate={handleNavigate} />;
 
       case 'faq':
         return <FAQPage />;
