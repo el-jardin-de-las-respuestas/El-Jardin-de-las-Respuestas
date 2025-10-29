@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { socket } from "@/socket";
+import { socket } from "../socket";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -22,14 +22,22 @@ export function ComunicationPage() {
   const [chatMessage, setChatMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [chatId, setChatId] = useState<number | null>(null);
-  const userId = 1; // Reemplazar con el ID real del usuario logueado
-  const professionalId = 9; // Reemplazar con el ID real del profesional
+  const userId = 1;
+  const professionalId = 9;
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    socket.on("connect", () => {
+      console.log("✅ Conectado al servidor Socket.IO:", socket.id);
+    });
+
+    socket.on("connect_error", (err) => {
+      console.error("❌ Error al conectar con Socket.IO:", err.message);
+    });
+
     socket.emit("joinChat", { userId, professionalId });
 
-    socket.on("joinedChat", ({ chatId }) => {
+    socket.on("joinedChat", ({ chatId }: { chatId: number }) => {
       setChatId(chatId);
     });
 
@@ -41,11 +49,13 @@ export function ComunicationPage() {
       setMessages((prev) => [...prev, msg]);
     });
 
-    socket.on("chatError", (err) => {
+    socket.on("chatError", (err: string) => {
       console.error("Error del chat:", err);
     });
 
     return () => {
+      socket.off("connect");
+      socket.off("connect_error");
       socket.off("joinedChat");
       socket.off("chatHistory");
       socket.off("message");
@@ -72,7 +82,6 @@ export function ComunicationPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-12">
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
         <div className="mb-12 text-center">
           <h1 className="mb-4">Canales de Comunicación</h1>
           <p className="mx-auto max-w-2xl text-muted-foreground">
@@ -86,7 +95,6 @@ export function ComunicationPage() {
           </div>
         </div>
 
-        {/* Tabs */}
         <Tabs defaultValue="chat" className="w-full">
           <TabsList className="mb-8 grid w-full max-w-md mx-auto grid-cols-1 rounded-[2rem] border-2 border-secondary/40 bg-secondary/20 p-2">
             <TabsTrigger value="chat" className="rounded-[1.5rem]">
@@ -95,7 +103,6 @@ export function ComunicationPage() {
             </TabsTrigger>
           </TabsList>
 
-          {/* Chat */}
           <TabsContent value="chat">
             <Card className="mx-auto max-w-4xl overflow-hidden rounded-[3rem] border-2 border-secondary/40 shadow-[0_16px_50px_var(--color-shadow-soft)]">
               <div className="border-b-2 border-secondary/40 bg-secondary/10 px-6 py-4">

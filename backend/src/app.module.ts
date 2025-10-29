@@ -7,9 +7,10 @@ import { PrismaModule } from './prisma/prisma.module';
 import { PostForoModule } from './post-foro/post-foro.module';
 import { LibraryModule } from './library/library.module';
 import { ProfessionalModule } from './professional/professional.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
-  imports: [AuthModule,PrismaModule, PostForoModule, LibraryModule, ProfessionalModule],
+  imports: [AuthModule,PrismaModule,ChatModule,PostForoModule, LibraryModule, ProfessionalModule],
   controllers: [AppController],
   providers: [AppService],
 })

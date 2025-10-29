@@ -7,16 +7,32 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateProfessionalDto } from './dto/create-professional.dto';
 import { UpdateProfessionalDto } from './dto/update-professional.dto';
 import { Prisma } from '@prisma/client';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class ProfessionalService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private usersService: UsersService,
+  ) {}
 
-  async create(createProfessionalDto: CreateProfessionalDto) {
+  async create(
+    createUserDto: CreateUserDto,
+    createProfessionalDto: CreateProfessionalDto,
+  ) {
     try {
-      return await this.prisma.professional.create({
-        data: createProfessionalDto
-      });
+      const user = await this.usersService.create(createUserDto);
+      if (user) {
+        const professionalData = {
+          data: {
+            userId: user.id,
+            specialty: createProfessionalDto.specialty,
+            registrationNumber: createProfessionalDto.registrationNumber,
+          },
+        };
+        return await this.prisma.professional.create(professionalData);
+      }
     } catch (error) {
       if (error?.code === 'P2002') {
         throw new BadRequestException(

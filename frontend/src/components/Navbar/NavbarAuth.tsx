@@ -5,7 +5,6 @@ const NavbarAuth = () => {
       <ul style={{ display: 'flex', gap: '1rem', listStyle: 'none' }}>
         <li><a href="/" style={{ color: 'white' }}>Inicio</a></li>
         <li><a href="/about" style={{ color: 'white' }}>Acerca de</a></li>
-        <li><a href="/profile" style={{ color: 'white' }}>Mi Perfil</a></li>
         <li><a href="/edit-profile" style={{ color: 'white' }}>Editar Perfil</a></li>
         <li><button style={{ color: 'white', background: 'red' }}>Cerrar Sesión</button></li>
       </ul>
