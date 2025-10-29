@@ -10,12 +10,11 @@ import {
   Heart,
   Award,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-interface ProfessionalDashboardProps {
-  onNavigate: (section: string) => void;
-}
+export default function ProfessionalDashboard() {
+  const navigate = useNavigate();
 
-export default function ProfessionalDashboard({ onNavigate }: ProfessionalDashboardProps) {
   const stats = [
     {
       icon: <BookOpen className="size-6" />,
@@ -48,21 +47,21 @@ export default function ProfessionalDashboard({ onNavigate }: ProfessionalDashbo
       title: "Crear Nuevo Artículo",
       description: "Comparte tu conocimiento con la comunidad",
       icon: <FileEdit className="size-8" />,
-      action: () => onNavigate("biblioteca-pro"),
+      action: () => navigate("/professional/library"),
       color: "from-primary/20 to-secondary/20",
     },
     {
       title: "Responder Consultas",
       description: "Atiende el chat con personas usuarias",
       icon: <MessageSquare className="size-8" />,
-      action: () => onNavigate("chat-pro"),
+      action: () => navigate("/professional/chat"),
       color: "from-secondary/30 to-primary/10",
     },
     {
       title: "Moderar Foro",
       description: "Supervisa las conversaciones comunitarias",
       icon: <Users className="size-8" />,
-      action: () => onNavigate("foro-pro"),
+      action: () => navigate("/professional/forum"),
       color: "from-primary/10 to-secondary/30",
     },
   ];
@@ -208,7 +207,7 @@ export default function ProfessionalDashboard({ onNavigate }: ProfessionalDashbo
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button
-              onClick={() => onNavigate("biblioteca-pro")}
+              onClick={() => navigate("/professional/library")}
               className="gap-2 rounded-[2rem] bg-primary px-8 py-6 shadow-[0_4px_20px_var(--color-shadow-soft)] hover:scale-105"
             >
               <FileEdit className="size-5" />
@@ -216,7 +215,7 @@ export default function ProfessionalDashboard({ onNavigate }: ProfessionalDashbo
             </Button>
             <Button
               variant="outline"
-              onClick={() => onNavigate("chat-pro")}
+              onClick={() => navigate("/professional/chat")}
               className="gap-2 rounded-[2rem] border-2 border-primary/40 px-8 py-6 shadow-[0_4px_20px_var(--color-shadow-soft)] hover:scale-105 hover:bg-secondary/30"
             >
               <MessageSquare className="size-5" />

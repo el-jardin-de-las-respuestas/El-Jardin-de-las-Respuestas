@@ -1,27 +1,24 @@
-import { useEffect } from 'react';
-import { useTour } from '../../hooks/useTour';
-import { useAuth } from '../../hooks/useAuth';
-import 'driver.js/dist/driver.css';
+import { useEffect } from "react";
+import { useTour } from "../../hooks/useTour";
+import { useAuth } from "../../hooks/useAuth";
+import "driver.js/dist/driver.css";
 
 type TourGuideProps = {
   currentPage: string;
 };
 
 export function TourGuide({ currentPage }: TourGuideProps) {
-  const  {isAuthenticated} = useAuth();
+  const { isAuthenticated } = useAuth();
   const { startWelcomeTour, shouldShowTour } = useTour();
 
   useEffect(() => {
-    // Iniciar tour automáticamente cuando el usuario se autentica por primera vez
-    if (isAuthenticated && currentPage === 'home' && shouldShowTour()) {
-      // Esperar un poco para que se renderice la página
+    if (isAuthenticated && currentPage === "home" && shouldShowTour()) {
       const timeout = setTimeout(() => {
         startWelcomeTour();
       }, 500);
-
       return () => clearTimeout(timeout);
     }
   }, [isAuthenticated, currentPage, startWelcomeTour, shouldShowTour]);
 
-  return null; // Este componente no renderiza nada visible
+  return null;
 }
