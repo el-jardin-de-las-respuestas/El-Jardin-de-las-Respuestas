@@ -16,12 +16,10 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
-interface ProfessionalBibliotecaProps {
-  onBack: () => void;
-}
-
-export default function ProfessionalLibrary({ onBack }: ProfessionalBibliotecaProps) {
+export default function ProfessionalLibrary() {
+  const navigate = useNavigate();
   const [view, setView] = useState<"list" | "create" | "edit">("list");
   const [formData, setFormData] = useState({
     title: "",
@@ -363,7 +361,7 @@ export default function ProfessionalLibrary({ onBack }: ProfessionalBibliotecaPr
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
           <Button
-            onClick={onBack}
+            onClick={() => navigate('/professional')}
             variant="ghost"
             className="gap-2 rounded-[2rem] hover:bg-secondary/30"
           >

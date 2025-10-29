@@ -1,20 +1,42 @@
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
-interface ProfessionalNavbarProps {
-  currentPage: string;
-  onNavigate: (page: string) => void;
-  onLogout: () => void;
-}
-
-export function ProfessionalNavbar({ currentPage, onNavigate, onLogout }: ProfessionalNavbarProps) {
+export function ProfessionalNavbar() {
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const auth = useContext(AuthContext);
+
+  // Determinar la página actual basándose en la ruta
+  const getCurrentPage = () => {
+    const path = location.pathname;
+    if (path.includes('/library')) return 'professional-library';
+    if (path.includes('/chat')) return 'professional-chat';
+    return 'professional-dashboard';
+  };
+
+  const currentPage = getCurrentPage();
 
   const navItems = [
-    { id: 'professional-dashboard', label: 'Dashboard', icon: '📊' },
-    { id: 'professional-library', label: 'Biblioteca', icon: '📚' },
-    { id: 'professional-chat', label: 'Chat', icon: '💬' },
+    { id: 'professional-dashboard', label: 'Dashboard', icon: '📊', path: '/professional' },
+    { id: 'professional-library', label: 'Biblioteca', icon: '📚', path: '/professional/library' },
+    { id: 'professional-chat', label: 'Chat', icon: '💬', path: '/professional/chat' },
   ];
+
+  const handleNavigate = (path: string) => {
+    navigate(path);
+  };
+
+  const handleLogout = () => {
+    console.log("Cerrando sesión...");
+    if (auth) {
+      auth.logout();
+    }
+    navigate('/auth');
+  };
 
   return (
     <>
@@ -24,7 +46,7 @@ export function ProfessionalNavbar({ currentPage, onNavigate, onLogout }: Profes
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
             <button
-              onClick={() => onNavigate('professional-dashboard')}
+              onClick={() => handleNavigate('/professional')}
               className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-white hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
             >
               <span className="text-2xl">🌸</span>
@@ -36,7 +58,7 @@ export function ProfessionalNavbar({ currentPage, onNavigate, onLogout }: Profes
               {navItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => onNavigate(item.id)}
+                  onClick={() => handleNavigate(item.path)}
                   className={`flex items-center gap-2 text-sm font-medium transition-all ${
                     currentPage === item.id
                       ? 'text-pink-600 dark:text-pink-400'
@@ -62,7 +84,7 @@ export function ProfessionalNavbar({ currentPage, onNavigate, onLogout }: Profes
 
               {/* Cerrar sesión */}
               <button
-                onClick={onLogout}
+                onClick={handleLogout}
                 className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
               >
                 Cerrar Sesión

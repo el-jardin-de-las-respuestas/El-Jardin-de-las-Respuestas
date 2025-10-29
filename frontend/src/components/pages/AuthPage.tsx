@@ -18,13 +18,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'sonner'; 
 
 registerLocale("es", es);
-interface AuthPageProps {
-    onLogin: () => void;
-}
 
-export function AuthPage({onLogin} : AuthPageProps) {
+export function AuthPage() {
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
+    
     const schema = isLogin ? loginSchema : registerSchema;
     const {
         register,
@@ -46,11 +45,12 @@ export function AuthPage({onLogin} : AuthPageProps) {
                   birthdate: null,
               },
     });
-    const navigate = useNavigate();
+    
     function sanitizeUserData(data: TRegisterFormData) {
         const { confirmPassword, ...rest } = data;
         return rest;
     }
+    
     const auth = useContext(AuthContext);
     if (!auth) throw new Error("AuthContext no está disponible");
 
@@ -62,7 +62,7 @@ export function AuthPage({onLogin} : AuthPageProps) {
                     data
                 );
                 auth.login(res.data.access_token);
-                onLogin();
+                navigate('/');
                 toast.success("✅ Inicio de sesión exitoso");
             } else {
                 await axios.post(
