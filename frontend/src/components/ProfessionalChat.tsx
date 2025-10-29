@@ -14,12 +14,10 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
-interface ProfessionalChatProps {
-  onBack: () => void;
-}
-
-export default function ProfessionalChat({ onBack }: ProfessionalChatProps) {
+export default function ProfessionalChat() {
+  const navigate = useNavigate();
   const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [message, setMessage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -225,7 +223,7 @@ export default function ProfessionalChat({ onBack }: ProfessionalChatProps) {
         {/* Header */}
         <div className="mb-8">
           <Button
-            onClick={onBack}
+            onClick={() => navigate('/professional')}
             variant="ghost"
             className="gap-2 rounded-[2rem] hover:bg-secondary/30"
           >

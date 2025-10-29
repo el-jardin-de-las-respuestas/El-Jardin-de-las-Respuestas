@@ -1,55 +1,74 @@
 // src/routes/AppRouter.tsx
-import { Routes, Route, Navigate } from "react-router-dom";
-import  type { ReactElement } from "react";
+import { Routes, Route, Navigate, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-const PrivateRoute = ({ children }: { children: ReactElement }) => {
-  const { isAuthenticated, loading } = useAuth();
+// 📄 Pages
+import { HomePage } from "../components/pages/HomePage";
+import { AuthPage } from "../components/pages/AuthPage";
+import { ResourcesPage } from "../components/pages/ResourcesPage";
+import { AboutPage } from "../components/pages/AboutPage";
+import { CommunityPage } from "../components/pages/CommunityPage";
+import { FAQPage } from "../components/pages/FAQPage";
+import { ProfessionalRegistrationPage } from "../components/pages/ProfessionalRegistrationPage";
+import { ProfessionalLoginPage } from "../components/pages/ProfessionalLoginPage";
 
-  if (loading) {
-    return <div>Cargando...</div>;
-  }
+import ProfessionalLayout from "../components/ProfessionalLayout";
+import LibraryEsi from "../components/LibraryEsi";
+import ArticleDetail from "../components/ArticleDetail";
+import { ComunicationPage } from "../components/ComunicationPage";
 
-  return isAuthenticated ? children : <Navigate to="/login" />;
-};
+export const AppRouter = () => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
-const PublicRoute = ({ children }: { children: ReactElement }) => {
-  const { isAuthenticated, loading } = useAuth();
+  // 🗺️ Mapa de rutas
+  const routesMap: Record<string, string> = {
+    library: "/library",
+    communication: "/communication",
+    community: "/community",
+    registro: "/professional-registration",
+    home: "/",
+  };
 
-  if (loading) {
-    return <div>Cargando...</div>;
-  }
-  
-  return !isAuthenticated ? children : <Navigate to="/" />;
-};
+  // 🚀 Función de navegación limpia
+  const handleNavigate = (page: string) => {
+    const route = routesMap[page] || "/";
+    navigate(route);
+  };
 
-const AppRouter = () => {
+  // 🎯 Wrapper para ArticleDetail con useParams
+  const ArticleDetailWrapper = () => {
+    const { id } = useParams();
+
+    return (
+      <ArticleDetail 
+        id={id ? parseInt(id, 10) : null} 
+        onNavigate={handleNavigate}
+      />
+    );
+  };
+
   return (
     <Routes>
-      <Route path="/" element={<div>Home Page</div>} />
-      <Route path="/about" element={<div>About Page</div>} />
-      
+      <Route path="/" element={<HomePage onNavigate={handleNavigate} />} />
+      <Route path="/auth" element={<AuthPage />} />
       <Route
-        path="/login"
-        element={
-          <PublicRoute>
-            <div>Login Page</div>
-          </PublicRoute>
-        }
+        path="/resources"
+        element={isAuthenticated ? <ResourcesPage/> : <Navigate to="/auth" />}
       />
-
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/community" element={<CommunityPage />} />
+      <Route path="/faq" element={<FAQPage />} />
+      <Route path="/communication" element={<ComunicationPage />} />
+      <Route path="/library" element={<LibraryEsi />} />
+      <Route path="/article/:id" element={<ArticleDetailWrapper />} />
       <Route
-        path="/profile"
-        element={
-          <PrivateRoute>
-            <div>Profile Page</div>
-          </PrivateRoute>
-        }
+        path="/professional-registration"
+        element={<ProfessionalRegistrationPage />}
       />
-
-      <Route path="*" element={<div>404 - Página no encontrada</div>} />
+      <Route path="/professional-login" element={<ProfessionalLoginPage />} />
+      <Route path="/professional-dashboard" element={<ProfessionalLayout />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };
-
-export default AppRouter;
