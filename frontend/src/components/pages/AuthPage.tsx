@@ -8,7 +8,7 @@ import { es } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema, loginSchema } from "../schemas/auth.ts";
+import { registerSchema, loginSchema } from "../schemas/auth";
 import type { TRegisterFormData, TLoginFormData } from "../schemas/auth";
 import { inputClassName } from "../../styles/inputStyle";
 import axios from "axios";
@@ -20,9 +20,10 @@ import { toast } from 'sonner';
 registerLocale("es", es);
 interface AuthPageProps {
     onLogin: () => void;
+    onNavigate: (page: string) => void; 
 }
 
-export function AuthPage({onLogin} : AuthPageProps) {
+export function AuthPage({onLogin, onNavigate} : AuthPageProps) {
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const schema = isLogin ? loginSchema : registerSchema;
@@ -266,33 +267,48 @@ export function AuthPage({onLogin} : AuthPageProps) {
                     >
                         {isLogin ? "Ingresar" : "Crear Cuenta"}
                     </Button>
-
-                    {/* Toggle Auth Mode */}
-                    <div className="text-center">
-                        <button
-                            type="button"
+                                    
+                    {/* Enlaces adicionales */}
+                    <div className="text-center mt-4 space-y-2">
+                    {isLogin ? (
+                        <>
+                        <p>
+                            ¿No tienes cuenta?{" "}
+                            <span
+                            className="text-primary cursor-pointer hover:text-pink-700"
                             onClick={() => {
-                                setIsLogin(!isLogin);
+                                setIsLogin(false);
                                 reset();
                             }}
-                            className="text-muted-foreground hover:text-primary"
+                            >
+                            Regístrate aquí
+                            </span>
+                        </p>
+
+                        <p>
+                        ¿Eres profesional?{" "}
+                        <span
+                            className="text-primary cursor-pointer hover:text-pink-700"
+                            onClick={() => onNavigate("professional-login")}
                         >
-                            {isLogin ? (
-                                <>
-                                    ¿No tienes cuenta?{" "}
-                                    <span className="text-primary">
-                                        Regístrate aquí
-                                    </span>
-                                </>
-                            ) : (
-                                <>
-                                    ¿Ya tienes cuenta?{" "}
-                                    <span className="text-primary">
-                                        Ingresa aquí
-                                    </span>
-                                </>
-                            )}
-                        </button>
+                            Inicia Sesión Aquí
+                        </span>
+                        </p>
+                        </>
+                    ) : (
+                        <p>
+                        ¿Ya tienes cuenta?{" "}
+                        <span
+                            className="text-primary cursor-pointer hover:text-pink-700"
+                            onClick={() => {
+                            setIsLogin(true);
+                            reset();
+                            }}
+                        >
+                            Ingresa aquí
+                        </span>
+                        </p>
+                    )}
                     </div>
                 </form>
 

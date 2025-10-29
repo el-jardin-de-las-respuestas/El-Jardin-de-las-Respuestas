@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// --- Schema base compartido ---
 const baseRegisterSchema = z.object({
   email: z
     .email({ message: "Formato de email inválido." })

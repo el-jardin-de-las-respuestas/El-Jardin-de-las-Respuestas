@@ -9,23 +9,16 @@ import { Toaster } from './components/ui/sonner';
 import { toast } from 'sonner';
 import type { Page } from './types';
 import './styles/driver-custom.css';
-// 📄 Pages
 import { HomePage } from './components/pages/HomePage';
 import { AuthPage } from './components/pages/AuthPage';
 import { ResourcesPage } from './components/pages/ResourcesPage';
 import { AboutPage } from './components/pages/AboutPage';
 import { CommunityPage } from './components/pages/CommunityPage';
-// 🆕 Nuevas páginas
 import { ProfessionalRegistrationPage } from './components/pages/ProfessionalRegistrationPage';
 import { ProfessionalLoginPage } from './components/pages/ProfessionalLoginPage';
-
-
 import { ComunicationPage } from './components/ComunicationPage';
 import { FAQPage } from './components/pages/FAQPage';
-import { ProfilePage } from './components/ProfilePage';
 import ProfessionalLayout from './components/ProfessionalLayout';
-
-// 🆕 Nuevas páginas
 import LibraryEsi from "./components/LibraryEsi";
 import ArticleDetail from "./components/ArticleDetail";
 
@@ -91,7 +84,7 @@ function AppContent() {
         return <HomePage onNavigate={handleNavigate} isAuthenticated={isAuthenticated} />;
 
       case "auth":
-        return <AuthPage onLogin={handleLogin} onRegister={handleRegister} />;
+        return <AuthPage onLogin={handleLogin} onRegister={handleRegister} onNavigate={handleNavigate} />;
 
       case 'professional-registration':
         return <ProfessionalRegistrationPage onNavigate={handleNavigate} />;
