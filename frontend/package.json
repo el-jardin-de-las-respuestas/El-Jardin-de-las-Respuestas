@@ -1,5 +1,6 @@
 {
-    "name": "El-Jardín-de-las-Respuestas - Frontend",
+    "type": "module",
+    "name": "el-jardin-de-las-respuestas",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -51,6 +52,7 @@
         "react-resizable-panels": "^2.1.7",
         "react-router-dom": "^7.9.4",
         "recharts": "^2.15.2",
+        "socket.io-client": "^4.8.1",
         "sonner": "^2.0.3",
         "tailwind-merge": "*",
         "vaul": "^1.1.2",
@@ -58,7 +60,7 @@
     },
     "devDependencies": {
         "@nestjs/testing": "^11.1.6",
-        "@types/node": "^20.10.0",
+        "@types/node": "^20.19.24",
         "@types/react": "^19.2.2",
         "@types/react-dom": "^19.2.1",
         "@vitejs/plugin-react-swc": "^3.10.2",

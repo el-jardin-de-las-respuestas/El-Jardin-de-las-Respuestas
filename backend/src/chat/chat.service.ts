@@ -1,34 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateMessageDto } from 'src/chat/dto/create-message.dto';
+import { CreateMessageDto } from './dto/create-message.dto';
 
 @Injectable()
 export class ChatService {
   constructor(private prisma: PrismaService) {}
 
-  // ✅ Valida que el usuario sea USER y el profesional sea PROFESSIONAL
-async validateParticipants(userId: number, professionalId: number) {
-  const user = await this.prisma.user.findUnique({
-    where: { id: userId },
-    include: { professional: true },
-  });
+  //Verifica que los participantes existan y tengan los roles correctos
+  async validateParticipants(userId: number, professionalId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: { role: true },
+    });
 
-  const professional = await this.prisma.user.findUnique({
-    where: { id: professionalId },
-    include: { professional: true },
-  });
+    const professional = await this.prisma.user.findUnique({
+      where: { id: professionalId },
+      include: { role: true, professional: true },
+    });
 
-  if (
-    !user || user.roleId !== 3 ||
-    !professional || professional.roleId !== 6 ||
-    !professional.professional
-  ) {
-    return null;
+    if (
+      !user ||
+      !professional ||
+      !professional.professional ||
+      user.role.name !== 'USER' ||
+      professional.role.name !== 'PROFESSIONAL'
+    ) {
+      return null;
+    }
+
+    return { user, professional };
   }
 
-  return { user, professional };
-}
-
+  //Crea o recupera un chat entre un usuario y un profesional
   async getOrCreateChat(userId: number, professionalId: number) {
     let chat = await this.prisma.chat.findFirst({
       where: {
@@ -54,14 +57,16 @@ async validateParticipants(userId: number, professionalId: number) {
     return chat;
   }
 
+  //Trae el historial de mensajes de un chat
   async getChatHistory(chatId: number) {
     return this.prisma.message.findMany({
       where: { chatId },
       orderBy: { sentAt: 'asc' },
-      include: { user: true },
+      include: { user: { select: { username: true } } },
     });
   }
 
+  //Valida que un usuario pertenezca al chat
   async validateChatAccess(chatId: number, userId: number) {
     return this.prisma.chatUser.findUnique({
       where: {
@@ -73,6 +78,7 @@ async validateParticipants(userId: number, professionalId: number) {
     });
   }
 
+  //Crea un mensaje y lo guarda en DB
   async createMessage(dto: CreateMessageDto) {
     return this.prisma.message.create({
       data: {
@@ -80,7 +86,7 @@ async validateParticipants(userId: number, professionalId: number) {
         userId: dto.userId,
         chatId: dto.chatId,
       },
-      include: { user: true },
+      include: { user: { select: { username: true } } },
     });
   }
 }
