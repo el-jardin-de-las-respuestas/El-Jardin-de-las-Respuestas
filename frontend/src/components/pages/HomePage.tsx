@@ -6,8 +6,9 @@ import { useTourPublic } from '../../hooks/useTourPublic';
 import { useTourAuth } from '../../hooks/useTourAuth';
 import { useAuth } from '../../hooks/useAuth';
 import { VolunteerSection } from "./VolunteerSection";
+import { useNavigate } from "react-router-dom";
 
-export function HomePage({ onNavigate }: HomePageProps) {
+export function HomePage() {
   const { isAuthenticated } = useAuth();
 
   // hooks del tour
@@ -22,7 +23,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       startPublicTour();
     }
   };
-
+  const navigate = useNavigate();
 
 
   const categories = [
