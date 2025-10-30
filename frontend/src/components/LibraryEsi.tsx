@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Clock } from "lucide-react";
-import articlesData from "../data/LibraryEsi.json";
+import articlesData from "@data/LibraryEsi.json";
 
 interface Article {
   id: number;
