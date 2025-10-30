@@ -1,20 +1,17 @@
 import { useState } from "react";
-import { loginSchema, type TLoginFormData } from "../../components/schemas/auth";
+import {
+    loginSchema,
+    type TLoginFormData,
+} from "../../components/schemas/auth";
 import axios from "axios";
 import { toast } from "sonner";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-interface ProfessionalLoginPageProps {
-    onNavigate?: (page: string, id?: number) => void;
-    onProfessionalLogin?: () => void;
-}
-
-export function ProfessionalLoginPage({
-    onNavigate,
-}: ProfessionalLoginPageProps) {
+export function ProfessionalLoginPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [message, setMessage] = useState<{
         type: "success" | "error";
@@ -33,6 +30,8 @@ export function ProfessionalLoginPage({
         defaultValues: { email: "", password: "" },
     });
     const auth = useContext(AuthContext);
+    const navigate = useNavigate();
+
     if (!auth) throw new Error("AuthContext no está disponible");
     const onSubmit = async (data: TLoginFormData) => {
         try {
@@ -41,11 +40,7 @@ export function ProfessionalLoginPage({
                 data
             );
             auth.login(res.data.access_token);
-            setTimeout(() => {
-                if (onNavigate) {
-                    onNavigate("professional-dashboard");
-                }
-            }, 500);
+            navigate("/professional-dashboard");
             toast.success("✅ Inicio de sesión exitoso");
         } catch (err: any) {
             const backendErrors = err.response?.data?.errors;
@@ -184,8 +179,7 @@ export function ProfessionalLoginPage({
                             ¿Primera vez aquí?{" "}
                             <button
                                 onClick={() =>
-                                    onNavigate &&
-                                    onNavigate("professional-registration")
+                                    navigate("/professional-registration")
                                 }
                                 className="text-pink-600 hover:text-pink-700 dark:text-pink-400 dark:hover:text-pink-300 font-medium hover:underline"
                                 disabled={isSubmitting}
@@ -197,7 +191,7 @@ export function ProfessionalLoginPage({
                         <p className="text-sm text-gray-600 dark:text-gray-400">
                             ¿Eres estudiante?{" "}
                             <button
-                                onClick={() => onNavigate && onNavigate("auth")}
+                                onClick={() => navigate("/auth")}
                                 className="text-pink-600 hover:text-pink-500 dark:text-pink-400 dark:hover:text-pink-300 font-medium hover:underline"
                                 disabled={isSubmitting}
                             >
@@ -223,16 +217,14 @@ export function ProfessionalLoginPage({
                     </div>
 
                     {/* Botón para volver */}
-                    {onNavigate && (
-                        <button
-                            type="button"
-                            onClick={() => onNavigate("home")}
-                            disabled={isSubmitting}
-                            className="w-full mt-4 py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            Volver al inicio
-                        </button>
-                    )}
+                    <button
+                        type="button"
+                        onClick={() => navigate("/")}
+                        disabled={isSubmitting}
+                        className="w-full mt-4 py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Volver al inicio
+                    </button>
                 </div>
             </div>
         </div>

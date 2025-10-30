@@ -16,12 +16,15 @@ import ProfessionalLayout from "../components/ProfessionalLayout";
 import LibraryEsi from "../components/LibraryEsi";
 import ArticleDetail from "../components/ArticleDetail";
 import { ComunicationPage } from "../components/ComunicationPage";
+import ProfessionalChat from "@components/ProfessionalChat";
+import ProfessionalLibrary from "@components/ProfessionalLibrary";
+
 
 export const AppRouter = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // 🗺️ Mapa de rutas
+
   const routesMap: Record<string, string> = {
     library: "/library",
     communication: "/communication",
@@ -30,13 +33,13 @@ export const AppRouter = () => {
     home: "/",
   };
 
-  // 🚀 Función de navegación limpia
+
   const handleNavigate = (page: string) => {
     const route = routesMap[page] || "/";
     navigate(route);
   };
 
-  // 🎯 Wrapper para ArticleDetail con useParams
+
   const ArticleDetailWrapper = () => {
     const { id } = useParams();
 
@@ -50,7 +53,7 @@ export const AppRouter = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<HomePage onNavigate={handleNavigate} />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route
         path="/resources"
@@ -68,7 +71,8 @@ export const AppRouter = () => {
       />
       <Route path="/professional-login" element={<ProfessionalLoginPage />} />
       <Route path="/professional-dashboard" element={<ProfessionalLayout />} />
-      <Route path="*" element={<Navigate to="/" />} />
+      <Route path="/professional/chat" element = {<ProfessionalChat/>} />
+      <Route path="/professional/library" element = {<ProfessionalLibrary/>} />
     </Routes>
   );
 };

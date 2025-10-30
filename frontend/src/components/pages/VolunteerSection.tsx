@@ -1,11 +1,11 @@
 // import React from "react";
 import { Heart, FileText, MessageSquare, ShieldCheck } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-interface VolunteerSectionProps {
-  onNavigate: (path: string) => void;
-}
 
-export function VolunteerSection({ onNavigate }: VolunteerSectionProps) {
+export function VolunteerSection() {
+  const navigate = useNavigate();
+
   return (
     <section className="flex justify-center items-center py-12 px-4">
       <div className="bg-gradient-to-b from-pink-50 to-white dark:from-pink-950/20 dark:to-gray-900 rounded-2xl shadow-md p-6 border border-pink-200 dark:border-pink-800 max-w-2xl w-full">
@@ -25,7 +25,7 @@ export function VolunteerSection({ onNavigate }: VolunteerSectionProps) {
           {/* Botón principal */}
           <div className="flex justify-center">
             <button
-              onClick={() => onNavigate("professional-registration")}
+              onClick={() => navigate("/professional-registration")}
               className="bg-pink-600 text-white py-2 px-6 rounded-full hover:bg-pink-700 transition-all font-medium shadow-sm"
             >
               ¡Quiero ser Voluntario!
