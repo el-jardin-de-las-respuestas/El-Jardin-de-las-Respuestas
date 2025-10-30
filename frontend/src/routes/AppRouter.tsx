@@ -1,8 +1,7 @@
-// src/routes/AppRouter.tsx
 import { Routes, Route, Navigate, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-// 📄 Pages
+// Pages
 import { HomePage } from "../components/pages/HomePage";
 import { AuthPage } from "../components/pages/AuthPage";
 import { ResourcesPage } from "../components/pages/ResourcesPage";
@@ -21,7 +20,7 @@ export const AppRouter = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // 🗺️ Mapa de rutas
+  // Función para navegar
   const routesMap: Record<string, string> = {
     library: "/library",
     communication: "/communication",
@@ -30,22 +29,17 @@ export const AppRouter = () => {
     home: "/",
   };
 
-  // 🚀 Función de navegación limpia
   const handleNavigate = (page: string) => {
     const route = routesMap[page] || "/";
     navigate(route);
   };
 
-  // 🎯 Wrapper para ArticleDetail con useParams
+  // Wrapper para ArticleDetail
   const ArticleDetailWrapper = () => {
-    const { id } = useParams();
+    const { id } = useParams<{ id: string }>(); // id es string | undefined
+    const articleId = id ? parseInt(id, 10) : null; // convertimos a number | null
 
-    return (
-      <ArticleDetail 
-        id={id ? parseInt(id, 10) : null} 
-        onNavigate={handleNavigate}
-      />
-    );
+    return <ArticleDetail id={articleId} onNavigate={handleNavigate} />;
   };
 
   return (
@@ -54,20 +48,25 @@ export const AppRouter = () => {
       <Route path="/auth" element={<AuthPage />} />
       <Route
         path="/resources"
-        element={isAuthenticated ? <ResourcesPage/> : <Navigate to="/auth" />}
+        element={isAuthenticated ? <ResourcesPage /> : <Navigate to="/auth" />}
       />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/community" element={<CommunityPage />} />
       <Route path="/faq" element={<FAQPage />} />
       <Route path="/communication" element={<ComunicationPage />} />
+
+      {/* Biblioteca */}
       <Route path="/library" element={<LibraryEsi />} />
+
+      {/* Detalle artículo */}
       <Route path="/article/:id" element={<ArticleDetailWrapper />} />
-      <Route
-        path="/professional-registration"
-        element={<ProfessionalRegistrationPage />}
-      />
+
+      {/* Profesional */}
+      <Route path="/professional-registration" element={<ProfessionalRegistrationPage />} />
       <Route path="/professional-login" element={<ProfessionalLoginPage />} />
       <Route path="/professional-dashboard" element={<ProfessionalLayout />} />
+
+      {/* Catch-all */}
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

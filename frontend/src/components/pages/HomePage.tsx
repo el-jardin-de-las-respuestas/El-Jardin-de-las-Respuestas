@@ -2,23 +2,30 @@ import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { MessageCircle, BookOpen, Users, Flower2 } from "lucide-react";
 import { ImageWithFallback } from "../design/ImageWithFallback";
-import { useTour } from '../../hooks/useTour';
-import { useEffect } from 'react';
-
+import { useTourPublic } from '../../hooks/useTourPublic';
+import { useTourAuth } from '../../hooks/useTourAuth';
+import { useAuth } from '../../hooks/useAuth';
 import { VolunteerSection } from "./VolunteerSection";
 interface HomePageProps {
   onNavigate: (page: string) => void;
 }
 
 export function HomePage({ onNavigate }: HomePageProps) {
-  const { startWelcomeTour, shouldShowTour } = useTour();
+  const { isAuthenticated } = useAuth();
 
+  // hooks del tour
+  const { startWelcomeTour: startPublicTour } = useTourPublic();
+  const { startWelcomeTour: startAuthTour } = useTourAuth();
 
-  useEffect(() => {
-    if (shouldShowTour()) {
-      startWelcomeTour();
+  // Activar tour solo al clic
+  const handleTourClick = () => {
+    if (isAuthenticated) {
+      startAuthTour();
+    } else {
+      startPublicTour();
     }
-  }, []);
+  };
+
 
 
   const categories = [
@@ -60,13 +67,14 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
           {/* Botones */}
           <div className="flex flex-wrap justify-center gap-4">
-            <Button
-              variant="outline"
-              onClick={startWelcomeTour}
-              className="rounded-[2rem] border-2 border-pink-400 px-8 py-3 shadow-[0_4px_20px_var(--color-shadow-soft)] text-pink-500 hover:bg-pink-50 transition-colors"
-            >
-              Explorar el Jardín
-            </Button>
+          <Button
+          variant="outline"
+          onClick={handleTourClick}
+          className="rounded-[2rem] border-2 border-pink-400 px-8 py-3 shadow text-pink-500 hover:bg-pink-50 transition-colors"
+        >
+          Explorar el Jardín
+        </Button>
+
           </div>
      </div>
  </section>

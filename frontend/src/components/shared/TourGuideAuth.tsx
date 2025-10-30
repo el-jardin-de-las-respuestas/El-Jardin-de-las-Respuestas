@@ -1,17 +1,18 @@
 import { useEffect } from "react";
-import { useTour } from "../../hooks/useTour";
+import { useTourAuth } from "../../hooks/useTourAuth";
 import { useAuth } from "../../hooks/useAuth";
 import "driver.js/dist/driver.css";
 
-type TourGuideProps = {
+type TourGuideAuthProps = {
   currentPage: string;
 };
 
-export function TourGuide({ currentPage }: TourGuideProps) {
+export function TourGuideAuth({ currentPage }: TourGuideAuthProps) {
   const { isAuthenticated } = useAuth();
-  const { startWelcomeTour, shouldShowTour } = useTour();
+  const { startWelcomeTour, shouldShowTour } = useTourAuth();
 
   useEffect(() => {
+    // Solo mostrar tour si el usuario está logueado
     if (isAuthenticated && currentPage === "home" && shouldShowTour()) {
       const timeout = setTimeout(() => {
         startWelcomeTour();

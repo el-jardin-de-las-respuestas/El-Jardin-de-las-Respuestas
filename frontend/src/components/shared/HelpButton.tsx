@@ -1,14 +1,14 @@
 import { HelpCircle } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
-import { useTour } from '../../hooks/useTour';
 import { useAuth } from '../../hooks/useAuth';
+import { useTourPublic } from '../../hooks/useTourPublic';
+import { useTourAuth } from '../../hooks/useTourAuth';
 
 export function HelpButton() {
-  const { startWelcomeTour } = useTour();
   const { isAuthenticated } = useAuth();
 
-  // Solo mostrar cuando el usuario está autenticado
-  if (!isAuthenticated) return null;
+  // Selecciona el hook según el estado de autenticación
+  const { startWelcomeTour } = isAuthenticated ? useTourAuth() : useTourPublic();
 
   return (
     <TooltipProvider>
