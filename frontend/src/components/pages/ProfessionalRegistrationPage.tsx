@@ -12,14 +12,11 @@ import { useForm, Controller } from "react-hook-form";
 import { professionalRegisterSchema } from "../schemas/auth.ts";
 import type { TProfessionalRegisterFormData } from "../schemas/auth.ts";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { on } from "events";
 
-interface ProfessionalRegistrationPageProps {
-    onNavigate?: (page: string, id?: number) => void;
-}
 
-export function ProfessionalRegistrationPage({
-    onNavigate,
-}: ProfessionalRegistrationPageProps) {
+export function ProfessionalRegistrationPage() {
     const {
         register,
         handleSubmit,
@@ -41,6 +38,8 @@ export function ProfessionalRegistrationPage({
         },
     });
 
+    const navigate = useNavigate();
+
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [birthdate, setBirthdate] = useState<Date | null>(null);
     function sanitizeUserData(data: TProfessionalRegisterFormData) {
@@ -53,7 +52,6 @@ export function ProfessionalRegistrationPage({
             const userData = sanitizeUserData(
                 data as TProfessionalRegisterFormData
             );
-            console.log(userData);
             const professionalData = {
                 specialty: data.specialty,
                 registrationNumber: data.registrationNumber,
@@ -110,15 +108,7 @@ export function ProfessionalRegistrationPage({
 
                 <CardContent>
                     <form
-                        onSubmit={handleSubmit(
-                            (data) => {
-                                console.log("Formulario válido:", data);
-                                onSubmit(data);
-                            },
-                            (errors) => {
-                                console.log("Errores de validación:", errors);
-                            }
-                        )}
+                        onSubmit={handleSubmit(onSubmit)}
                     >
                         <div className="space-y-2">
                             <Label htmlFor="username">Nombre de usuario</Label>
@@ -283,7 +273,7 @@ export function ProfessionalRegistrationPage({
                         <p className="text-sm text-muted-foreground">
                             ¿Eres estudiante?{" "}
                             <button
-                                onClick={() => onNavigate && onNavigate("auth")}
+                                onClick={() => navigate("/auth")}
                                 className="text-pink-600 hover:text-pink-700 dark:text-pink-400 dark:hover:text-pink-300 font-medium hover:underline"
                                 disabled={isSubmitting}
                             >
@@ -295,21 +285,8 @@ export function ProfessionalRegistrationPage({
                             ¿Ya tienes cuenta?{" "}
                             <button
                                 onClick={() => {
-                                    console.log("Click detectado!");
-                                    console.log(
-                                        "onNavigate existe?:",
-                                        onNavigate
-                                    );
-                                    if (onNavigate) {
-                                        console.log(
-                                            "Navegando a professional-login"
-                                        );
-                                        onNavigate("professional-login");
-                                    } else {
-                                        console.log(
-                                            "ERROR: onNavigate es undefined"
-                                        );
-                                    }
+
+                                        navigate("/professional-login");
                                 }}
                                 className="text-pink-600 hover:text-pink-700 dark:text-pink-400 dark:hover:text-pink-300 font-medium hover:underline"
                                 disabled={isSubmitting}
@@ -348,17 +325,15 @@ export function ProfessionalRegistrationPage({
                     </div>
 
                     {/* Botón para volver */}
-                    {onNavigate && (
                         <Button
                             type="button"
                             variant="ghost"
                             className="w-full mt-4"
-                            onClick={() => onNavigate("home")}
+                            onClick={() => navigate("/home")}
                             disabled={isSubmitting}
                         >
                             Volver al inicio
                         </Button>
-                    )}
                 </CardContent>
             </Card>
         </div>

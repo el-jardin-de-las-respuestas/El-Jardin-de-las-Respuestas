@@ -361,7 +361,7 @@ export default function ProfessionalLibrary() {
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
           <Button
-            onClick={() => navigate('/professional')}
+            onClick={() => navigate('/professional-dashboard')}
             variant="ghost"
             className="gap-2 rounded-[2rem] hover:bg-secondary/30"
           >

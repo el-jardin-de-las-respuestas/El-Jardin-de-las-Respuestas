@@ -6,9 +6,6 @@ import { useTourPublic } from '../../hooks/useTourPublic';
 import { useTourAuth } from '../../hooks/useTourAuth';
 import { useAuth } from '../../hooks/useAuth';
 import { VolunteerSection } from "./VolunteerSection";
-interface HomePageProps {
-  onNavigate: (page: string) => void;
-}
 
 export function HomePage({ onNavigate }: HomePageProps) {
   const { isAuthenticated } = useAuth();
@@ -83,7 +80,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
 <section className="px-4 sm:px-6 lg:px-8 py-16 bg-pink-50">
   <div className="mx-auto max-w-7xl">
     <h2 className="mb-10 text-center text-3xl sm:text-4xl font-bold text-pink-700">
-      Explora la Biblioteca ESI
+      Explora la Biblioteca de ESI (Educación Sexual Integral)
     </h2>
 
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -91,7 +88,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
         <Card
           key={index}
           className="cursor-pointer rounded-[2rem] border-2 border-pink-200 bg-white p-6 flex flex-col items-center transition-all hover:scale-105 hover:shadow-[0_12px_40px_rgba(233,30,99,0.2)]"
-          onClick={() => onNavigate("library")}
+          onClick={() => navigate("/library")}
         >
           {/* Icono circular */}
           <div className="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-pink-100 text-3xl text-pink-500">
@@ -123,18 +120,18 @@ export function HomePage({ onNavigate }: HomePageProps) {
             {/* Chat Module */}
             <Card
               className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-gradient-to-br from-card to-secondary/10 p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
-              onClick={() => onNavigate("communication")}
+              onClick={() => navigate("/communication")}
               id="chat-preview"
             >
               <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-primary/10">
                 <MessageCircle className="size-10 text-primary" />
               </div>
-              <h3 className="mb-3">Chat con Ginecólogas</h3>
+              <h3 className="mb-3">Chat con Profesionales ginecológicos</h3>
               <p className="mb-4 text-muted-foreground">
                 Conversaciones privadas y seguras con profesionales de la salud sexual.
                 Todas tus dudas serán respondidas con empatía y profesionalismo.
               </p>
-              <Button variant="outline" className="rounded-[2rem]" onClick={() => onNavigate('communication')}>
+              <Button variant="outline" className="rounded-[2rem]" onClick={() => navigate('/communication')}>
                 Iniciar Chat
               </Button>
             </Card>
@@ -142,7 +139,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
             {/* Forum Module */}
             <Card
               className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-gradient-to-br from-card to-secondary/10 p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
-              onClick={() => onNavigate("community")}
+              onClick={() => navigate("/community")}
               id="forum-preview"
             >
               <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-primary/10">
@@ -161,18 +158,18 @@ export function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      <VolunteerSection onNavigate={onNavigate} />
+      <VolunteerSection />
 
       {/* Footer CTA */}
       <section className="px-6 py-20">
         <div className="mx-auto max-w-3xl text-center">
           <BookOpen className="mx-auto mb-6 size-12 text-primary" />
-          <h2 className="mb-4">¿Listx para empezar?</h2>
+          <h2 className="mb-4">¿Estás listo para empezar?</h2>
           <p className="mb-8 text-muted-foreground">
             Únete a nuestra comunidad y accede a contenido educativo validado por profesionales.
           </p>
           <Button
-            onClick={() => onNavigate("registro")}
+            onClick={() => navigate("/auth")}
             className="rounded-[2rem] px-10 shadow-[0_8px_30px_var(--color-shadow-soft)]"
           >
             Registrarse Ahora

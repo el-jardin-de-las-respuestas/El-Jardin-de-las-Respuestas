@@ -10,13 +10,14 @@ import { UnauthorizedException } from '@nestjs/common';
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
   ) {}
 
   async signIn(createAuthDto: CreateAuthDto) {
-    console.log("Login attempt:", createAuthDto);
-    const user = await this.findOneByEmail(createAuthDto.email);
-    console.log("Found user:", user);
+    const user = await this.prisma.user.findUnique({
+      where: { email: createAuthDto.email },
+      include: { role: true },
+    });
     if (!user) {
       throw new UnauthorizedException('Contraseña o email inválidos');
     }
@@ -26,7 +27,7 @@ export class AuthService {
       throw new UnauthorizedException('Contraseña o email inválidos');
     }
 
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, role: user.role.name};
     return {
       access_token: this.jwtService.sign(payload),
     };

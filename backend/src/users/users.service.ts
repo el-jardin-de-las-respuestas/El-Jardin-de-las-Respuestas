@@ -17,12 +17,12 @@ export class UsersService {
     birthdate: true,
     registeredAt: true,
     username: true,
-    role: true,
+    roleId: true,
   };
 
   private readonly saltRounds = 10;
 
-  async create(createUserDto: CreateUserDto): Promise<SafeUser> {
+  async create(createUserDto: CreateUserDto, role: number): Promise<SafeUser> {
     const existingEmail = await this.findOneByEmail(createUserDto.email);
     if (existingEmail) {
       throw new BadRequestException('Email already registered');
@@ -40,11 +40,9 @@ export class UsersService {
         email: createUserDto.email,
         birthdate: new Date(createUserDto.birthdate),
         password: hash,
-        role: {
-          create: { name: 'default' },
-        },
+        roleId: role
       },
-      select: this.safeUserSelect, 
+      select: this.safeUserSelect,
     });
 
     return newUser;
@@ -119,3 +117,4 @@ export class UsersService {
     return bcrypt.hash(password, this.saltRounds);
   }
 }
+

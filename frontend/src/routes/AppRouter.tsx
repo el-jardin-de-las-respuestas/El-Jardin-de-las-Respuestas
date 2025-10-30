@@ -15,12 +15,14 @@ import ProfessionalLayout from "../components/ProfessionalLayout";
 import LibraryEsi from "../components/LibraryEsi";
 import ArticleDetail from "../components/ArticleDetail";
 import { ComunicationPage } from "../components/ComunicationPage";
+import ProfessionalChat from "@components/ProfessionalChat";
+import ProfessionalLibrary from "@components/ProfessionalLibrary";
+
 
 export const AppRouter = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // Función para navegar
   const routesMap: Record<string, string> = {
     library: "/library",
     communication: "/communication",
@@ -34,7 +36,6 @@ export const AppRouter = () => {
     navigate(route);
   };
 
-  // Wrapper para ArticleDetail
   const ArticleDetailWrapper = () => {
     const { id } = useParams<{ id: string }>(); // id es string | undefined
     const articleId = id ? parseInt(id, 10) : null; // convertimos a number | null
@@ -44,7 +45,7 @@ export const AppRouter = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<HomePage onNavigate={handleNavigate} />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route
         path="/resources"
@@ -68,6 +69,8 @@ export const AppRouter = () => {
 
       {/* Catch-all */}
       <Route path="*" element={<Navigate to="/" />} />
+      <Route path="/professional/chat" element = {<ProfessionalChat/>} />
+      <Route path="/professional/library" element = {<ProfessionalLibrary/>} />
     </Routes>
   );
 };
