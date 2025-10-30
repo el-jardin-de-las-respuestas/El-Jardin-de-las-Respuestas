@@ -22,7 +22,7 @@ export class ProfessionalService {
     createProfessionalDto: CreateProfessionalDto,
   ) {
     try {
-      const user = await this.usersService.create(createUserDto);
+      const user = await this.usersService.create(createUserDto,2);
       if (user) {
         const professionalData = {
           data: {

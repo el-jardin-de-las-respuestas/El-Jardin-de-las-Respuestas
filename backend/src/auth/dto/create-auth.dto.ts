@@ -16,4 +16,7 @@ export class CreateAuthDto {
     @MinLength(6)
     @IsString({ message: 'Password must be of type string' })
     password: string;
+
+    @IsNotEmpty({ message: 'Role is mandatory' })
+    roleId: number;
 }

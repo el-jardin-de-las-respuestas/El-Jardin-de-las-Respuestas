@@ -11,7 +11,7 @@ export class UsersController {
   @Public()
   @Post('register')
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return this.usersService.create(createUserDto,1);
   }
 
   @Roles('admin')
