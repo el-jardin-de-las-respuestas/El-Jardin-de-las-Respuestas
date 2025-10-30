@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe, BadRequestException } from '@nestjs/common';
-import { PrismaClient } from '../generated/prisma';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,7 +10,9 @@ async function bootstrap() {
     credentials: true,
   });
 
-  await app.listen(process.env.PORT ?? 4000);
-  console.log(`🚀 Backend escuchando en http://localhost:${process.env.PORT ?? 4000}`);
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
+  await app.listen(4000);
+  console.log('🚀 Backend escuchando en http://localhost:4000');
 }
 bootstrap();

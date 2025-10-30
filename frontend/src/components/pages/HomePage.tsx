@@ -2,24 +2,23 @@ import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { MessageCircle, BookOpen, Users, Flower2 } from "lucide-react";
 import { ImageWithFallback } from "../design/ImageWithFallback";
-import { useTour } from '../../hooks/useTour';
-import { useEffect } from 'react';
-
+import { useTour } from "../../hooks/useTour";
+import { useEffect } from "react";
 import { VolunteerSection } from "./VolunteerSection";
+
 interface HomePageProps {
   onNavigate: (page: string) => void;
+  isAuthenticated?: boolean;
 }
 
-export function HomePage({ onNavigate }: HomePageProps) {
+export function HomePage({ onNavigate, isAuthenticated }: HomePageProps) {
   const { startWelcomeTour, shouldShowTour } = useTour();
-
 
   useEffect(() => {
     if (shouldShowTour()) {
       startWelcomeTour();
     }
   }, []);
-
 
   const categories = [
     { title: "Cuerpo y Desarrollo", icon: "🌸", description: "Conoce tu cuerpo y sus cambios" },
@@ -42,23 +41,19 @@ export function HomePage({ onNavigate }: HomePageProps) {
           />
         </div>
         <div className="relative mx-auto max-w-4xl text-center px-4 sm:px-6 lg:px-0">
-          {/* Flor decorativa */}
           <div className="mb-6 flex justify-center">
-            <Flower2 className="w-16 h-16 text-pink-500" /> {/* Flor en color rosa */}
+            <Flower2 className="w-16 h-16 text-pink-500" />
           </div>
 
-          {/* Título */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-pink-300">
             Te damos la bienvenida a El Jardín de las Respuestas
           </h1>
 
-          {/* Descripción */}
           <p className="mx-auto mb-8 max-w-2xl text-gray-600 text-sm sm:text-base leading-relaxed">
             Un espacio seguro y empático donde puedes aprender sobre educación sexual integral,
             hacer preguntas y conectar con profesionales de la salud. Tu autonomía, tu seguridad.
           </p>
 
-          {/* Botones */}
           <div className="flex flex-wrap justify-center gap-4">
             <Button
               variant="outline"
@@ -68,51 +63,41 @@ export function HomePage({ onNavigate }: HomePageProps) {
               Explorar el Jardín
             </Button>
           </div>
-     </div>
- </section>
+        </div>
+      </section>
 
- {/* Categories Carousel */}
-<section className="px-4 sm:px-6 lg:px-8 py-16 bg-pink-50">
-  <div className="mx-auto max-w-7xl">
-    <h2 className="mb-10 text-center text-3xl sm:text-4xl font-bold text-pink-700">
-      Explora la Biblioteca ESI
-    </h2>
+      {/* Categories */}
+      <section className="px-4 sm:px-6 lg:px-8 py-16 bg-pink-50">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="mb-10 text-center text-3xl sm:text-4xl font-bold text-pink-700">
+            Explora la Biblioteca ESI
+          </h2>
 
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {categories.map((category, index) => (
-        <Card
-          key={index}
-          className="cursor-pointer rounded-[2rem] border-2 border-pink-200 bg-white p-6 flex flex-col items-center transition-all hover:scale-105 hover:shadow-[0_12px_40px_rgba(233,30,99,0.2)]"
-          onClick={() => onNavigate("library")}
-        >
-          {/* Icono circular */}
-          <div className="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-pink-100 text-3xl text-pink-500">
-            {category.icon}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {categories.map((category, index) => (
+              <Card
+                key={index}
+                className="cursor-pointer rounded-[2rem] border-2 border-pink-200 bg-white p-6 flex flex-col items-center transition-all hover:scale-105 hover:shadow-[0_12px_40px_rgba(233,30,99,0.2)]"
+                onClick={() => onNavigate("library")}
+              >
+                <div className="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-pink-100 text-3xl text-pink-500">
+                  {category.icon}
+                </div>
+                <h3 className="mb-2 text-lg font-semibold text-pink-600 text-center">
+                  {category.title}
+                </h3>
+                <p className="text-gray-500 text-sm text-center">{category.description}</p>
+              </Card>
+            ))}
           </div>
+        </div>
+      </section>
 
-          {/* Título */}
-          <h3 className="mb-2 text-lg font-semibold text-pink-600 text-center">
-            {category.title}
-          </h3>
-
-          {/* Descripción */}
-          <p className="text-gray-500 text-sm text-center">
-            {category.description}
-          </p>
-        </Card>
-      ))}
-    </div>
-  </div>
-</section>
-
-
-  
       {/* Communication Modules */}
       <section className="px-6 py-16" id="communication-preview">
         <div className="mx-auto max-w-6xl">
           <h2 className="mb-12 text-center">Canales de Comunicación Seguros</h2>
           <div className="grid gap-8 md:grid-cols-2">
-            {/* Chat Module */}
             <Card
               className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-gradient-to-br from-card to-secondary/10 p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
               onClick={() => onNavigate("communication")}
@@ -126,12 +111,11 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 Conversaciones privadas y seguras con profesionales de la salud sexual.
                 Todas tus dudas serán respondidas con empatía y profesionalismo.
               </p>
-              <Button variant="outline" className="rounded-[2rem]" onClick={() => onNavigate('communication')}>
+              <Button variant="outline" className="rounded-[2rem]" onClick={() => onNavigate("communication")}>
                 Iniciar Chat
               </Button>
             </Card>
 
-            {/* Forum Module */}
             <Card
               className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-gradient-to-br from-card to-secondary/10 p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
               onClick={() => onNavigate("community")}
@@ -155,7 +139,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
       <VolunteerSection onNavigate={onNavigate} />
 
-      {/* Footer CTA */}
+      {/* Footer */}
       <section className="px-6 py-20">
         <div className="mx-auto max-w-3xl text-center">
           <BookOpen className="mx-auto mb-6 size-12 text-primary" />
@@ -164,10 +148,10 @@ export function HomePage({ onNavigate }: HomePageProps) {
             Únete a nuestra comunidad y accede a contenido educativo validado por profesionales.
           </p>
           <Button
-            onClick={() => onNavigate("registro")}
+            onClick={() => onNavigate(isAuthenticated ? "resources" : "auth")}
             className="rounded-[2rem] px-10 shadow-[0_8px_30px_var(--color-shadow-soft)]"
           >
-            Registrarse Ahora
+            {isAuthenticated ? "Ir a la Biblioteca" : "Registrarse Ahora"}
           </Button>
         </div>
       </section>

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { socket } from "../socket";
+import { socket } from "@/socket";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { MessageCircle, Send, Shield } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 interface Message {
   id: number;
@@ -19,23 +20,26 @@ interface Message {
 }
 
 export function ComunicationPage() {
+  const { token } = useAuth(); // extraemos token del contexto
   const [chatMessage, setChatMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [chatId, setChatId] = useState<number | null>(null);
-  const userId = 1;
-  const professionalId = 9;
+  const [connected, setConnected] = useState(false);
+  const professionalId = 9; // Ejemplo: ginecóloga; luego podrías hacerlo dinámico
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!token) return;
+
+    // Reautenticar el socket si el token cambia
+    socket.auth = { token };
+    socket.connect();
+
     socket.on("connect", () => {
-      console.log("✅ Conectado al servidor Socket.IO:", socket.id);
+      console.log("✅ Conectado con token:", socket.id);
+      setConnected(true);
+      socket.emit("joinChat", { professionalId });
     });
-
-    socket.on("connect_error", (err) => {
-      console.error("❌ Error al conectar con Socket.IO:", err.message);
-    });
-
-    socket.emit("joinChat", { userId, professionalId });
 
     socket.on("joinedChat", ({ chatId }: { chatId: number }) => {
       setChatId(chatId);
@@ -49,19 +53,25 @@ export function ComunicationPage() {
       setMessages((prev) => [...prev, msg]);
     });
 
-    socket.on("chatError", (err: string) => {
-      console.error("Error del chat:", err);
+    socket.on("disconnect", () => {
+      console.warn("⚠️ Desconectado del chat");
+      setConnected(false);
+    });
+
+    socket.on("chatError", (err) => {
+      console.error("❌ Error del chat:", err);
     });
 
     return () => {
       socket.off("connect");
-      socket.off("connect_error");
       socket.off("joinedChat");
       socket.off("chatHistory");
       socket.off("message");
+      socket.off("disconnect");
       socket.off("chatError");
+      socket.disconnect();
     };
-  }, [userId, professionalId]);
+  }, [token, professionalId]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -72,7 +82,6 @@ export function ComunicationPage() {
 
     socket.emit("sendMessage", {
       chatId,
-      userId,
       content: chatMessage,
     });
 
@@ -85,12 +94,12 @@ export function ComunicationPage() {
         <div className="mb-12 text-center">
           <h1 className="mb-4">Canales de Comunicación</h1>
           <p className="mx-auto max-w-2xl text-muted-foreground">
-            Conecta con profesionales y la comunidad en un espacio seguro y moderado
+            Conecta con profesionales en un espacio seguro y moderado
           </p>
           <div className="mt-6 flex justify-center">
             <Badge className="rounded-[1.5rem] border-2 border-secondary/40 bg-secondary/20 px-6 py-2">
               <Shield className="mr-2 size-4" />
-              Todos los mensajes son moderados por IA para tu seguridad
+              Mensajes moderados por IA para tu seguridad
             </Badge>
           </div>
         </div>
@@ -114,8 +123,14 @@ export function ComunicationPage() {
                     <h3>Dra. María González</h3>
                     <p className="text-sm text-muted-foreground">Ginecóloga Certificada</p>
                   </div>
-                  <Badge className="ml-auto rounded-[1rem] bg-green-500/20 text-green-700">
-                    En línea
+                  <Badge
+                    className={`ml-auto rounded-[1rem] ${
+                      connected
+                        ? "bg-green-500/20 text-green-700"
+                        : "bg-gray-400/20 text-gray-600"
+                    }`}
+                  >
+                    {connected ? "En línea" : "Desconectado"}
                   </Badge>
                 </div>
               </div>
@@ -124,9 +139,15 @@ export function ComunicationPage() {
                 {messages.map((msg) => (
                   <div
                     key={msg.id}
-                    className={`flex ${msg.user.id === professionalId ? "justify-start" : "justify-end"}`}
+                    className={`flex ${
+                      msg.user.id === professionalId ? "justify-start" : "justify-end"
+                    }`}
                   >
-                    <div className={`max-w-sm space-y-1 ${msg.user.id === professionalId ? "items-start" : "items-end"}`}>
+                    <div
+                      className={`max-w-sm space-y-1 ${
+                        msg.user.id === professionalId ? "items-start" : "items-end"
+                      }`}
+                    >
                       {msg.user.id === professionalId && (
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <Avatar className="size-6 border border-primary">

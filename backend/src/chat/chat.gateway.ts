@@ -1,64 +1,79 @@
 import {
   WebSocketGateway,
-  WebSocketServer,
   SubscribeMessage,
+  WebSocketServer,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
   MessageBody,
   ConnectedSocket,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-
-interface Message {
-  chatId: number;
-  userId: number;
-  content: string;
-}
+import { ChatService } from './chat.service';
+import { JwtService } from '@nestjs/jwt';
+import { UnauthorizedException, Logger } from '@nestjs/common';
 
 @WebSocketGateway({
   cors: {
     origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
     credentials: true,
   },
 })
-export class ChatGateway {
+export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
-  handleConnection(client: Socket) {
-    console.log('🟢 Cliente conectado:', client.id);
+  private readonly logger = new Logger(ChatGateway.name);
+
+  constructor(
+    private readonly chatService: ChatService,
+    private readonly jwtService: JwtService,
+  ) {}
+
+  async handleConnection(client: Socket) {
+    try {
+      const token = client.handshake.auth?.token || client.handshake.headers?.authorization?.split(' ')[1];
+      if (!token) throw new UnauthorizedException('Token no proporcionado');
+
+      const payload = this.jwtService.verify(token);
+      client.data.userId = payload.sub; // extrae el ID del usuario del token
+      this.logger.log(`Usuario ${client.data.userId} conectado`);
+    } catch (error) {
+      this.logger.error('❌ Error de autenticación:', error.message);
+      client.disconnect();
+    }
   }
 
   handleDisconnect(client: Socket) {
-    console.log('🔴 Cliente desconectado:', client.id);
+    this.logger.log(`Usuario ${client.data.userId} desconectado`);
   }
 
   @SubscribeMessage('joinChat')
-  handleJoinChat(
-    @MessageBody() data: { userId: number; professionalId: number },
+  async handleJoinChat(
+    @MessageBody() { professionalId }: { professionalId: number },
     @ConnectedSocket() client: Socket,
   ) {
-    console.log('📥 joinChat recibido:', data);
-    // En un futuro, buscás el chatId en BD. Por ahora simula un chatId.
-    const chatId = 1;
-    client.join(`chat_${chatId}`);
-    client.emit('joinedChat', { chatId });
+    const userId = client.data.userId;
+
+    const chat = await this.chatService.findOrCreateChat(userId, professionalId);
+    client.join(`chat-${chat.id}`);
+
+    const messages = await this.chatService.getChatMessages(chat.id);
+    client.emit('joinedChat', { chatId: chat.id });
+    client.emit('chatHistory', messages);
+
+    this.logger.log(`Usuario ${userId} se unió al chat ${chat.id}`);
   }
 
   @SubscribeMessage('sendMessage')
-  handleSendMessage(
-    @MessageBody() message: Message,
+  async handleMessage(
+    @MessageBody() { chatId, content }: { chatId: number; content: string },
     @ConnectedSocket() client: Socket,
   ) {
-    console.log('✉️ Mensaje recibido:', message);
+    const userId = client.data.userId;
+    const message = await this.chatService.createMessage(chatId, userId, content);
 
-    // reenviar a todos en la sala
-    this.server.to(`chat_${message.chatId}`).emit('message', {
-      id: Date.now(),
-      content: message.content,
-      sentAt: new Date().toISOString(),
-      user: {
-        id: message.userId,
-        username: `Usuario ${message.userId}`,
-      },
-    });
+    this.server.to(`chat-${chatId}`).emit('message', message);
+    this.logger.log(`💬 Mensaje en chat ${chatId} por usuario ${userId}`);
   }
 }

@@ -35,20 +35,21 @@ model User {
   forums            Forum[]
   professional      Professional?
   messages          Message[]
-  chatUsers         ChatUser[]
+  userChats         Chat[]     @relation("UserChat")
+  professionalChats Chat[]     @relation("ProfessionalChat")
   consultationUsers ConsultationUser[]
-  }
+}
 
 model Professional {
-  id          Int    @id @default(autoincrement())
-  userId      Int    @unique
-  user        User   @relation(fields: [userId], references: [id])
-  specialty   String
-  registrationNumber String @unique
-  bio         String?
+  id                   Int      @id @default(autoincrement())
+  userId               Int      @unique
+  user                 User     @relation(fields: [userId], references: [id])
+  specialty            String
+  registrationNumber   String   @unique
+  bio                  String?
 
   consultationProfessionals ConsultationProfessional[]
-  }
+}
 
 model Forum {
   id          Int      @id @default(autoincrement())
@@ -58,7 +59,7 @@ model Forum {
   userId      Int
   user        User     @relation(fields: [userId], references: [id])
   posts       Post[]
-  }
+}
 
 model Post {
   id          Int       @id @default(autoincrement())
@@ -82,49 +83,44 @@ model Library {
 }
 
 model Comment {
-  id         Int      @id @default(autoincrement())
-  content    String
+  id          Int      @id @default(autoincrement())
+  content     String
   commentedAt DateTime @default(now())
-  postId     Int
-  userId     Int
-  post       Post @relation(fields: [postId], references: [id])
-  user       User @relation(fields: [userId], references: [id])
+  postId      Int
+  userId      Int
+  post        Post @relation(fields: [postId], references: [id])
+  user        User @relation(fields: [userId], references: [id])
 }
 
 model Chat {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  messages  Message[]
-  chatUsers ChatUser[]
-}
+  id             Int       @id @default(autoincrement())
+  createdAt      DateTime  @default(now())
+  userId         Int
+  professionalId Int
 
-model ChatUser {
-  chatId Int
-  userId Int
-  chat   Chat @relation(fields: [chatId], references: [id])
-  user   User @relation(fields: [userId], references: [id])
-
-  @@id([chatId, userId])
+  user           User       @relation("UserChat", fields: [userId], references: [id])
+  professional   User       @relation("ProfessionalChat", fields: [professionalId], references: [id])
+  messages       Message[]
 }
 
 model Message {
-  id       Int      @id @default(autoincrement())
-  content  String
-  sentAt   DateTime @default(now())
-  chatId   Int
-  userId   Int
-  chat     Chat @relation(fields: [chatId], references: [id])
-  user     User @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  content   String
+  sentAt    DateTime @default(now())
+  chatId    Int
+  userId    Int
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Consultation {
-  id              Int      @id @default(autoincrement())
-  reason          String
-  consultationDate DateTime
-  status          ConsultationStatus @default(PENDING)
-  consultationUsers         ConsultationUser[]
-  consultationProfessionals ConsultationProfessional[]
-  }
+  id                        Int      @id @default(autoincrement())
+  reason                    String
+  consultationDate           DateTime
+  status                    ConsultationStatus @default(PENDING)
+  consultationUsers          ConsultationUser[]
+  consultationProfessionals  ConsultationProfessional[]
+}
 
 model ConsultationUser {
   consultationId Int
