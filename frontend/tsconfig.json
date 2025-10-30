@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "types": ["vite/client", "node"],
     "moduleResolution": "node",

@@ -9,6 +9,7 @@ import NavbarAuth from "./components/Navbar/NavbarAuth";
 import { useAuth } from "./hooks/useAuth";
 import "./styles/globals.css";
 
+
 export default function App() {
   return (
     <ThemeProvider>

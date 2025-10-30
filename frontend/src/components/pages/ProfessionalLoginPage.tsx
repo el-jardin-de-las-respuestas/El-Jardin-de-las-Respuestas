@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginSchema, type TLoginFormData } from "@components/schemas/auth";
+import { loginSchema, type TLoginFormData } from "../../components/schemas/auth";
 import axios from "axios";
 import { toast } from "sonner";
 import { useContext } from "react";
