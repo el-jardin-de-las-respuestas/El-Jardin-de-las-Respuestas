@@ -75,7 +75,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
 <section className="px-4 sm:px-6 lg:px-8 py-16 bg-pink-50">
   <div className="mx-auto max-w-7xl">
     <h2 className="mb-10 text-center text-3xl sm:text-4xl font-bold text-pink-700">
-      Explora la Biblioteca ESI
+      Explora la Biblioteca de ESI (Educación Sexual Integral)
     </h2>
 
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -121,7 +121,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
               <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-primary/10">
                 <MessageCircle className="size-10 text-primary" />
               </div>
-              <h3 className="mb-3">Chat con Ginecólogas</h3>
+              <h3 className="mb-3">Chat con Profesionales ginecológicos</h3>
               <p className="mb-4 text-muted-foreground">
                 Conversaciones privadas y seguras con profesionales de la salud sexual.
                 Todas tus dudas serán respondidas con empatía y profesionalismo.
@@ -159,7 +159,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       <section className="px-6 py-20">
         <div className="mx-auto max-w-3xl text-center">
           <BookOpen className="mx-auto mb-6 size-12 text-primary" />
-          <h2 className="mb-4">¿Listx para empezar?</h2>
+          <h2 className="mb-4">¿Estás listo para empezar?</h2>
           <p className="mb-8 text-muted-foreground">
             Únete a nuestra comunidad y accede a contenido educativo validado por profesionales.
           </p>
