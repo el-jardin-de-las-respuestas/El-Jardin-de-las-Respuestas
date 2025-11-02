@@ -149,7 +149,7 @@ export function HomePage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-pink-300">
-              Bienvenidx de vuelta al Jardín
+              Bienvenido de vuelta al Jardín
             </h1>
 
             <p className="mx-auto mb-8 max-w-2xl text-gray-600 text-sm sm:text-base leading-relaxed">

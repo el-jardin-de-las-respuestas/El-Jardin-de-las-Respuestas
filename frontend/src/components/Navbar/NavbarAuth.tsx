@@ -40,7 +40,7 @@ const NavbarAuth = () => {
             <Link to="/resources" className="hover:text-pink-400 dark:hover:text-pink-300" data-tour="nav-resources">
               Recursos
             </Link>
-            <Link to="/chat" className="hover:text-pink-400 dark:hover:text-pink-300" data-tour="nav-chat">
+            <Link to="/chat" className="hover:text-pink-400 dark:hover:text-pink-300" data-tour="nav-comunication">
               Chat
             </Link>
             <Link to="/community" className="hover:text-pink-400 dark:hover:text-pink-300" data-tour="nav-community">

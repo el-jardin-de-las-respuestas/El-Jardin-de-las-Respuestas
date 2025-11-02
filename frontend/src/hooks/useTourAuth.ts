@@ -57,10 +57,18 @@ export function useTourAuth() {
         },
       },
       {
+        element: '[data-tour="nav-comunication"]',
+        popover: {
+          title: '👥 Chat',
+          description: 'Conversaciones privadas y seguras con profesionales.',
+          side: 'bottom',
+        },
+      },
+      {
         element: '[data-tour="nav-community"]',
         popover: {
-          title: '👥 Comunidad',
-          description: 'Interactuá con otros usuarios y compartí experiencias.',
+          title: '👥 Foro',
+          description: 'Comparte experiencias y aprende de otrxs en un ambiente moderado y respetuoso.',
           side: 'bottom',
         },
       },
@@ -69,6 +77,14 @@ export function useTourAuth() {
         popover: {
           title: '📝 Biblioteca',
           description: 'Leé artículos escritos por profesionales.',
+          side: 'bottom',
+        },
+      },
+      {
+        element: '[data-tour="nav-faq"]',
+        popover: {
+          title: '❓ FAQ',
+          description: 'Preguntas frecuentes y ayuda.',
           side: 'bottom',
         },
       },
@@ -91,7 +107,7 @@ export function useTourAuth() {
       {
         element: 'body',
         popover: {
-          title: '¡Todo listo! 🎉',
+          title: '¡Listo! 🎉',
           description: 'Ya conocés las funciones principales de tu cuenta. ¡Disfrutá!',
           side: 'top',
           align: 'center',
