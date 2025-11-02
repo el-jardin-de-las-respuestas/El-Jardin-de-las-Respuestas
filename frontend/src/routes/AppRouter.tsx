@@ -51,6 +51,7 @@ export const AppRouter = () => {
         path="/resources"
         element={isAuthenticated ? <ResourcesPage /> : <Navigate to="/auth" />}
       />
+      <Route path="/chat" element={<ComunicationPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/community" element={<CommunityPage />} />
       <Route path="/faq" element={<FAQPage />} />

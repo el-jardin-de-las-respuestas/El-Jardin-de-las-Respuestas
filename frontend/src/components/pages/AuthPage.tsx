@@ -15,7 +15,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'sonner'; 
+import { toast } from 'sonner';
 
 registerLocale("es", es);
 
@@ -37,12 +37,12 @@ export function AuthPage() {
         defaultValues: isLogin
             ? { email: "", password: "" }
             : {
-                  username: "",
-                  email: "",
-                  password: "",
-                  confirmPassword: "",
-                  birthdate: null,
-              },
+                username: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+                birthdate: null,
+            },
     });
     const navigate = useNavigate();
     function sanitizeUserData(data: TRegisterFormData) {
@@ -57,15 +57,27 @@ export function AuthPage() {
             if (isLogin) {
                 const res = await axios.post(
                     "http://localhost:4000/auth/login",
-                    data
+                    {
+                        email: data.email,
+                        password: data.password,
+                        roleId: 1 // o el valor que use su sistema para usuario normal
+                    }
                 );
                 auth.login(res.data.access_token);
                 navigate('/')
                 toast.success("✅ Inicio de sesión exitoso");
             } else {
+                const sanitizedData = sanitizeUserData(data as TRegisterFormData);
+                const dataToSend = {
+                    ...sanitizedData,
+                    birthdate: sanitizedData.birthdate?.toISOString()
+                };
+
+                console.log('📤 Datos que se van a enviar:', dataToSend);
+
                 await axios.post(
                     "http://localhost:4000/users/register",
-                    sanitizeUserData(data as TRegisterFormData) 
+                    sanitizeUserData(data as TRegisterFormData)
                 );
                 toast.success("✅ ¡Se ha registrado correctamente! Ahora puedes iniciar sesión.");
                 setIsLogin(true);
@@ -176,10 +188,10 @@ export function AuthPage() {
                                                 value={
                                                     field.value
                                                         ? (
-                                                              field.value as Date
-                                                          ).toLocaleDateString(
-                                                              "es-ES"
-                                                          )
+                                                            field.value as Date
+                                                        ).toLocaleDateString(
+                                                            "es-ES"
+                                                        )
                                                         : ""
                                                 }
                                                 className={inputClassName}
@@ -254,7 +266,7 @@ export function AuthPage() {
                             )}
                         </div>
                     )}
-                    
+
 
                     {/* Submit Button */}
                     <Button
@@ -264,48 +276,48 @@ export function AuthPage() {
                     >
                         {isLogin ? "Ingresar" : "Crear Cuenta"}
                     </Button>
-                                    
+
                     {/* Enlaces adicionales */}
                     <div className="text-center mt-4 space-y-2">
-                    {isLogin ? (
-                        <>
-                        <p>
-                            ¿No tienes cuenta?{" "}
-                            <span
-                            className="text-primary cursor-pointer hover:text-pink-700"
-                            onClick={() => {
-                                setIsLogin(false);
-                                reset();
-                            }}
-                            >
-                            Regístrate aquí
-                            </span>
-                        </p>
+                        {isLogin ? (
+                            <>
+                                <p>
+                                    ¿No tienes cuenta?{" "}
+                                    <span
+                                        className="text-primary cursor-pointer hover:text-pink-700"
+                                        onClick={() => {
+                                            setIsLogin(false);
+                                            reset();
+                                        }}
+                                    >
+                                        Regístrate aquí
+                                    </span>
+                                </p>
 
-                        <p>
-                        ¿Eres profesional?{" "}
-                        <span
-                            className="text-primary cursor-pointer hover:text-pink-700"
-                            onClick={() => navigate("/professional-login")}
-                        >
-                            Inicia Sesión Aquí
-                        </span>
-                        </p>
-                        </>
-                    ) : (
-                        <p>
-                        ¿Ya tienes cuenta?{" "}
-                        <span
-                            className="text-primary cursor-pointer hover:text-pink-700"
-                            onClick={() => {
-                            setIsLogin(true);
-                            reset();
-                            }}
-                        >
-                            Ingresa aquí
-                        </span>
-                        </p>
-                    )}
+                                <p>
+                                    ¿Eres profesional?{" "}
+                                    <span
+                                        className="text-primary cursor-pointer hover:text-pink-700"
+                                        onClick={() => navigate("/professional-login")}
+                                    >
+                                        Inicia Sesión Aquí
+                                    </span>
+                                </p>
+                            </>
+                        ) : (
+                            <p>
+                                ¿Ya tienes cuenta?{" "}
+                                <span
+                                    className="text-primary cursor-pointer hover:text-pink-700"
+                                    onClick={() => {
+                                        setIsLogin(true);
+                                        reset();
+                                    }}
+                                >
+                                    Ingresa aquí
+                                </span>
+                            </p>
+                        )}
                     </div>
                 </form>
 

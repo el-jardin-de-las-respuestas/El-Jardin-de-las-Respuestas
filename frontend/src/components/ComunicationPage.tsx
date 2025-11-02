@@ -5,8 +5,10 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Badge } from "./ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { MessageCircle, Send, Shield } from "lucide-react";
+import { Tabs, TabsContent } from "./ui/tabs";
+import { Send, Shield } from "lucide-react";
+
+import { CommunityPage } from "../components/pages/CommunityPage";
 
 interface Message {
   id: number;
@@ -80,97 +82,118 @@ export function ComunicationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background px-6 py-12">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-12 text-center">
-          <h1 className="mb-4">Canales de Comunicación</h1>
-          <p className="mx-auto max-w-2xl text-muted-foreground">
-            Conecta con profesionales y la comunidad en un espacio seguro y moderado
-          </p>
-          <div className="mt-6 flex justify-center">
-            <Badge className="rounded-[1.5rem] border-2 border-secondary/40 bg-secondary/20 px-6 py-2">
-              <Shield className="mr-2 size-4" />
-              Todos los mensajes son moderados por IA para tu seguridad
-            </Badge>
-          </div>
-        </div>
+    <div className="min-h-screen bg-background flex flex-col items-center justify-start px-4 py-6">
+      <div className="w-full max-w-5xl">
+        <h1 className="text-center text-2xl font-bold mb-6">
+          Conecta con profesionales
+        </h1>
 
         <Tabs defaultValue="chat" className="w-full">
-          <TabsList className="mb-8 grid w-full max-w-md mx-auto grid-cols-1 rounded-[2rem] border-2 border-secondary/40 bg-secondary/20 p-2">
-            <TabsTrigger value="chat" className="rounded-[1.5rem]">
-              <MessageCircle className="mr-2 size-4" />
-              Chat 1:1
-            </TabsTrigger>
-          </TabsList>
-
           <TabsContent value="chat">
-            <Card className="mx-auto max-w-4xl overflow-hidden rounded-[3rem] border-2 border-secondary/40 shadow-[0_16px_50px_var(--color-shadow-soft)]">
-              <div className="border-b-2 border-secondary/40 bg-secondary/10 px-6 py-4">
-                <div className="flex items-center gap-4">
-                  <Avatar className="size-12 border-2 border-primary">
-                    <AvatarFallback className="bg-primary/20">MG</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <h3>Dra. María González</h3>
-                    <p className="text-sm text-muted-foreground">Ginecóloga Certificada</p>
-                  </div>
-                  <Badge className="ml-auto rounded-[1rem] bg-green-500/20 text-green-700">
-                    En línea
-                  </Badge>
+            <Card className="flex flex-col h-[70vh] rounded-2xl border border-secondary/30 shadow-lg bg-background">
+              {/* Header */}
+              <div className="flex items-center gap-4 border-b border-secondary/30 bg-secondary/10 px-6 py-4">
+                <Avatar className="size-12 border border-primary/60 shadow-sm">
+                  <AvatarFallback className="bg-primary/10">MG</AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3 className="font-semibold text-lg">Dra. María González</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Ginecóloga Certificada
+                  </p>
                 </div>
+                <Badge className="ml-auto rounded-full bg-green-500/30 text-green-700">
+                  En línea
+                </Badge>
               </div>
 
-              <div className="h-96 space-y-4 overflow-y-auto bg-background p-6">
-                {messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className={`flex ${msg.user.id === professionalId ? "justify-start" : "justify-end"}`}
-                  >
-                    <div className={`max-w-sm space-y-1 ${msg.user.id === professionalId ? "items-start" : "items-end"}`}>
-                      {msg.user.id === professionalId && (
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <Avatar className="size-6 border border-primary">
-                            <AvatarFallback className="bg-primary/20 text-xs">MG</AvatarFallback>
-                          </Avatar>
-                          <span>{msg.user.username}</span>
-                        </div>
-                      )}
-                      <div
-                        className={`rounded-[1.5rem] px-4 py-3 ${
-                          msg.user.id === professionalId
+              {/* Chat messages (scrollable area) */}
+              <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-background/50 backdrop-blur-sm scroll-smooth">
+                {messages.map((msg) => {
+                  const isProfessional = msg.user.id === professionalId;
+                  return (
+                    <div
+                      key={msg.id}
+                      className={`flex ${isProfessional ? "justify-start" : "justify-end"
+                        } transition-all`}
+                    >
+                      <div className="max-w-xs space-y-1">
+                        {isProfessional && (
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
+                            <Avatar className="size-6 border border-primary/50">
+                              <AvatarFallback className="bg-primary/10 text-xs">
+                                MG
+                              </AvatarFallback>
+                            </Avatar>
+                            <span>{msg.user.username}</span>
+                          </div>
+                        )}
+
+                        <div
+                          className={`px-4 py-2 rounded-2xl shadow-md ${isProfessional
                             ? "bg-secondary/30 text-foreground"
                             : "bg-primary text-primary-foreground"
-                        }`}
-                      >
-                        <p>{msg.content}</p>
+                            }`}
+                        >
+                          <p className="text-[0.93rem] leading-relaxed">
+                            {msg.content}
+                          </p>
+                        </div>
+
+                        <span className="block text-[0.7rem] text-muted-foreground text-right">
+                          {new Date(msg.sentAt).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </span>
                       </div>
-                      <span className="text-xs text-muted-foreground">
-                        {new Date(msg.sentAt).toLocaleTimeString()}
-                      </span>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
                 <div ref={scrollRef} />
               </div>
 
-              <div className="border-t-2 border-secondary/40 bg-secondary/10 p-4">
-                <div className="flex gap-3">
+              {/* Input */}
+              <div className="border-t border-secondary/30 bg-secondary/10 px-6 py-3">
+                <div className="flex gap-3 items-center">
                   <Input
                     placeholder="Escribe tu mensaje..."
                     value={chatMessage}
                     onChange={(e) => setChatMessage(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                    className="rounded-[2rem] border-2 border-secondary/40 px-6 py-6"
+                    className="flex-1 rounded-full border border-secondary/40 px-4 py-3 focus:ring-2 focus:ring-primary/40"
                   />
                   <Button
                     onClick={handleSend}
-                    className="rounded-[2rem] px-6 shadow-[0_4px_20px_var(--color-shadow-soft)]"
+                    className="rounded-full px-5 py-3 shadow-md hover:shadow-lg transition"
                   >
                     <Send className="size-4" />
                   </Button>
                 </div>
               </div>
             </Card>
+
+            <div className="mt-4 flex justify-center">
+              <Badge className="rounded-full border-2 border-secondary/40 bg-secondary/20 px-6 py-2 flex items-center gap-2">
+                <Shield className="size-4" />
+                Todos los mensajes son moderados por IA
+              </Badge>
+            </div>
+            <Card
+                
+                className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-gradient-to-br from-card to-secondary/10 p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
+              >
+                <h3 className="mb-3 text-xl font-semibold">Vista tambien nuestro Foro Comunitario</h3>
+                <p className="mb-4 text-muted-foreground">
+                  Comparte experiencias y aprende de otrxs en un ambiente moderado y respetuoso.
+                  Construimos juntos un espacio de apoyo.
+                </p>
+
+                <Button variant="outline" className="rounded-[2rem]" onClick={CommunityPage} aria-label="Community Page"
+              data-tour="to-community-page">
+                  Visitar el Foro
+                </Button>
+              </Card>
           </TabsContent>
         </Tabs>
       </div>

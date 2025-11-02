@@ -8,7 +8,7 @@ const NavbarPublic = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <nav className="bg-pink-200 dark:bg-gray-900 shadow-lg fixed w-full z-50">
+    <nav className="bg-pink-200 dark:bg-gray-800 shadow-lg fixed w-full z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
@@ -17,7 +17,11 @@ const NavbarPublic = () => {
             className="flex items-center gap-2 text-lg font-bold text-gray-800 dark:text-white"
             data-tour="logo"
           >
-            🌸 El Jardín de las Respuestas
+            <img
+              src="/img/logo.png"
+              alt="El Jardín de las Respuestas"
+              className="h-24 w-auto md:h-28"
+            />
           </Link>
 
           {/* Menú escritorio */}
@@ -49,7 +53,7 @@ const NavbarPublic = () => {
               className="px-3 py-1 bg-pink-400 text-white rounded hover:bg-pink-300 transition-colors"
               data-tour="btn-login"
             >
-              Login
+              Ingresar
             </Link>
           </div>
 
@@ -96,10 +100,10 @@ const NavbarPublic = () => {
             </button>
             <Link
               to="/auth"
-              className="px-3 py-1 bg-pink-400 text-white rounded hover:bg-pink-300 transition-colors"
+              className="px-4 py-1 bg-pink-300 text-white rounded hover:bg-pink-300 transition-colors"
               data-tour="btn-login"
             >
-              Login
+              Ingresar
             </Link>
           </div>
         </div>

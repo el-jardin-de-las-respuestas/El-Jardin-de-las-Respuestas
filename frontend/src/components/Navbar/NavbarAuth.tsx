@@ -25,7 +25,11 @@ const NavbarAuth = () => {
             className="flex items-center gap-2 text-lg font-bold text-gray-800 dark:text-white"
             data-tour="logo"
           >
-            🌸 El Jardín de las Respuestas
+            <img
+              src="/img/logo.png"
+              alt="El Jardín de las Respuestas"
+              className="h-24 w-auto md:h-28"
+            />
           </Link>
 
           {/* Menú escritorio */}
@@ -36,8 +40,11 @@ const NavbarAuth = () => {
             <Link to="/resources" className="hover:text-pink-400 dark:hover:text-pink-300" data-tour="nav-resources">
               Recursos
             </Link>
+            <Link to="/chat" className="hover:text-pink-400 dark:hover:text-pink-300" data-tour="nav-chat">
+              Chat
+            </Link>
             <Link to="/community" className="hover:text-pink-400 dark:hover:text-pink-300" data-tour="nav-community">
-              Comunidad
+              Foro
             </Link>
             <Link to="/library" className="hover:text-pink-400 dark:hover:text-pink-300" data-tour="nav-library">
               Biblioteca
