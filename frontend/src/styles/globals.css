@@ -144,3 +144,9 @@ button:hover {
     background-color: #ffffff;
     color: #000000;
 }
+
+.driver-popover-custom {
+  max-width: 90%;        
+  padding: 20px;         
+  border-radius: 12px;        
+}
