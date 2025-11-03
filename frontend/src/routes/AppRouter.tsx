@@ -66,7 +66,7 @@ export const AppRouter = () => {
       {/* Profesional */}
       <Route path="/professional-registration" element={<ProfessionalRegistrationPage />} />
       <Route path="/professional-login" element={<ProfessionalLoginPage />} />
-      <Route path="/professional-dashboard" element={<ProfessionalLayout />} />
+      <Route path="/professional-dashboard/*" element={<ProfessionalLayout />} />
 
       {/* Catch-all */}
       <Route path="*" element={<Navigate to="/" />} />

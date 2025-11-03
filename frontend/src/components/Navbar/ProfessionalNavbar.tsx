@@ -1,7 +1,8 @@
+import { useContext } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
 export function ProfessionalNavbar() {
@@ -45,13 +46,12 @@ export function ProfessionalNavbar() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
-            <button
-              onClick={() => handleNavigate('/professional')}
-              className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-white hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
+            <Link
+              to="/professional-dashboard"
+              className="flex items-center gap-2 text-lg font-bold text-gray-800 dark:text-white"
             >
-              <span className="text-2xl">🌸</span>
-              <span>El Jardín de las Respuestas</span>
-            </button>
+              <img src="/img/logo.png" alt="El Jardín de las Respuestas" className="h-24 w-auto md:h-28" />
+            </Link>
 
             {/* Navegación central */}
             <div className="flex items-center gap-6">
@@ -59,11 +59,10 @@ export function ProfessionalNavbar() {
                 <button
                   key={item.id}
                   onClick={() => handleNavigate(item.path)}
-                  className={`flex items-center gap-2 text-sm font-medium transition-all ${
-                    currentPage === item.id
-                      ? 'text-pink-600 dark:text-pink-400'
-                      : 'text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400'
-                  }`}
+                  className={`flex items-center gap-2 text-sm font-medium transition-all ${currentPage === item.id
+                    ? 'text-pink-600 dark:text-pink-400'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400'
+                    }`}
                 >
                   <span className="text-lg">{item.icon}</span>
                   <span>{item.label}</span>
