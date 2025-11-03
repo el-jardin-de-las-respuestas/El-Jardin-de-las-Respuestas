@@ -108,7 +108,11 @@ export function AuthPage() {
                 {/* Logo */}
                 <div className="mb-8 flex flex-col items-center">
                     <div className="mb-4 flex size-20 items-center justify-center rounded-[2rem] bg-secondary/30">
-                        <Flower2 className="size-10 text-primary" />
+                         <img
+                            src="/public/img/flower-2.svg"
+                            alt="El Jardín de las Respuestas"
+                            className="h-21 w-auto md:h-9"
+                            /> 
                     </div>
                     <h2 className="text-center">
                         {isLogin

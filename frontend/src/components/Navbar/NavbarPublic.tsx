@@ -18,9 +18,9 @@ const NavbarPublic = () => {
             data-tour="logo"
           >
             <img
-              src="/img/logo.png"
+              src="/public/img/flower-2.svg"
               alt="El Jardín de las Respuestas"
-              className="h-24 w-auto md:h-28"
+              className="h-21 w-auto md:h-7"
             />
           </Link>
 
