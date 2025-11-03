@@ -1,8 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Target, Users, Heart, Shield } from 'lucide-react';
 import { Button } from "../ui/button";
+import { useNavigate } from 'react-router-dom';
 
 export function AboutPage() {
+  const navigate = useNavigate()
   return (
     <div className="container mx-auto px-4 py-12 max-w-4xl">
       <div className="space-y-8">
@@ -108,9 +110,9 @@ export function AboutPage() {
               artículos validados y una comunidad donde podés hacer las preguntas que necesitás hacer.
               Todo <span className="font-semibold text-pink-600">gratis y sin vueltas</span>.
             </p>
-           <Button  /* onClick= */
+           <Button onClick={() => navigate("/auth")}
               className="rounded-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 px-10 py-6 text-lg shadow-lg hover:shadow-xl transition-all">
-              Quiero entrar gratis 🚀
+              Quiero entrar gratis
             </Button>
             <p className="mt-4 text-sm text-gray-500">
               Solo tu email y listo.
