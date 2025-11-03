@@ -91,7 +91,7 @@ export function useTourPublic() {
       },
     ];
 
-    driverInstance.setConfig({ steps });
+    driverInstance.setSteps(steps);
     driverInstance.drive();
   };
 

@@ -115,7 +115,7 @@ export function useTourAuth() {
       },
     ];
 
-    driverInstance.setConfig({ steps });
+      driverInstance.setSteps(steps);
     driverInstance.drive();
   };
 
