@@ -6,7 +6,7 @@ import { HomePage } from "../components/pages/HomePage";
 import { AuthPage } from "../components/pages/AuthPage";
 import { ResourcesPage } from "../components/pages/ResourcesPage";
 import { AboutPage } from "../components/pages/AboutPage";
-import { CommunityPage } from "../components/pages/CommunityPage";
+import  CommunityPage  from "../components/pages/CommunityPage";
 import { FAQPage } from "../components/pages/FAQPage";
 import { ProfessionalRegistrationPage } from "../components/pages/ProfessionalRegistrationPage";
 import { ProfessionalLoginPage } from "../components/pages/ProfessionalLoginPage";

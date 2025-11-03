@@ -8,9 +8,10 @@ import { PostForoModule } from './post-foro/post-foro.module';
 import { LibraryModule } from './library/library.module';
 import { ProfessionalModule } from './professional/professional.module';
 import { ChatModule } from './chat/chat.module';
+import { ForumModule } from './forum/forum.module';
 
 @Module({
-  imports: [AuthModule,PrismaModule,ChatModule,PostForoModule, LibraryModule, ProfessionalModule],
+  imports: [AuthModule,PrismaModule,ChatModule,PostForoModule, LibraryModule, ProfessionalModule, ForumModule],
   controllers: [AppController],
   providers: [AppService],
 })

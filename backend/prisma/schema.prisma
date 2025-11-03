@@ -36,6 +36,7 @@ model User {
   messages          Message[]
   chatUsers         ChatUser[]
   consultationUsers ConsultationUser[]
+  postLikes PostLike[]
   }
 
 model Professional {
@@ -70,6 +71,18 @@ model Post {
   forum       Forum     @relation(fields: [forumId], references: [id])
   user        User      @relation(fields: [userId], references: [id])
   comments    Comment[]
+  likes PostLike[]
+}
+
+model PostLike {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId]) // Un usuario solo puede dar 1 like por post
 }
 
 model Library {

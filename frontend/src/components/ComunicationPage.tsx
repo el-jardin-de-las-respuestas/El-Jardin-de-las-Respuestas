@@ -8,7 +8,7 @@ import { Badge } from "./ui/badge";
 import { Tabs, TabsContent } from "./ui/tabs";
 import { Send, Shield } from "lucide-react";
 
-import { CommunityPage } from "../components/pages/CommunityPage";
+import { useNavigate } from "react-router-dom";
 
 interface Message {
   id: number;
@@ -27,6 +27,8 @@ export function ComunicationPage() {
   const userId = 1;
   const professionalId = 9;
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -180,20 +182,25 @@ export function ComunicationPage() {
               </Badge>
             </div>
             <Card
-                
-                className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-gradient-to-br from-card to-secondary/10 p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
-              >
-                <h3 className="mb-3 text-xl font-semibold">Vista tambien nuestro Foro Comunitario</h3>
-                <p className="mb-4 text-muted-foreground">
-                  Comparte experiencias y aprende de otrxs en un ambiente moderado y respetuoso.
-                  Construimos juntos un espacio de apoyo.
-                </p>
 
-                <Button variant="outline" className="rounded-[2rem]" onClick={CommunityPage} aria-label="Community Page"
-              data-tour="to-community-page">
-                  Visitar el Foro
-                </Button>
-              </Card>
+              className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-gradient-to-br from-card to-secondary/10 p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
+            >
+              <h3 className="mb-3 text-xl font-semibold">Vista tambien nuestro Foro Comunitario</h3>
+              <p className="mb-4 text-muted-foreground">
+                Comparte experiencias y aprende de otrxs en un ambiente moderado y respetuoso.
+                Construimos juntos un espacio de apoyo.
+              </p>
+
+              <Button
+                variant="outline"
+                className="rounded-[2rem]"
+                onClick={() => navigate('/community')}
+                aria-label="Community Page"
+                data-tour="to-community-page"
+              >
+                Visitar el Foro
+              </Button>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>

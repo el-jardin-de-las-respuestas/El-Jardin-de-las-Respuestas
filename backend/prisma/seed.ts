@@ -1,9 +1,10 @@
 import { PrismaClient } from '../generated/prisma';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 async function main() {
-
+  // Roles
   const roles = [
     { id: 1, name: 'user' },
     { id: 2, name: 'professional' },
@@ -20,7 +21,46 @@ async function main() {
     });
   }
 
-  console.log('Roles seeded');
+  console.log('✅ Roles seeded');
+
+  // Usuario de prueba
+  const hashedPassword = await bcrypt.hash('123456', 10);
+  
+  const user = await prisma.user.upsert({
+    where: { email: 'admin@test.com' },
+    update: {},
+    create: {
+      username: 'Admin',
+      email: 'admin@test.com',
+      password: hashedPassword,
+      birthdate: new Date('2000-01-01'),
+      roleId: 1,
+    },
+  });
+
+  console.log('✅ Usuario admin creado');
+
+  // Foros
+  const forums = [
+    { title: 'Experiencias con anticonceptivos', description: 'Comparte tus experiencias', userId: user.id },
+    { title: 'Apoyo emocional', description: 'Espacio de apoyo', userId: user.id },
+    { title: 'Dudas sobre el ciclo menstrual', description: 'Preguntas y respuestas', userId: user.id },
+    { title: 'Consultas médicas generales', description: 'Consultas generales', userId: user.id },
+    { title: 'Derechos y legislación', description: 'Información sobre derechos', userId: user.id },
+  ];
+
+  for (const forum of forums) {
+    await prisma.forum.upsert({
+      where: { id: forums.indexOf(forum) + 1 },
+      update: {},
+      create: {
+        id: forums.indexOf(forum) + 1,
+        ...forum,
+      },
+    });
+  }
+
+  console.log('✅ Foros seeded');
 }
 
 main()
@@ -31,4 +71,3 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
-
