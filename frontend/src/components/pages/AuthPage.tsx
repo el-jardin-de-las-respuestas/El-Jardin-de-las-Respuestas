@@ -109,7 +109,7 @@ export function AuthPage() {
                 <div className="mb-8 flex flex-col items-center">
                     <div className="mb-4 flex size-20 items-center justify-center rounded-[2rem] bg-secondary/30">
                          <img
-                            src="/public/img/flower-2.svg"
+                            src="/img/flower-2.svg"
                             alt="El Jardín de las Respuestas"
                             className="h-21 w-auto md:h-9"
                             /> 

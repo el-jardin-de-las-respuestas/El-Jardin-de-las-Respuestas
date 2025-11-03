@@ -50,7 +50,11 @@ export function ProfessionalNavbar() {
               to="/professional-dashboard"
               className="flex items-center gap-2 text-lg font-bold text-gray-800 dark:text-white"
             >
-              <img src="/img/logo.png" alt="El Jardín de las Respuestas" className="h-24 w-auto md:h-28" />
+               <img
+              src="/img/flower-2.svg"
+              alt="El Jardín de las Respuestas"
+              className="h-21 w-auto md:h-7"
+            />
             </Link>
 
             {/* Navegación central */}

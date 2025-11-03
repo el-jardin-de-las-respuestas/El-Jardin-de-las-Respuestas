@@ -69,7 +69,7 @@ export function ProfessionalLoginPage() {
                     <div className="flex justify-center">
                         <div className="w-16 h-16 bg-pink-100 dark:bg-pink-900 rounded-2xl flex items-center justify-center">
                              <img
-                                src="/public/img/flower-2.svg"
+                                src="/img/flower-2.svg"
                                 alt="El Jardín de las Respuestas"
                                 className="h-21 w-auto md:h-9"
                             />

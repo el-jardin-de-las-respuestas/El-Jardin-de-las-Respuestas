@@ -26,7 +26,7 @@ const NavbarAuth = () => {
             data-tour="logo"
           >
             <img
-              src="/public/img/flower-2.svg"
+              src="/img/flower-2.svg"
               alt="El Jardín de las Respuestas"
               className="h-21 w-auto md:h-7"
             />
