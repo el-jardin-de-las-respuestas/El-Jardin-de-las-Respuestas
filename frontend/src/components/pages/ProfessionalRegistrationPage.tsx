@@ -110,7 +110,7 @@ export function ProfessionalRegistrationPage() {
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                     >
-                        <div className="space-y-2">
+                        <div className="space-y-4 mt-4">
                             <Label htmlFor="username">Nombre de usuario</Label>
                             <input
                                 id="usuario"
@@ -129,7 +129,7 @@ export function ProfessionalRegistrationPage() {
                             )}
                         </div>
                         {/* Correo Electrónico */}
-                        <div className="space-y-2">
+                        <div className="space-y-4 mt-4">
                             <Label htmlFor="email">Correo Electrónico</Label>
                             <Input
                                 id="email"
@@ -143,7 +143,7 @@ export function ProfessionalRegistrationPage() {
                         </div>
 
                         {/* Contraseña */}
-                        <div className="space-y-2">
+                        <div className="space-y-4 mt-4">
                             <Label htmlFor="password">Contraseña</Label>
                             <Input
                                 id="password"
@@ -157,7 +157,7 @@ export function ProfessionalRegistrationPage() {
                         </div>
 
                         {/* Confirmar Contraseña */}
-                        <div className="space-y-2">
+                        <div className="space-y-4 mt-4">
                             <Label htmlFor="confirmPassword">
                                 Confirmar Contraseña
                             </Label>
@@ -172,7 +172,7 @@ export function ProfessionalRegistrationPage() {
                             />
                         </div>
                         {/* Especialidad */}
-                        <div className="space-y-2">
+                        <div className="space-y-4 mt-4">
                             <Label htmlFor="specialty">Especialidad</Label>
                             <Input
                                 id="specialty"
@@ -186,7 +186,7 @@ export function ProfessionalRegistrationPage() {
 
                         {/* Birthdate*/}
 
-                        <div className="space-y-2">
+                        <div className="space-y-4 mt-4">
                             <Label htmlFor="birthdate">
                                 Fecha de nacimiento
                             </Label>
@@ -238,7 +238,7 @@ export function ProfessionalRegistrationPage() {
                         </div>
 
                         {/* Matrícula o Certificación */}
-                        <div className="space-y-2">
+                        <div className="space-y-4 mt-4">
                             <Label htmlFor="certification">
                                 Matrícula o Certificación
                             </Label>

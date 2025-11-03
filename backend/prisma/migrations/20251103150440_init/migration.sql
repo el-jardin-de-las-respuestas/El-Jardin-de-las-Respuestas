@@ -1,17 +1,5 @@
-/*
-  Warnings:
-
-  - You are about to drop the `users` table. If the table is not empty, all the data it contains will be lost.
-
-*/
 -- CreateEnum
 CREATE TYPE "ConsultationStatus" AS ENUM ('PENDING', 'ACTIVE', 'CLOSED');
-
--- DropTable
-DROP TABLE "public"."users";
-
--- DropEnum
-DROP TYPE "public"."Role";
 
 -- CreateTable
 CREATE TABLE "Role" (
@@ -67,6 +55,16 @@ CREATE TABLE "Post" (
     "userId" INTEGER NOT NULL,
 
     CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "PostLike" (
+    "id" SERIAL NOT NULL,
+    "postId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "PostLike_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -156,6 +154,9 @@ CREATE UNIQUE INDEX "Professional_userId_key" ON "Professional"("userId");
 -- CreateIndex
 CREATE UNIQUE INDEX "Professional_registrationNumber_key" ON "Professional"("registrationNumber");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "PostLike_postId_userId_key" ON "PostLike"("postId", "userId");
+
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Role"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -170,6 +171,12 @@ ALTER TABLE "Post" ADD CONSTRAINT "Post_forumId_fkey" FOREIGN KEY ("forumId") RE
 
 -- AddForeignKey
 ALTER TABLE "Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PostLike" ADD CONSTRAINT "PostLike_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PostLike" ADD CONSTRAINT "PostLike_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Comment" ADD CONSTRAINT "Comment_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
