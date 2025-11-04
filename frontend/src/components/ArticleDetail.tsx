@@ -68,7 +68,7 @@ const ArticleDetail: React.FC = () => {
             switch (sec.tipo) {
               case "intro":
                 return (
-                  <div key={i} className="bg-pink-100 p-4 rounded-2xl mb-6">
+                  <div key={i} className="bg-pink-200 p-4 rounded-2xl mb-6">
                     <p className="text-gray-700">{sec.texto}</p>
                   </div>
                 );
@@ -98,7 +98,7 @@ const ArticleDetail: React.FC = () => {
                 );
               case "numerada":
                 return (
-                  <div key={i} className="bg-pink-100 p-6 rounded-2xl mb-6">
+                  <div key={i} className="bg-pink-200 p-6 rounded-2xl mb-6">
                     <h2 className="text-xl font-semibold text-[#a3687f] mb-4">{sec.titulo}</h2>
                     {sec.items?.map((item, j) => (
                       <div key={j} className="flex items-start mb-3 bg-white p-3 rounded-xl shadow-sm">
@@ -112,7 +112,7 @@ const ArticleDetail: React.FC = () => {
                 );
               case "recursos":
                 return (
-                  <div key={i} className="bg-pink-100 p-6 rounded-2xl mb-6">
+                  <div key={i} className="bg-pink-200 p-6 rounded-2xl mb-6">
                     <h2 className="text-xl font-semibold text-[#a3687f] mb-4">{sec.titulo}</h2>
                     <ul className="space-y-2 text-gray-700">
                       {sec.items?.map((item, j) => <li key={j}>• {item}</li>)}

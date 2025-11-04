@@ -145,8 +145,27 @@ button:hover {
     color: #000000;
 }
 
+
 .driver-popover-custom {
   max-width: 90%;        
   padding: 20px;         
   border-radius: 12px;        
 }
+
+.dark body {
+    color: #ffffff;
+  }
+  
+  .dark h1,
+  .dark h2,
+  .dark h3,
+  .dark h4,
+  .dark h5,
+  .dark h6,
+  .dark p,
+  .dark span,
+  .dark a,
+  .dark li {
+    color: #ffffff;
+  }
+
