@@ -27,7 +27,7 @@ export function ComunicationPage() {
   const userId = 1;
   const professionalId = 9;
   const scrollRef = useRef<HTMLDivElement>(null);
-
+  const [historyLoaded, setHistoryLoaded] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,9 +45,10 @@ export function ComunicationPage() {
       setChatId(chatId);
     });
 
-    socket.on("chatHistory", (history: Message[]) => {
-      setMessages(history);
-    });
+socket.on("chatHistory", (history: Message[]) => {
+  setMessages(history);
+  setHistoryLoaded(true); 
+});
 
     socket.on("message", (msg: Message) => {
       setMessages((prev) => [...prev, msg]);
@@ -67,9 +68,11 @@ export function ComunicationPage() {
     };
   }, [userId, professionalId]);
 
-  useEffect(() => {
+useEffect(() => {
+  if (historyLoaded) {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }
+}, [messages, historyLoaded]);
 
   const handleSend = () => {
     if (!chatId || !chatMessage.trim()) return;
@@ -176,31 +179,30 @@ export function ComunicationPage() {
             </Card>
 
             <div className="mt-4 flex justify-center">
-              <Badge className="rounded-full border-2 border-secondary/40 bg-secondary/20 px-6 py-2 flex items-center gap-2">
+              <Badge className="my-6 rounded-full border-2 border-secondary/40 bg-secondary/20 px-6 py-2 flex items-center gap-2 bg-white">
                 <Shield className="size-4" />
                 Todos los mensajes son moderados por IA
               </Badge>
             </div>
             <Card
-
-              className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-gradient-to-br from-card to-secondary/10 p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
-            >
-              <h3 className="mb-3 text-xl font-semibold">Vista tambien nuestro Foro Comunitario</h3>
-              <p className="mb-4 text-muted-foreground">
-                Comparte experiencias y aprende de otrxs en un ambiente moderado y respetuoso.
-                Construimos juntos un espacio de apoyo.
-              </p>
-
-              <Button
-                variant="outline"
-                className="rounded-[2rem]"
-                onClick={() => navigate('/community')}
-                aria-label="Community Page"
-                data-tour="to-community-page"
+                className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-white p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
               >
-                Visitar el Foro
-              </Button>
-            </Card>
+                <h3 className="mb-3 text-xl font-semibold">Vista también nuestro Foro Comunitario</h3>
+                <p className="mb-4 text-muted-foreground">
+                  Comparte experiencias y aprende de otrxs en un ambiente moderado y respetuoso.
+                  Construimos juntos un espacio de apoyo.
+                </p>
+
+                <Button
+                  variant="outline"
+                  className="rounded-[2rem]"
+                  onClick={() => navigate('/community')}
+                  aria-label="Community Page"
+                  data-tour="to-community-page"
+                >
+                  Visitar el Foro
+                </Button>
+              </Card>
           </TabsContent>
         </Tabs>
       </div>
