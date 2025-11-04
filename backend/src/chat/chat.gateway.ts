@@ -7,8 +7,13 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
-interface Message {
-  chatId: number;
+interface JoinChatDto {
+  userId: number;
+  professionalId: number;
+}
+
+interface SendMessageDto {
+  chatId: string;
   userId: number;
   content: string;
 }
@@ -23,6 +28,8 @@ export class ChatGateway {
   @WebSocketServer()
   server: Server;
 
+  private chatRooms = new Map<string, number>();
+
   handleConnection(client: Socket) {
     console.log('🟢 Cliente conectado:', client.id);
   }
@@ -33,32 +40,44 @@ export class ChatGateway {
 
   @SubscribeMessage('joinChat')
   handleJoinChat(
-    @MessageBody() data: { userId: number; professionalId: number },
+    @MessageBody() data: JoinChatDto,
     @ConnectedSocket() client: Socket,
   ) {
-    console.log('📥 joinChat recibido:', data);
-    // En un futuro, buscás el chatId en BD. Por ahora simula un chatId.
-    const chatId = 1;
-    client.join(`chat_${chatId}`);
-    client.emit('joinedChat', { chatId });
+    const { userId, professionalId } = data;
+    if (!userId || !professionalId) {
+      client.emit('error', 'userId y professionalId requeridos');
+      return;
+    }
+
+    const chatRoom = `chat_${userId}_${professionalId}`;
+    client.join(chatRoom);
+    console.log(`📥 Cliente ${client.id} se unió a ${chatRoom}`);
+    client.emit('joinedChat', { chatRoom });
   }
 
   @SubscribeMessage('sendMessage')
   handleSendMessage(
-    @MessageBody() message: Message,
+    @MessageBody() data: SendMessageDto,
     @ConnectedSocket() client: Socket,
   ) {
-    console.log('✉️ Mensaje recibido:', message);
+    const { chatId, userId, content } = data;
+    if (!chatId || !content) return;
 
-    // reenviar a todos en la sala
-    this.server.to(`chat_${message.chatId}`).emit('message', {
+    const message = {
       id: Date.now(),
-      content: message.content,
+      chatId,
+      userId,
+      content,
       sentAt: new Date().toISOString(),
-      user: {
-        id: message.userId,
-        username: `Usuario ${message.userId}`,
-      },
+    };
+
+    console.log(`✉️ Mensaje en ${chatId}: ${content}`);
+    this.server.to(chatId).emit('message', message);
+    this.server.emit('newChat', {
+      chatId,
+      userId,
+      lastMessage: content,
+      sentAt: message.sentAt,
     });
   }
 }

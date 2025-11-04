@@ -1,217 +1,241 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { socket } from "../socket";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Badge } from "./ui/badge";
-import { Textarea } from "./ui/textarea";
-import {
-  ArrowLeft,
-  Search,
-  MessageSquare,
-  Clock,
-  Send,
-  CheckCheck,
-  AlertTriangle,
-} from "lucide-react";
-import { toast } from "sonner";
+import { Tabs, TabsContent } from "./ui/tabs";
+import { Send, ArrowLeft, CheckCheck, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { Textarea } from "./ui/textarea";
+import type { Message } from "@/types/message";
 
 export default function ProfessionalChat() {
   const navigate = useNavigate();
   const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [message, setMessage] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [chatId, setChatId] = useState<string | null>(null);
+  const [consultations, setConsultations] = useState<any[]>([]);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const consultations = [
-    {
-      id: 1,
-      userId: "Usuario Anónimo #1234",
-      lastMessage: "Hola, tengo una duda sobre anticonceptivos...",
-      time: "Hace 5 min",
-      status: "pending",
-      unread: true,
-      priority: "normal",
-    },
-    {
-      id: 2,
-      userId: "Usuario Anónimo #5678",
-      lastMessage: "Gracias por tu respuesta, me ayudó mucho",
-      time: "Hace 1 hora",
-      status: "active",
-      unread: false,
-      priority: "normal",
-    },
-    {
-      id: 3,
-      userId: "Usuario Anónimo #9012",
-      lastMessage: "Necesito ayuda urgente con...",
-      time: "Hace 2 horas",
-      status: "pending",
-      unread: true,
-      priority: "high",
-    },
-    {
-      id: 4,
-      userId: "Usuario Anónimo #3456",
-      lastMessage: "Todo quedó muy claro, muchas gracias",
-      time: "Hace 3 horas",
-      status: "resolved",
-      unread: false,
-      priority: "normal",
-    },
-  ];
+  const professionalId = 9;
+  const userId = 1;
 
-  const chatHistory = [
-    {
-      sender: "user",
-      message: "Hola, tengo una duda sobre anticonceptivos. ¿Cuál es el más recomendado?",
-      time: "14:23",
-    },
-    {
-      sender: "professional",
-      message:
-        "Hola! Gracias por tu consulta. No existe un método 'mejor' universal, ya que depende de varios factores personales como tu edad, salud general, estilo de vida y preferencias.",
-      time: "14:25",
-    },
-    {
-      sender: "user",
-      message: "Entiendo. Tengo 16 años y nunca he usado ninguno.",
-      time: "14:26",
-    },
-    {
-      sender: "professional",
-      message:
-        "Perfecto. Para tu edad, algunas opciones comunes son: la píldora anticonceptiva, el preservativo (que también protege contra ITS), o el implante subdérmico. ¿Tienes alguna preferencia o inquietud específica?",
-      time: "14:28",
-    },
-  ];
+  useEffect(() => {
+    socket.connect();
+
+    socket.on("newChat", (data: any) => {
+      const { userId, lastMessage, sentAt } = data;
+      setConsultations((prev) => {
+        const exists = prev.find((c) => c.userId === `Usuario ${userId}`);
+        if (exists) return prev;
+        return [
+          ...prev,
+          {
+            id: Date.now(),
+            userId: `Usuario ${userId}`,
+            lastMessage,
+            time: new Date(sentAt).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            status: "pending",
+            unread: true,
+            priority: "normal",
+          },
+        ];
+      });
+    });
+
+    if (selectedChat) {
+      socket.emit("joinChat", { userId, professionalId });
+
+      socket.on("joinedChat", ({ chatRoom }: { chatRoom: string }) => {
+        setChatId(chatRoom);
+        const selected = consultations.find((c) => c.id === selectedChat);
+        if (selected && selected.lastMessage) {
+          setMessages([
+            {
+              id: Date.now(),
+              chatId: chatRoom,
+              userId,
+              content: selected.lastMessage,
+              sentAt: new Date().toISOString(),
+            },
+          ]);
+        }
+      });
+
+      socket.on("message", (msg: Message) => {
+        setMessages((prev) => [...prev, msg]);
+        setConsultations((prev) => {
+          const existing = prev.find(
+            (c) => c.userId === `Usuario ${msg.userId}`
+          );
+          if (existing) {
+            return prev.map((c) =>
+              c.userId === `Usuario ${msg.userId}`
+                ? {
+                    ...c,
+                    lastMessage: msg.content,
+                    time: new Date(msg.sentAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }),
+                    unread: true,
+                  }
+                : c
+            );
+          } else {
+            return [
+              ...prev,
+              {
+                id: Date.now(),
+                userId: `Usuario ${msg.userId}`,
+                lastMessage: msg.content,
+                time: new Date(msg.sentAt).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }),
+                status: "pending",
+                unread: true,
+                priority: "normal",
+              },
+            ];
+          }
+        });
+      });
+    }
+
+    return () => {
+      socket.off("newChat");
+      socket.off("joinedChat");
+      socket.off("message");
+      socket.disconnect();
+    };
+  }, [selectedChat]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleSendMessage = () => {
-    if (message.trim()) {
-      toast.success("Mensaje enviado");
-      setMessage("");
-    }
+    if (!chatId || !message.trim()) return;
+    const msg = { chatId, userId: professionalId, content: message.trim() };
+    socket.emit("sendMessage", msg);
+    setMessage("");
   };
 
   const handleResolveConsultation = () => {
-    toast.success("Consulta marcada como resuelta", {
-      description: "La conversación se archivará automáticamente",
-    });
+    toast.success("Consulta marcada como resuelta");
     setSelectedChat(null);
+    setMessages([]);
   };
-
-  const filteredConsultations = consultations.filter(
-    (consultation) =>
-      consultation.userId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      consultation.lastMessage.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   if (selectedChat !== null) {
     const consultation = consultations.find((c) => c.id === selectedChat);
     if (!consultation) return null;
 
     return (
-      <div className="flex h-screen flex-col bg-background">
-        {/* Chat Header */}
-        <div className="border-b-2 border-secondary/40 bg-background/95 backdrop-blur-md">
-          <div className="mx-auto max-w-5xl px-6 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Button
-                  onClick={() => setSelectedChat(null)}
-                  variant="ghost"
-                  className="gap-2 rounded-[2rem] hover:bg-secondary/30"
-                >
-                  <ArrowLeft className="size-5" />
-                  Volver
-                </Button>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h3>{consultation.userId}</h3>
-                    {consultation.priority === "high" && (
-                      <Badge className="rounded-[1rem] border-destructive/40 bg-destructive/20 text-destructive">
-                        <AlertTriangle className="mr-1 size-3" />
-                        Prioridad Alta
-                      </Badge>
-                    )}
-                  </div>
-                  <p className="text-sm text-muted-foreground">Chat confidencial</p>
-                </div>
-              </div>
-              <Button
-                onClick={handleResolveConsultation}
-                className="gap-2 rounded-[2rem] shadow-[0_4px_20px_var(--color-shadow-soft)]"
-              >
-                <CheckCheck className="size-5" />
-                Marcar como Resuelta
-              </Button>
-            </div>
+      <div className="min-h-screen bg-background flex flex-col items-center justify-start px-4 py-6">
+        <div className="w-full max-w-5xl">
+          <div className="flex justify-between mb-4">
+
           </div>
-        </div>
 
-        {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto bg-background px-6 py-8">
-          <div className="mx-auto max-w-4xl space-y-4">
-            {/* Info Banner */}
-            <div className="rounded-[2rem] border-2 border-primary/40 bg-primary/5 p-4 text-center">
-              <p className="text-sm text-muted-foreground">
-                🔒 Esta conversación es confidencial. Todas las consultas son anónimas y moderadas
-                por IA para seguridad.
-              </p>
-            </div>
-
-            {chatHistory.map((chat, index) => (
-              <div
-                key={index}
-                className={`flex ${chat.sender === "professional" ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`max-w-[70%] rounded-[2rem] p-4 ${
-                    chat.sender === "professional"
-                      ? "bg-primary text-primary-foreground"
-                      : "border-2 border-secondary/40 bg-card"
-                  }`}
-                >
-                  <p className="mb-1 leading-relaxed">{chat.message}</p>
-                  <p
-                    className={`text-xs ${chat.sender === "professional" ? "text-primary-foreground/70" : "text-muted-foreground"}`}
+          <Tabs defaultValue="chat" className="w-full">
+            <TabsContent value="chat">
+              <Card className="flex flex-col h-[80vh] rounded-2xl border border-secondary/30 shadow-lg bg-background">
+                <div className="flex items-center gap-4 border-b border-secondary/30 bg-secondary/10 px-6 py-4">
+                  <Button
+                    onClick={() => setSelectedChat(null)}
+                    variant="ghost"
+                    className="rounded-full hover:bg-secondary/30"
                   >
-                    {chat.time}
-                  </p>
+                    <ArrowLeft className="size-5" />
+                  </Button>
+                  <Avatar className="size-12 border border-primary/60 shadow-sm">
+                    <AvatarFallback className="bg-primary/10">U</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <h3 className="font-semibold text-lg">
+                      {consultation.userId}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Consulta confidencial
+                    </p>
+                  </div>
+                  <Button
+                    onClick={handleResolveConsultation}
+                    className="ml-auto rounded-full gap-2"
+                  >
+                    <CheckCheck className="size-4" />
+                    Resuelta
+                  </Button>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Message Input */}
-        <div className="border-t-2 border-secondary/40 bg-background/95 backdrop-blur-md">
-          <div className="mx-auto max-w-4xl px-6 py-4">
-            <div className="flex gap-3">
-              <Textarea
-                placeholder="Escribe tu respuesta..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSendMessage();
-                  }
-                }}
-                className="min-h-[60px] flex-1 resize-none rounded-[2rem] border-2 border-secondary/40 bg-input-background px-6 py-4"
-              />
-              <Button
-                onClick={handleSendMessage}
-                className="rounded-[2rem] px-8 shadow-[0_4px_20px_var(--color-shadow-soft)]"
-              >
-                <Send className="size-5" />
-              </Button>
-            </div>
-            <p className="mt-2 text-xs text-muted-foreground">
-              Recuerda mantener un tono empático y profesional. Evita dar diagnósticos médicos
-              definitivos.
-            </p>
-          </div>
+                <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-background/50 backdrop-blur-sm scroll-smooth">
+                  {messages.map((msg) => {
+                    const isProfessional = msg.userId === professionalId;
+                    return (
+                      <div
+                        key={msg.id}
+                        className={`flex ${
+                          isProfessional ? "justify-end" : "justify-start"
+                        } transition-all`}
+                      >
+                        <div className="max-w-xs space-y-1">
+                          <div
+                            className={`px-4 py-2 rounded-2xl shadow-md border border-black/10 ${
+                              isProfessional
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-secondary/30 text-foreground"
+                            }`}
+                          >
+                            <p className="text-[0.93rem] leading-relaxed">
+                              {msg.content}
+                            </p>
+                          </div>
+                          <span className="block text-[0.7rem] text-muted-foreground text-right">
+                            {new Date(msg.sentAt).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <div ref={scrollRef} />
+                </div>
+
+                <div className="border-t border-secondary/30 bg-secondary/10 px-6 py-3">
+                  <div className="flex gap-3 items-center">
+                    <Textarea
+                      placeholder="Escribe tu respuesta..."
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          handleSendMessage();
+                        }
+                      }}
+                      className="flex-1 rounded-full border border-secondary/40 px-4 py-3 focus:ring-2 focus:ring-primary/40"
+                    />
+                    <Button
+                      onClick={handleSendMessage}
+                      className="rounded-full px-5 py-3 shadow-md hover:shadow-lg transition"
+                    >
+                      <Send className="size-4" />
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     );
@@ -219,135 +243,35 @@ export default function ProfessionalChat() {
 
   return (
     <div className="min-h-screen bg-background px-6 py-12">
-      <div className="mx-auto max-w-7xl">
-        {/* Header */}
-        <div className="mb-8">
-          <Button
-            onClick={() => navigate('/professional-dashboard')}
-            variant="ghost"
-            className="gap-2 rounded-[2rem] hover:bg-secondary/30"
-          >
-            <ArrowLeft className="size-5" />
-            Volver al Dashboard
-          </Button>
+      <div className="mx-auto max-w-6xl">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold">Consultas de usuarios</h1>
+
         </div>
 
-        {/* Title */}
-        <div className="mb-12 text-center">
-          <div className="mb-4 flex justify-center">
-            <div className="flex size-16 items-center justify-center rounded-[2rem] bg-primary/20 text-4xl">
-              💬
-            </div>
-          </div>
-          <h1 className="mb-4">Chat con personas usuarias</h1>
-          <p className="mx-auto max-w-2xl text-muted-foreground">
-            Responde consultas confidenciales. Tu conocimiento profesional puede
-            hacer una gran diferencia.
-          </p>
-        </div>
-
-        {/* Search */}
-        <div className="mb-8">
-          <div className="relative mx-auto max-w-2xl">
-            <Search className="absolute left-6 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Buscar consultas..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="rounded-[3rem] border-2 border-secondary/40 bg-input-background py-6 pl-14 pr-6 shadow-[0_4px_20px_var(--color-shadow-soft)]"
-            />
-          </div>
-        </div>
-
-        {/* Stats
-        <div className="mb-8 grid gap-6 sm:grid-cols-3">
-          <Card className="rounded-[2.5rem] border-2 border-secondary/40 p-6 text-center">
-            <div className="mb-2 text-3xl">12</div>
-            <div className="text-muted-foreground">Consultas Pendientes</div>
-          </Card>
-          <Card className="rounded-[2.5rem] border-2 border-secondary/40 p-6 text-center">
-            <div className="mb-2 text-3xl">8</div>
-            <div className="text-muted-foreground">Activas Hoy</div>
-          </Card>
-          <Card className="rounded-[2.5rem] border-2 border-secondary/40 p-6 text-center">
-            <div className="mb-2 text-3xl">124</div>
-            <div className="text-muted-foreground">Total Resueltas</div>
-          </Card>
-        </div> */}
-
-        {/* Consultations List */}
-        <div className="space-y-4">
-          {filteredConsultations.map((consultation) => (
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {consultations.map((consultation) => (
             <Card
               key={consultation.id}
               onClick={() => setSelectedChat(consultation.id)}
-              className="group cursor-pointer overflow-hidden rounded-[2.5rem] border-2 border-secondary/40 transition-all hover:scale-[1.02] hover:shadow-[0_8px_40px_var(--color-shadow-soft)]"
+              className="cursor-pointer rounded-[2rem] border border-secondary/30 p-6 hover:shadow-lg transition"
             >
-              <div className="p-6">
-                <div className="flex items-start gap-4">
-                  <div
-                    className={`flex size-12 shrink-0 items-center justify-center rounded-[1.5rem] text-2xl ${
-                      consultation.unread ? "bg-primary/20" : "bg-secondary/30"
-                    }`}
-                  >
-                    {consultation.priority === "high" ? "⚠️" : "💬"}
-                  </div>
-                  <div className="flex-1">
-                    <div className="mb-2 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <h4>{consultation.userId}</h4>
-                        {consultation.unread && (
-                          <Badge className="rounded-[1rem] border-primary/40 bg-primary/20 text-primary">
-                            Nuevo
-                          </Badge>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Clock className="size-4" />
-                        <span>{consultation.time}</span>
-                      </div>
-                    </div>
-                    <p className="line-clamp-2 text-muted-foreground">
-                      {consultation.lastMessage}
-                    </p>
-                  </div>
+              <div className="flex items-start justify-between">
+                <div>
+                  <h4 className="font-semibold">{consultation.userId}</h4>
+                  <p className="text-sm text-muted-foreground line-clamp-2">
+                    {consultation.lastMessage}
+                  </p>
+                  <span className="text-xs text-muted-foreground">
+                    {consultation.time}
+                  </span>
                 </div>
+                {consultation.unread && (
+                  <Badge className="rounded-full">Nuevo</Badge>
+                )}
               </div>
             </Card>
           ))}
-        </div>
-
-        {/* Info Card */}
-        <div className="mt-12 rounded-[3rem] border-2 border-primary/40 bg-gradient-to-br from-primary/5 to-secondary/10 p-8">
-          <div className="mb-4 flex items-center gap-3">
-            <div className="flex size-12 items-center justify-center rounded-[1.5rem] bg-primary text-primary-foreground">
-              ℹ️
-            </div>
-            <h3>Guía para Responder Consultas</h3>
-          </div>
-          <ul className="space-y-2 text-muted-foreground">
-            <li className="flex gap-2">
-              <span>✓</span>
-              <span>Mantén un tono empático, profesional y sin juicios</span>
-            </li>
-            <li className="flex gap-2">
-              <span>✓</span>
-              <span>Usa lenguaje claro y accesible para adolescentes</span>
-            </li>
-            <li className="flex gap-2">
-              <span>✓</span>
-              <span>Evita dar diagnósticos definitivos; sugiere consulta presencial si es necesario</span>
-            </li>
-            <li className="flex gap-2">
-              <span>✓</span>
-              <span>Respeta la confidencialidad en todo momento</span>
-            </li>
-            <li className="flex gap-2">
-              <span>✓</span>
-              <span>Si detectas una situación de riesgo, deriva a recursos de emergencia</span>
-            </li>
-          </ul>
         </div>
       </div>
     </div>

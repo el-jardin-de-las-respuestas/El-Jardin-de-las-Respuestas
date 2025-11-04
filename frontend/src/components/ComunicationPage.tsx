@@ -7,28 +7,19 @@ import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Tabs, TabsContent } from "./ui/tabs";
 import { Send, Shield } from "lucide-react";
-
 import { useNavigate } from "react-router-dom";
+import type { Message } from "@/types/message";
 
-interface Message {
-  id: number;
-  content: string;
-  sentAt: string;
-  user: {
-    id: number;
-    username: string;
-  };
-}
 
 export function ComunicationPage() {
   const [chatMessage, setChatMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
-  const [chatId, setChatId] = useState<number | null>(null);
-  const userId = 1;
-  const professionalId = 9;
+  const [chatId, setChatId] = useState<string | null>(null); 
+  const userId = 1; 
+  const professionalId = 9; 
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [historyLoaded, setHistoryLoaded] = useState(false);
   const navigate = useNavigate();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -39,50 +30,54 @@ export function ComunicationPage() {
       console.error("❌ Error al conectar con Socket.IO:", err.message);
     });
 
+  
     socket.emit("joinChat", { userId, professionalId });
 
-    socket.on("joinedChat", ({ chatId }: { chatId: number }) => {
-      setChatId(chatId);
+  
+    socket.on("joinedChat", ({ chatRoom }: { chatRoom: string }) => {
+      console.log("🟢 Unido al chat:", chatRoom);
+      setChatId(chatRoom);
     });
 
-socket.on("chatHistory", (history: Message[]) => {
-  setMessages(history);
-  setHistoryLoaded(true); 
-});
 
     socket.on("message", (msg: Message) => {
+      console.log("📨 Mensaje recibido:", msg);
       setMessages((prev) => [...prev, msg]);
     });
 
     socket.on("chatError", (err: string) => {
-      console.error("Error del chat:", err);
+      console.error("⚠️ Error del chat:", err);
     });
 
     return () => {
       socket.off("connect");
       socket.off("connect_error");
       socket.off("joinedChat");
-      socket.off("chatHistory");
       socket.off("message");
       socket.off("chatError");
     };
   }, [userId, professionalId]);
 
 useEffect(() => {
-  if (historyLoaded) {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  const container = scrollRef.current?.parentElement;
+  if (container) {
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: "smooth",
+    });
   }
-}, [messages, historyLoaded]);
+}, [messages]);
 
   const handleSend = () => {
     if (!chatId || !chatMessage.trim()) return;
 
-    socket.emit("sendMessage", {
+    const message = {
       chatId,
       userId,
-      content: chatMessage,
-    });
+      content: chatMessage.trim(),
+    };
 
+    socket.emit("sendMessage", message);
     setChatMessage("");
   };
 
@@ -99,12 +94,12 @@ useEffect(() => {
               {/* Header */}
               <div className="flex items-center gap-4 border-b border-secondary/30 bg-secondary/10 px-6 py-4">
                 <Avatar className="size-12 border border-primary/60 shadow-sm">
-                  <AvatarFallback className="bg-primary/10">MG</AvatarFallback>
+                  <AvatarFallback className="bg-primary/10">P</AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="font-semibold text-lg">Dra. María González</h3>
+                  <h3 className="font-semibold text-lg">Profesional de salud</h3>
                   <p className="text-sm text-muted-foreground">
-                    Ginecóloga Certificada
+                    Especialista certificado
                   </p>
                 </div>
                 <Badge className="ml-auto rounded-full bg-green-500/30 text-green-700">
@@ -112,33 +107,35 @@ useEffect(() => {
                 </Badge>
               </div>
 
-              {/* Chat messages (scrollable area) */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-background/50 backdrop-blur-sm scroll-smooth">
+              {/* Chat messages */}
+              <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-background/50 backdrop-blur-sm scroll-smooth" ref={scrollContainerRef}>
                 {messages.map((msg) => {
-                  const isProfessional = msg.user.id === professionalId;
+                  const isProfessional = msg.userId === professionalId;
                   return (
                     <div
                       key={msg.id}
-                      className={`flex ${isProfessional ? "justify-start" : "justify-end"
-                        } transition-all`}
+                      className={`flex ${
+                        isProfessional ? "justify-start" : "justify-end"
+                      } transition-all`}
                     >
                       <div className="max-w-xs space-y-1">
                         {isProfessional && (
                           <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
                             <Avatar className="size-6 border border-primary/50">
                               <AvatarFallback className="bg-primary/10 text-xs">
-                                MG
+                                P
                               </AvatarFallback>
                             </Avatar>
-                            <span>{msg.user.username}</span>
+                            <span>Profesional</span>
                           </div>
                         )}
 
                         <div
-                          className={`px-4 py-2 rounded-2xl shadow-md ${isProfessional
-                            ? "bg-secondary/30 text-foreground"
-                            : "bg-primary text-primary-foreground"
-                            }`}
+                          className={`px-4 py-2 rounded-2xl shadow-md ${
+                            isProfessional
+                              ? "bg-secondary/30 text-foreground"
+                              : "bg-primary text-primary-foreground"
+                          }`}
                         >
                           <p className="text-[0.93rem] leading-relaxed">
                             {msg.content}
@@ -181,28 +178,26 @@ useEffect(() => {
             <div className="mt-4 flex justify-center">
               <Badge className="my-6 rounded-full border-2 border-secondary/40 bg-secondary/20 px-6 py-2 flex items-center gap-2 bg-white">
                 <Shield className="size-4" />
-                Todos los mensajes son moderados por IA
               </Badge>
             </div>
-            <Card
-                className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-white p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
-              >
-                <h3 className="mb-3 text-xl font-semibold">Vista también nuestro Foro Comunitario</h3>
-                <p className="mb-4 text-muted-foreground">
-                  Comparte experiencias y aprende de otrxs en un ambiente moderado y respetuoso.
-                  Construimos juntos un espacio de apoyo.
-                </p>
 
-                <Button
-                  variant="outline"
-                  className="rounded-[2rem]"
-                  onClick={() => navigate('/community')}
-                  aria-label="Community Page"
-                  data-tour="to-community-page"
-                >
-                  Visitar el Foro
-                </Button>
-              </Card>
+            <Card className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-white p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]">
+              <h3 className="mb-3 text-xl font-semibold">
+                Visita también nuestro Foro Comunitario
+              </h3>
+              <p className="mb-4 text-muted-foreground">
+                Comparte experiencias y aprende de otrxs en un ambiente moderado
+                y respetuoso. Construimos juntos un espacio de apoyo.
+              </p>
+
+              <Button
+                variant="outline"
+                className="rounded-[2rem]"
+                onClick={() => navigate("/community")}
+              >
+                Visitar el Foro
+              </Button>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
