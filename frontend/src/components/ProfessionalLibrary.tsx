@@ -34,32 +34,32 @@ export default function ProfessionalLibrary() {
     resources: [""],
   });
 
-  const myArticles = [
-    {
-      id: 1,
-      title: "Cambios en la Pubertad: Lo que Necesitas Saber",
-      category: "Cuerpo y Desarrollo",
-      status: "published",
-      views: 1234,
-      lastEdited: "Hace 2 días",
-    },
-    {
-      id: 2,
-      title: "Métodos Anticonceptivos: Guía Completa",
-      category: "Salud Sexual",
-      status: "published",
-      views: 2103,
-      lastEdited: "Hace 1 semana",
-    },
-    {
-      id: 3,
-      title: "Salud Menstrual: Mitos y Realidades",
-      category: "Cuerpo y Desarrollo",
-      status: "draft",
-      views: 0,
-      lastEdited: "Hace 3 horas",
-    },
-  ];
+const [myArticles, setMyArticles] = useState([
+  {
+    id: 1,
+    title: "Cambios en la Pubertad: Lo que Necesitas Saber",
+    category: "Cuerpo y Desarrollo",
+    status: "published",
+    views: 1234,
+    lastEdited: "Hace 2 días",
+  },
+  {
+    id: 2,
+    title: "Métodos Anticonceptivos: Guía Completa",
+    category: "Salud Sexual",
+    status: "published",
+    views: 2103,
+    lastEdited: "Hace 1 semana",
+  },
+  {
+    id: 3,
+    title: "Salud Menstrual: Mitos y Realidades",
+    category: "Cuerpo y Desarrollo",
+    status: "draft",
+    views: 0,
+    lastEdited: "Hace 3 horas",
+  },
+]);
 
   const categories = [
     "Cuerpo y Desarrollo",
@@ -84,9 +84,11 @@ export default function ProfessionalLibrary() {
     });
   };
 
+
+
 const handlePublish = async () => {
   try {
-    await createLibraryItem({
+    const newArticle = await createLibraryItem({
       title: formData.title,
       description: formData.excerpt || formData.introduction,
       content:
@@ -94,15 +96,31 @@ const handlePublish = async () => {
         "\n\n" +
         formData.sections.map(s => `${s.title}\n${s.content}`).join("\n\n"),
     });
+
     toast.success("¡Artículo publicado exitosamente!", {
       description: "Tu contenido ya está disponible para la comunidad",
     });
+
+    setMyArticles(prev => [
+      {
+        id: newArticle.id, 
+        title: formData.title,
+        category: formData.category,
+        status: "published",
+        views: 0,
+        lastEdited: "Hace un momento",
+      },
+      ...prev,
+    ]);
+
     setView("list");
   } catch (err) {
     console.error(err);
     toast.error("Error al publicar el artículo");
   }
 };
+
+
 
 
   const handleSaveDraft = () => {
@@ -129,13 +147,13 @@ const handlePublish = async () => {
               <Button
                 onClick={handleSaveDraft}
                 variant="outline"
-                className="gap-2 rounded-[2rem] border-2 border-secondary/40 hover:bg-secondary/30"
+                className="gap-2 rounded-[2rem] border-2 border-secondary/40 hover:bg-secondary/30 bg-white"
               >
                 Guardar Borrador
               </Button>
               <Button
                 onClick={handlePublish}
-                className="gap-2 rounded-[2rem] shadow-[0_4px_20px_var(--color-shadow-soft)]"
+                className="gap-2 rounded-[2rem] shadow-[0_4px_20px_var(--color-shadow-soft)] bg-white"
               >
                 <CheckCircle className="size-5" />
                 Publicar
@@ -144,13 +162,13 @@ const handlePublish = async () => {
           </div>
 
           {/* Form */}
-          <Card className="rounded-[3rem] border-2 border-secondary/40 p-8 shadow-[0_8px_40px_var(--color-shadow-soft)] md:p-12">
+          <Card className="rounded-[3rem] border-2 border-black p-8 shadow-[0_8px_40px_var(--color-shadow-soft)] md:p-12">
             <div className="mb-8">
               <div className="mb-4 flex items-center gap-3">
                 <div className="flex size-14 items-center justify-center rounded-[2rem] bg-primary/20 text-3xl">
                   📝
                 </div>
-                <h1>{view === "create" ? "Crear Nuevo Artículo" : "Editar Artículo"}</h1>
+                <h1>{view === "create"   ? "Crear Nuevo Artículo" : "Editar Artículo"}</h1>
               </div>
               <p className="text-muted-foreground">
                 Comparte tu conocimiento profesional con la comunidad. Asegúrate de usar lenguaje
@@ -226,7 +244,7 @@ const handlePublish = async () => {
               </div>
 
               {/* Sections */}
-              <div className="space-y-4">
+              <div className="space-y-3 rounded-[2rem] border-2 bg-white p-6">
                 <div className="flex items-center justify-between">
                   <Label>Secciones del Artículo</Label>
                   <Button
@@ -296,7 +314,7 @@ const handlePublish = async () => {
                     onClick={handleAddKeyTakeaway}
                     variant="outline"
                     size="sm"
-                    className="gap-2 rounded-[1.5rem] border-2 border-secondary/40 hover:bg-secondary/30"
+                    className="gap-2 rounded-[1.5rem] border-2 border-secondary/40 hover:bg-secondary/30 bg-white"
                   >
                     <Plus className="size-4" />
                     Agregar Punto
@@ -336,7 +354,7 @@ const handlePublish = async () => {
               </div>
 
               {/* Guidelines */}
-              <div className="rounded-[2rem] border-2 border-primary/40 bg-primary/5 p-6">
+              <div className="rounded-[2rem] border-2 border-primary/40 bg-white p-6">
                 <div className="mb-3 flex items-center gap-2">
                   <AlertCircle className="size-5 text-primary" />
                   <h4>Guía de Contenido</h4>
