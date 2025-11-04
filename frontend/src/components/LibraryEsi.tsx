@@ -1,45 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Clock } from "lucide-react";
-import articlesData from "@data/LibraryEsi.json";
+import { getLibraryItems } from "../services/libraryServices";
 
 interface Article {
   id: number;
-  titulo: string;
-  categoria: string;
-  duracion: string;
-  descripcion: string;
-  imagen: string;
+  title: string;
+  description: string;
+  createdAt: string;
 }
 
-// Tarjeta individual
 const ArticleCard: React.FC<{ article: Article }> = ({ article }) => {
   const navigate = useNavigate();
 
   return (
     <div
-    onClick={() => navigate(`/article/${article.id}`)}
+      onClick={() => navigate(`/article/${article.id}`)}
       className="bg-white rounded-2xl shadow hover:shadow-lg cursor-pointer overflow-hidden transition duration-300 flex flex-col"
     >
-      <img src={article.imagen} alt={article.titulo} className="w-full h-48 object-cover" />
       <div className="p-6 flex flex-col flex-grow">
-        <h2 className="text-lg font-semibold text-pink-600 mb-2">{article.titulo}</h2>
-        <span className="text-sm font-medium text-white bg-pink-400 inline-block px-3 py-1 rounded-full mb-4 self-start">
-          {article.categoria}
-        </span>
-        <p className="text-gray-700 text-sm leading-relaxed flex-grow">{article.descripcion}</p>
+        <h2 className="text-lg font-semibold text-pink-600 mb-2">
+          {article.title}
+        </h2>
+        <p className="text-gray-700 text-sm leading-relaxed flex-grow">
+          {article.description}
+        </p>
         <div className="flex justify-end items-center mt-4 text-gray-500 text-sm">
           <Clock size={16} className="mr-1" />
-          <span>{article.duracion}</span>
+          <span>
+            {new Date(article.createdAt).toLocaleDateString("es-AR")}
+          </span>
         </div>
       </div>
     </div>
   );
 };
 
-// Componente principal de la biblioteca
 const LibraryEsi: React.FC = () => {
-  const articles: Article[] = articlesData as Article[];
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  useEffect(() => {
+    getLibraryItems().then(setArticles).catch(console.error);
+  }, []);
 
   return (
     <section className="pt-32 pb-12 px-8 bg-pink-50 min-h-screen">
@@ -47,10 +49,9 @@ const LibraryEsi: React.FC = () => {
         Biblioteca ESI
       </h1>
       <p className="text-center text-gray-600 max-w-3xl mx-auto mb-12 text-lg sm:text-xl leading-relaxed">
-        Contenido educativo validado por profesionales de la salud. Aprende a tu propio ritmo
-        en un espacio sin juicios.
+        Contenido educativo validado por profesionales de la salud.
       </p>
-  
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {articles.map((article) => (
           <ArticleCard key={article.id} article={article} />
@@ -58,7 +59,6 @@ const LibraryEsi: React.FC = () => {
       </div>
     </section>
   );
-
 };
 
 export default LibraryEsi;

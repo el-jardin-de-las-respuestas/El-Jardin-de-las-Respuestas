@@ -1,3 +1,4 @@
+import { createLibraryItem } from "../services/libraryServices" 
 import { useState } from "react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
@@ -17,6 +18,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+
 
 export default function ProfessionalLibrary() {
   const navigate = useNavigate();
@@ -82,12 +84,26 @@ export default function ProfessionalLibrary() {
     });
   };
 
-  const handlePublish = () => {
+const handlePublish = async () => {
+  try {
+    await createLibraryItem({
+      title: formData.title,
+      description: formData.excerpt || formData.introduction,
+      content:
+        formData.introduction +
+        "\n\n" +
+        formData.sections.map(s => `${s.title}\n${s.content}`).join("\n\n"),
+    });
     toast.success("¡Artículo publicado exitosamente!", {
       description: "Tu contenido ya está disponible para la comunidad",
     });
     setView("list");
-  };
+  } catch (err) {
+    console.error(err);
+    toast.error("Error al publicar el artículo");
+  }
+};
+
 
   const handleSaveDraft = () => {
     toast.success("Borrador guardado", {
