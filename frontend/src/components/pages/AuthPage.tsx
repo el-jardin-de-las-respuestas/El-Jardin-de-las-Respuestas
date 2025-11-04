@@ -288,7 +288,7 @@ export function AuthPage() {
                                 <p>
                                     ¿No tienes cuenta?{" "}
                                     <span
-                                        className="text-primary cursor-pointer hover:text-pink-700"
+                                        className="font-semibold text-pink-600 dark:text-pink-400 underline underline-offset-4 decoration-pink-400 dark:decoration-pink-500 hover:text-pink-700 dark:hover:text-pink-300 hover:decoration-pink-600 dark:hover:decoration-pink-300 transition cursor-pointer"
                                         onClick={() => {
                                             setIsLogin(false);
                                             reset();
@@ -301,7 +301,7 @@ export function AuthPage() {
                                 <p>
                                     ¿Eres profesional?{" "}
                                     <span
-                                        className="text-primary cursor-pointer hover:text-pink-700"
+                                        className="font-semibold text-pink-600 dark:text-pink-400 underline underline-offset-4 decoration-pink-400 dark:decoration-pink-500 hover:text-pink-700 dark:hover:text-pink-300 hover:decoration-pink-600 dark:hover:decoration-pink-300 transition cursor-pointer"
                                         onClick={() => navigate("/professional-login")}
                                     >
                                         Inicia Sesión Aquí
@@ -312,7 +312,7 @@ export function AuthPage() {
                             <p>
                                 ¿Ya tienes cuenta?{" "}
                                 <span
-                                    className="text-primary cursor-pointer hover:text-pink-700"
+                                    className="font-semibold text-pink-600 dark:text-pink-400 underline underline-offset-4 decoration-pink-400 dark:decoration-pink-500 hover:text-pink-700 dark:hover:text-pink-300 hover:decoration-pink-600 dark:hover:decoration-pink-300 transition cursor-pointer"
                                     onClick={() => {
                                         setIsLogin(true);
                                         reset();
