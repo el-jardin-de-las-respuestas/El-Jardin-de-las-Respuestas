@@ -178,15 +178,9 @@ useEffect(() => {
               </div>
             </Card>
 
-            <div className="mt-4 flex justify-center">
-              <Badge className="my-6 rounded-full border-2 border-secondary/40 bg-secondary/20 px-6 py-2 flex items-center gap-2 bg-white">
-                <Shield className="size-4" />
-                Todos los mensajes son moderados por IA
-              </Badge>
-            </div>
-            <Card
-                className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-white p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
-              >
+                <Card
+                  className="mt-8 cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-white p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
+                >
                 <h3 className="mb-3 text-xl font-semibold">Vista también nuestro Foro Comunitario</h3>
                 <p className="mb-4 text-muted-foreground">
                   Comparte experiencias y aprende de otrxs en un ambiente moderado y respetuoso.
