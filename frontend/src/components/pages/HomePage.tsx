@@ -1,6 +1,6 @@
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
-import { MessageCircle, BookOpen, Users, Flower2, Sparkles, Lock } from "lucide-react";
+import { MessageCircle, BookOpen, Users, Flower2, Sparkles, Lock, Heart, Linkedin } from "lucide-react";
 import { ImageWithFallback } from "../design/ImageWithFallback";
 import { useTourPublic } from '../../hooks/useTourPublic';
 import { useTourAuth } from '../../hooks/useTourAuth';
@@ -32,36 +32,44 @@ export function HomePage() {
   };
 
   const categories = [
-    { 
-      title: "Cuerpo y Desarrollo", 
-      icon: "🌸", 
-      description: "Tu cuerpo cambia y está bien. Aprendé qué es normal y qué esperar en cada etapa" 
+    {
+      title: "Cuerpo y Desarrollo",
+      icon: "🌸",
+      description: "Tu cuerpo cambia y está bien. Aprendé qué es normal y qué esperar en cada etapa"
     },
-    { 
-      title: "Relaciones Saludables", 
-      icon: "💕", 
-      description: "Cómo construir vínculos que te hagan sentir bien, respetadx y queridx" 
+    {
+      title: "Relaciones Saludables",
+      icon: "💕",
+      description: "Cómo construir vínculos que te hagan sentir bien, respetadx y queridx"
     },
-    { 
-      title: "Identidad y Género", 
-      icon: "🌈", 
-      description: "Explorá quién sos sin presiones. Tu identidad es tuya y es válida" 
+    {
+      title: "Identidad y Género",
+      icon: "🌈",
+      description: "Explorá quién sos sin presiones. Tu identidad es tuya y es válida"
     },
-    { 
-      title: "Derechos Sexuales", 
-      icon: "⚖️", 
-      description: "Conocé tus derechos y cómo hacer que se respeten. Tu voz importa" 
+    {
+      title: "Derechos Sexuales",
+      icon: "⚖️",
+      description: "Conocé tus derechos y cómo hacer que se respeten. Tu voz importa"
     },
-    { 
-      title: "Salud Sexual", 
-      icon: "🩺", 
-      description: "Info clara sobre cuidarte, prevenir y tomar decisiones informadas" 
+    {
+      title: "Salud Sexual",
+      icon: "🩺",
+      description: "Info clara sobre cuidarte, prevenir y tomar decisiones informadas"
     },
-    { 
-      title: "Consentimiento", 
-      icon: "🤝", 
-      description: "Tus límites son sagrados. Aprendé a decir que sí, que no, o que tal vez" 
+    {
+      title: "Consentimiento",
+      icon: "🤝",
+      description: "Tus límites son sagrados. Aprendé a decir que sí, que no, o que tal vez"
     },
+  ];
+
+  const teamMembers = [
+    { name: 'Valeria', linkedin: 'https://www.linkedin.com/in/paola-valeria-medina-316167267/' },
+    { name: 'Fiorella', linkedin: 'https://www.linkedin.com/in/fiorella-terranova/' },
+    { name: 'Emanuel', linkedin: 'https://www.linkedin.com/in/emanuelcabral8/' },
+    { name: 'Celeste', linkedin: 'https://www.linkedin.com/in/celeste-courtade-417763304/' },
+    { name: 'Agostina', linkedin: 'https://www.linkedin.com/in/agostina-abril-de-yurka-1bb2a328a/' },
   ];
 
   return (
@@ -70,9 +78,6 @@ export function HomePage() {
       {!isAuthenticated ? (
         // HERO PÚBLICO - Más atractivo y llamativo
         <section className="relative overflow-hidden px-3 py-12 lg:py-20">
-          {/* Fondo con overlay gradient */}
-        
-
           <div className="relative mx-auto max-w-5xl text-center px-4">
             {/* Animación de flores flotantes */}
             <div className="mb-8 flex justify-center gap-4 animate-pulse">
@@ -85,16 +90,15 @@ export function HomePage() {
             <div className="mb-6 inline-flex items-center gap-2 text-pink-600 dark:text-pink-300">
               <Sparkles className="w-4 h-4" />
               <span className="text-sm font-medium">Tu espacio seguro de aprendizaje</span>
-           </div>
-
+            </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-pink-500 via-pink-400 to-pink-600 bg-clip-text text-transparent leading-tight">
               El Jardín de las Respuestas
             </h1>
 
             <p className="mx-auto mb-10 max-w-3xl text-gray-700 text-base sm:text-lg leading-relaxed">
-              Un espacio seguro y empático donde puedes <span className="font-semibold text-pink-600">aprender sobre educación sexual integral</span>, 
-              hacer preguntas sin miedo y conectar con profesionales de la salud. 
+              Un espacio seguro y empático donde puedes <span className="font-semibold text-pink-600">aprender sobre educación sexual integral</span>,
+              hacer preguntas sin miedo y conectar con profesionales de la salud.
               <span className="block mt-2 text-pink-500 font-medium">Tu autonomía. Tu seguridad. Tu bienestar.</span>
             </p>
 
@@ -107,7 +111,7 @@ export function HomePage() {
                 <Sparkles className="w-5 h-5 mr-2" />
                 Comenzar Gratis
               </Button>
-              
+
               <Button
                 variant="outline"
                 onClick={handleTourClick}
@@ -174,8 +178,8 @@ export function HomePage() {
           {/* Título y descripción */}
           <div className="mb-12 text-center max-w-3xl mx-auto">
             <h2 className="text-3xl sm:text-4xl font-bold text-pink-700 mb-4">
-              {!isAuthenticated 
-                ? "¿Qué te gustaría aprender hoy?" 
+              {!isAuthenticated
+                ? "¿Qué te gustaría aprender hoy?"
                 : "Tu biblioteca de ESI te espera"}
             </h2>
             <p className="text-gray-600 text-base">
@@ -189,18 +193,16 @@ export function HomePage() {
             {categories.map((category, index) => (
               <Card
                 key={index}
-                className={`group cursor-pointer rounded-3xl border-2 bg-white p-8 flex flex-col items-center transition-all duration-300 ${
-                  !isAuthenticated 
-                    ? 'border-pink-300 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] hover:border-pink-400 hover:-translate-y-2' 
+                className={`group cursor-pointer rounded-3xl border-2 bg-white p-8 flex flex-col items-center transition-all duration-300 ${!isAuthenticated
+                    ? 'border-pink-300 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] hover:border-pink-400 hover:-translate-y-2'
                     : 'border-pink-200 hover:shadow-[0_12px_40px_rgba(233,30,99,0.2)] hover:-translate-y-1'
-                }`}
+                  }`}
                 onClick={handleCategoryClick}
               >
                 {/* Icono */}
                 <div className="relative mb-6">
-                  <div className={`flex items-center justify-center w-20 h-20 rounded-full text-4xl transition-transform group-hover:scale-110 ${
-                    !isAuthenticated ? 'bg-pink-100' : 'bg-pink-100'
-                  }`}>
+                  <div className={`flex items-center justify-center w-20 h-20 rounded-full text-4xl transition-transform group-hover:scale-110 ${!isAuthenticated ? 'bg-pink-100' : 'bg-pink-100'
+                    }`}>
                     {category.icon}
                   </div>
                   {!isAuthenticated && (
@@ -237,58 +239,58 @@ export function HomePage() {
           </h2>
           <div className="grid gap-8 md:grid-cols-2">
             {/* Chat Module */}
-          <Card
-            className="group cursor-pointer rounded-3xl border-2 border-pink-300 bg-white p-8 transition-all duration-300 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] hover:border-pink-400 hover:-translate-y-2"
-            onClick={() => {
-              if (!isAuthenticated) {
-                navigate("/auth", { state: { from: "/communication" } });
-              } else {
-                navigate("/communication");
-              }
-            }}
-            id="chat-preview"
-          >
-            <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-pink-100">
-              <MessageCircle className="size-10 text-pink-600" />
-            </div>
-            <h3 className="mb-3 text-xl font-bold text-pink-700 text-center group-hover:text-pink-600 transition-colors">
-              Chat con Profesionales
-            </h3>
-            <p className="mb-4 text-gray-600 text-center leading-relaxed">
-              Conversaciones privadas y seguras con profesionales de la salud sexual.
-              Todas tus dudas serán respondidas con empatía y profesionalismo.
-            </p>
-            <Button variant="outline" className="rounded-full border-pink-300 text-pink-600 hover:bg-pink-50">
-              {!isAuthenticated ? 'Registrarse para Chatear' : 'Iniciar Chat'}
-            </Button>
-          </Card>
+            <Card
+              className="group cursor-pointer rounded-3xl border-2 border-pink-300 bg-white p-8 transition-all duration-300 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] hover:border-pink-400 hover:-translate-y-2"
+              onClick={() => {
+                if (!isAuthenticated) {
+                  navigate("/auth", { state: { from: "/communication" } });
+                } else {
+                  navigate("/communication");
+                }
+              }}
+              id="chat-preview"
+            >
+              <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-pink-100">
+                <MessageCircle className="size-10 text-pink-600" />
+              </div>
+              <h3 className="mb-3 text-xl font-bold text-pink-700 text-center group-hover:text-pink-600 transition-colors">
+                Chat con Profesionales
+              </h3>
+              <p className="mb-4 text-gray-600 text-center leading-relaxed">
+                Conversaciones privadas y seguras con profesionales de la salud sexual.
+                Todas tus dudas serán respondidas con empatía y profesionalismo.
+              </p>
+              <Button variant="outline" className="rounded-full border-pink-300 text-pink-600 hover:bg-pink-50">
+                {!isAuthenticated ? 'Registrarse para Chatear' : 'Iniciar Chat'}
+              </Button>
+            </Card>
 
             {/* Forum Module */}
             <Card
-                className="group cursor-pointer rounded-3xl border-2 border-pink-300 bg-white p-8 transition-all duration-300 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] hover:border-pink-400 hover:-translate-y-2"
-                onClick={() => {
-                  if (!isAuthenticated) {
-                    navigate("/auth", { state: { from: "/community" } });
-                  } else {
-                    navigate("/community");
-                  }
-                }}
-                id="forum-preview"
-              >
-                <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-pink-100">
-                  <Users className="size-10 text-pink-600" />
-                </div>
-                <h3 className="mb-3 text-xl font-bold text-pink-700 text-center group-hover:text-pink-600 transition-colors">
-                  Foro Comunitario
-                </h3>
-                <p className="mb-4 text-gray-600 text-center leading-relaxed">
-                  Comparte experiencias y aprende de otrxs en un ambiente moderado y respetuoso.
-                  Construimos juntos un espacio de apoyo.
-                </p>
-                <Button variant="outline" className="rounded-full border-pink-300 text-pink-600 hover:bg-pink-50">
-                  {!isAuthenticated ? 'Unirse al Foro' : 'Ver Foro'}
-                </Button>
-              </Card>
+              className="group cursor-pointer rounded-3xl border-2 border-pink-300 bg-white p-8 transition-all duration-300 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] hover:border-pink-400 hover:-translate-y-2"
+              onClick={() => {
+                if (!isAuthenticated) {
+                  navigate("/auth", { state: { from: "/community" } });
+                } else {
+                  navigate("/community");
+                }
+              }}
+              id="forum-preview"
+            >
+              <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-pink-100">
+                <Users className="size-10 text-pink-600" />
+              </div>
+              <h3 className="mb-3 text-xl font-bold text-pink-700 text-center group-hover:text-pink-600 transition-colors">
+                Foro Comunitario
+              </h3>
+              <p className="mb-4 text-gray-600 text-center leading-relaxed">
+                Comparte experiencias y aprende de otrxs en un ambiente moderado y respetuoso.
+                Construimos juntos un espacio de apoyo.
+              </p>
+              <Button variant="outline" className="rounded-full border-pink-300 text-pink-600 hover:bg-pink-50">
+                {!isAuthenticated ? 'Unirse al Foro' : 'Ver Foro'}
+              </Button>
+            </Card>
           </div>
         </div>
       </section>
@@ -304,7 +306,7 @@ export function HomePage() {
             </div>
             <h2 className="mb-4 text-4xl font-bold text-gray-800">¿Empezamos?</h2>
             <p className="mb-8 text-lg text-gray-600 max-w-2xl mx-auto">
-              Únete a nuestra comunidad y accede a contenido educativo validado por profesionales. 
+              Únete a nuestra comunidad y accede a contenido educativo validado por profesionales.
               Es gratis, seguro y confidencial.
             </p>
             <Button
@@ -320,6 +322,70 @@ export function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ============= FOOTER SECTION ============= */}
+      <footer className="w-full mt-auto bg-pink-900 text-white">
+
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          {/* Logo y copyright */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-6">
+            <div className="flex flex-col items-center md:items-start gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">🌸</span>
+                <span className="font-semibold text-lg">El Jardín de las Respuestas</span>
+              </div>
+              <p className={`text-sm ${isAuthenticated ? 'text-gray-400' : 'text-pink-200'}`}>
+                © 2025 Equipo de Desarrollo
+              </p>
+            </div>
+
+            {/* Equipo */}
+            <div className="flex flex-col items-center gap-3">
+              <div className="flex items-center gap-2 text-sm font-medium">
+                <Heart className="w-4 h-4" />
+                <span>Hecho con amor por</span>
+              </div>
+              <div className="flex flex-wrap gap-4 justify-center">
+                {teamMembers.map((member, index) => (
+                  <a
+                    key={index}
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`flex items-center gap-2 text-sm transition-all duration-200 ${isAuthenticated
+                        ? 'hover:text-blue-400 hover:scale-105'
+                        : 'hover:text-pink-100 hover:scale-105'
+                      }`}
+                  >
+                    <Linkedin className="w-4 h-4" />
+                    <span>{member.name}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Separador */}
+          <div className={`w-full h-px mb-6 ${isAuthenticated ? 'bg-pink-700' : 'bg-pink-700'}`} />
+
+          {/* Links y aviso de seguridad */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
+            <div className={`flex flex-wrap gap-4 justify-center ${isAuthenticated ? 'text-gray-400' : 'text-pink-200'}`}>
+              <a href="/about" className="hover:underline transition-colors">
+                • Acerca de Nosotros
+              </a>
+            </div>
+
+            {!isAuthenticated && (
+              <div className="flex items-center gap-2 text-pink-200 text-xs">
+                <span className="inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                Espacio 100% seguro y confidencial
+              </div>
+            )}
+          </div>
+        </div>
+      </footer>
+
     </div>
   );
 }
