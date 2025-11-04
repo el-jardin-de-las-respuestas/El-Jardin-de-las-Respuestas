@@ -121,15 +121,15 @@ export function HomePage() {
             <div className="grid grid-cols-3 gap-6 max-w-2xl mx-auto">
               <div className="text-center">
                 <div className="text-3xl font-bold text-pink-600">100%</div>
-                <div className="text-sm text-gray-600">Confidencial</div>
+                <div className="text-sm text-gray-600 dark:text-white ">Confidencial</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-pink-600">24/7</div>
-                <div className="text-sm text-gray-600">Disponible</div>
+                <div className="text-sm text-gray-600 dark:text-white ">Disponible</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-pink-600">+1000</div>
-                <div className="text-sm text-gray-600">Recursos</div>
+                <div className="text-sm text-gray-600 dark:text-white">Recursos</div>
               </div>
             </div>
           </div>
