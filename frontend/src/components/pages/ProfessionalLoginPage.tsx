@@ -68,7 +68,11 @@ export function ProfessionalLoginPage() {
                 <div className="p-6 text-center space-y-4 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex justify-center">
                         <div className="w-16 h-16 bg-pink-100 dark:bg-pink-900 rounded-2xl flex items-center justify-center">
-                            <span className="text-3xl">🌸</span>
+                             <img
+                                src="/img/flower-2.svg"
+                                alt="El Jardín de las Respuestas"
+                                className="h-21 w-auto md:h-9"
+                            />
                         </div>
                     </div>
 

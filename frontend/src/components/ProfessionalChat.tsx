@@ -260,7 +260,7 @@ export default function ProfessionalChat() {
           </div>
         </div>
 
-        {/* Stats */}
+        {/* Stats
         <div className="mb-8 grid gap-6 sm:grid-cols-3">
           <Card className="rounded-[2.5rem] border-2 border-secondary/40 p-6 text-center">
             <div className="mb-2 text-3xl">12</div>
@@ -274,7 +274,7 @@ export default function ProfessionalChat() {
             <div className="mb-2 text-3xl">124</div>
             <div className="text-muted-foreground">Total Resueltas</div>
           </Card>
-        </div>
+        </div> */}
 
         {/* Consultations List */}
         <div className="space-y-4">

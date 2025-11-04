@@ -100,7 +100,7 @@ export default function ProfessionalDashboard() {
           </div>
         </div>
 
-        {/* Stats Grid */}
+        {/* Stats Grid
         <div className="mb-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <Card
@@ -114,7 +114,7 @@ export default function ProfessionalDashboard() {
               <div className="text-3xl">{stat.value}</div>
             </Card>
           ))}
-        </div>
+        </div>  */}
 
         {/* Quick Actions */}
         <div className="mb-12">
@@ -141,7 +141,7 @@ export default function ProfessionalDashboard() {
           </div>
         </div>
 
-        {/* Recent Activity */}
+        {/* Recent Activity
         <div>
           <h2 className="mb-6">Actividad Reciente</h2>
           <Card className="rounded-[2.5rem] border-2 border-secondary/40 p-8 shadow-[0_4px_20px_var(--color-shadow-soft)]">
@@ -190,7 +190,7 @@ export default function ProfessionalDashboard() {
               ))}
             </div>
           </Card>
-        </div>
+        </div> */}
 
         {/* Bottom CTA */}
         <div className="mt-12 rounded-[3rem] border-2 border-primary/40 bg-gradient-to-br from-secondary/20 to-primary/10 p-8 text-center shadow-[0_8px_40px_var(--color-shadow-soft)]">

@@ -1,5 +1,4 @@
-// src/components/Navbar/Navbar.tsx
-import { useAuth } from "../../hooks/useAuth"; // ✅ Ruta relativa corregida
+import { useAuth } from "../../hooks/useAuth"; 
 import NavbarPublic from "./NavbarPublic";
 import NavbarAuth from "./NavbarAuth";
 
