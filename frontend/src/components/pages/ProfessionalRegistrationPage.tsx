@@ -60,9 +60,6 @@ export function ProfessionalRegistrationPage() {
                 user: userData,
                 professional: professionalData,
             });
-            toast.success(
-                "✅ ¡Se ha registrado correctamente! Ahora puedes iniciar sesión."
-            );
             reset();
         } catch (err: any) {
             const backendErrors = err.response?.data?.errors;
