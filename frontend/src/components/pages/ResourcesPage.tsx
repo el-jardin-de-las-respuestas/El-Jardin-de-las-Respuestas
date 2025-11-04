@@ -221,7 +221,7 @@ export function ResourcesPage() {
         {/* TAB: Salud Reproductiva */}
         <TabsContent value="reproductive" className="mt-6 space-y-6">
           {reproductiveHealth.map((section, index) => (
-            <Card key={index}>
+            <Card key={index} className="bg-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Heart className="h-5 w-5 text-pink-500" />
@@ -248,7 +248,7 @@ export function ResourcesPage() {
         <TabsContent value="contraceptives" className="mt-6 space-y-6">
           <div className="grid md:grid-cols-2 gap-4">
             {contraceptives.map((method, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
+              <Card key={index} className="bg-white hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg">{method.name}</CardTitle>
@@ -303,7 +303,7 @@ export function ResourcesPage() {
         {/* TAB: Derechos */}
         <TabsContent value="rights" className="mt-6 space-y-6">
           {rights.map((section, index) => (
-            <Card key={index}>
+            <Card key={index} className="bg-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Shield className="h-5 w-5 text-blue-500" />
@@ -351,7 +351,7 @@ export function ResourcesPage() {
           {resources.map((category, index) => {
             const IconComponent = category.icon;
             return (
-              <Card key={index}>
+              <Card key={index} className="bg-white">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <IconComponent className="h-5 w-5 text-purple-500" />
@@ -390,7 +390,7 @@ export function ResourcesPage() {
 
         {/* TAB: Educación / FAQ */}
         <TabsContent value="education" className="mt-6">
-          <Card>
+          <Card className="bg-white">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Book className="h-5 w-5 text-orange-500" />
