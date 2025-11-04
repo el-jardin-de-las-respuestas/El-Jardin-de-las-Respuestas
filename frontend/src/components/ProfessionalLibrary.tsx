@@ -398,7 +398,7 @@ export default function ProfessionalLibrary() {
             {myArticles.map((article) => (
               <Card
                 key={article.id}
-                className="group cursor-pointer overflow-hidden rounded-[2.5rem] border-2 border-secondary/40 transition-all hover:scale-105 hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
+                className="group cursor-pointer overflow-hidden rounded-[2.5rem] border-2 border-secondary/40 bg-white transition-all hover:scale-105 hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
               >
                 <div className="p-6">
                   <div className="mb-4 flex items-start justify-between">

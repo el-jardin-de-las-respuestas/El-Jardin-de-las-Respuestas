@@ -236,57 +236,58 @@ export function HomePage() {
           </h2>
           <div className="grid gap-8 md:grid-cols-2">
             {/* Chat Module */}
-            <Card
-              className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-gradient-to-br from-card to-secondary/10 p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
-              onClick={() => {
-                if (!isAuthenticated) {
-                  navigate("/auth", { state: { from: "/communication" } });
-                } else {
-                  navigate("/communication");
-                }
-              }}
-              id="chat-preview"
-            >
-              <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-primary/10">
-                <MessageCircle className="size-10 text-primary" />
-              </div>
-              <h3 className="mb-3 text-xl font-semibold">Chat con Profesionales</h3>
-              <p className="mb-4 text-muted-foreground">
-                Conversaciones privadas y seguras con profesionales de la salud sexual.
-                Todas tus dudas serán respondidas con empatía y profesionalismo.
-              </p>
-              <Button 
-                variant="outline" 
-                className="rounded-[2rem]"
-              >
-                {!isAuthenticated ? 'Registrarse para Chatear' : 'Iniciar Chat'}
-              </Button>
-            </Card>
+          <Card
+            className="group cursor-pointer rounded-3xl border-2 border-pink-300 bg-white p-8 transition-all duration-300 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] hover:border-pink-400 hover:-translate-y-2"
+            onClick={() => {
+              if (!isAuthenticated) {
+                navigate("/auth", { state: { from: "/communication" } });
+              } else {
+                navigate("/communication");
+              }
+            }}
+            id="chat-preview"
+          >
+            <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-pink-100">
+              <MessageCircle className="size-10 text-pink-600" />
+            </div>
+            <h3 className="mb-3 text-xl font-bold text-pink-700 text-center group-hover:text-pink-600 transition-colors">
+              Chat con Profesionales
+            </h3>
+            <p className="mb-4 text-gray-600 text-center leading-relaxed">
+              Conversaciones privadas y seguras con profesionales de la salud sexual.
+              Todas tus dudas serán respondidas con empatía y profesionalismo.
+            </p>
+            <Button variant="outline" className="rounded-full border-pink-300 text-pink-600 hover:bg-pink-50">
+              {!isAuthenticated ? 'Registrarse para Chatear' : 'Iniciar Chat'}
+            </Button>
+          </Card>
 
             {/* Forum Module */}
             <Card
-              className="cursor-pointer rounded-[3rem] border-2 border-secondary/40 bg-gradient-to-br from-card to-secondary/10 p-8 transition-all hover:shadow-[0_16px_50px_var(--color-shadow-soft)]"
-              onClick={() => {
-                if (!isAuthenticated) {
-                  navigate("/auth", { state: { from: "/community" } });
-                } else {
-                  navigate("/community");
-                }
-              }}
-              id="forum-preview"
-            >
-              <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-primary/10">
-                <Users className="size-10 text-primary" />
-              </div>
-              <h3 className="mb-3 text-xl font-semibold">Foro Comunitario</h3>
-              <p className="mb-4 text-muted-foreground">
-                Comparte experiencias y aprende de otrxs en un ambiente moderado y respetuoso.
-                Construimos juntos un espacio de apoyo.
-              </p>
-              <Button variant="outline" className="rounded-[2rem]">
-                {!isAuthenticated ? 'Unirse al Foro' : 'Ver Foro'}
-              </Button>
-            </Card>
+                className="group cursor-pointer rounded-3xl border-2 border-pink-300 bg-white p-8 transition-all duration-300 hover:shadow-[0_20px_60px_rgba(236,72,153,0.25)] hover:border-pink-400 hover:-translate-y-2"
+                onClick={() => {
+                  if (!isAuthenticated) {
+                    navigate("/auth", { state: { from: "/community" } });
+                  } else {
+                    navigate("/community");
+                  }
+                }}
+                id="forum-preview"
+              >
+                <div className="mb-6 flex size-20 items-center justify-center rounded-[2rem] bg-pink-100">
+                  <Users className="size-10 text-pink-600" />
+                </div>
+                <h3 className="mb-3 text-xl font-bold text-pink-700 text-center group-hover:text-pink-600 transition-colors">
+                  Foro Comunitario
+                </h3>
+                <p className="mb-4 text-gray-600 text-center leading-relaxed">
+                  Comparte experiencias y aprende de otrxs en un ambiente moderado y respetuoso.
+                  Construimos juntos un espacio de apoyo.
+                </p>
+                <Button variant="outline" className="rounded-full border-pink-300 text-pink-600 hover:bg-pink-50">
+                  {!isAuthenticated ? 'Unirse al Foro' : 'Ver Foro'}
+                </Button>
+              </Card>
           </div>
         </div>
       </section>
@@ -300,7 +301,7 @@ export function HomePage() {
             <div className="mb-8 inline-flex items-center justify-center w-20 h-20 rounded-full bg-pink-100">
               <BookOpen className="w-10 h-10 text-pink-500" />
             </div>
-            <h2 className="mb-4 text-4xl font-bold text-gray-800">¿List@ para empezar?</h2>
+            <h2 className="mb-4 text-4xl font-bold text-gray-800">¿Empezamos?</h2>
             <p className="mb-8 text-lg text-gray-600 max-w-2xl mx-auto">
               Únete a nuestra comunidad y accede a contenido educativo validado por profesionales. 
               Es gratis, seguro y confidencial.

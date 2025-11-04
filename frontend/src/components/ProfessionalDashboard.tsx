@@ -211,7 +211,7 @@ export default function ProfessionalDashboard() {
               className="gap-2 rounded-[2rem] bg-primary px-8 py-6 shadow-[0_4px_20px_var(--color-shadow-soft)] hover:scale-105"
             >
               <FileEdit className="size-5" />
-              Crear Contenido
+              Crear Nuevo Artículo
             </Button>
             <Button
               variant="outline"
