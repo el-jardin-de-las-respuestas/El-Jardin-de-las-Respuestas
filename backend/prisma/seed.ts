@@ -8,6 +8,7 @@ async function main() {
   const roles = [
     { id: 1, name: 'user' },
     { id: 2, name: 'professional' },
+    {id: 3, name: 'admin'}
   ];
 
   for (const role of roles) {
@@ -21,10 +22,12 @@ async function main() {
     });
   }
 
-  console.log('✅ Roles seeded');
+  console.log('✅ Roles agregados');
 
-  // Usuario de prueba
-  const hashedPassword = await bcrypt.hash('123456', 10);
+  if (!process.env.ADMIN_PASSWORD) {
+  throw new Error("ADMIN_PASSWORD is not defined in .env");
+}
+  const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
   
   const user = await prisma.user.upsert({
     where: { email: 'admin@test.com' },
@@ -34,7 +37,7 @@ async function main() {
       email: 'admin@test.com',
       password: hashedPassword,
       birthdate: new Date('2000-01-01'),
-      roleId: 1,
+      roleId: 3,
     },
   });
 

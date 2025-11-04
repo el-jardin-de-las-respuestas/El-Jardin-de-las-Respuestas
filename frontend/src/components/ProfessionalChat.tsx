@@ -239,9 +239,9 @@ export default function ProfessionalChat() {
               💬
             </div>
           </div>
-          <h1 className="mb-4">Chat con Personas Usuarias</h1>
+          <h1 className="mb-4">Chat con personas usuarias</h1>
           <p className="mx-auto max-w-2xl text-muted-foreground">
-            Responde consultas confidenciales de adolescentes. Tu conocimiento profesional puede
+            Responde consultas confidenciales. Tu conocimiento profesional puede
             hacer una gran diferencia.
           </p>
         </div>
