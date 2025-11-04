@@ -155,7 +155,7 @@ export function FAQPage() {
           </Card>
         ) : (
           filteredFAQs.map((category, index) => (
-            <Card key={index}>
+            <Card key={index} className="bg-white">
               <CardHeader>
                 <CardTitle>{category.category}</CardTitle>
                 <CardDescription>{category.questions.length} preguntas</CardDescription>
