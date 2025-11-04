@@ -82,10 +82,11 @@ export function HomePage() {
             </div>
 
             {/* Badge de bienvenida */}
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-pink-100 px-6 py-2 text-pink-600 border-2 border-pink-300">
+            <div className="mb-6 inline-flex items-center gap-2 text-pink-600 dark:text-pink-300">
               <Sparkles className="w-4 h-4" />
               <span className="text-sm font-medium">Tu espacio seguro de aprendizaje</span>
-            </div>
+           </div>
+
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-pink-500 via-pink-400 to-pink-600 bg-clip-text text-transparent leading-tight">
               El Jardín de las Respuestas
@@ -101,7 +102,7 @@ export function HomePage() {
             <div className="flex flex-wrap justify-center gap-4 mb-12">
               <Button
                 onClick={() => navigate("/auth")}
-                className="rounded-full bg-gradient-to-r from-pink-500 to-pink-600 px-10 py-6 text-lg shadow-[0_10px_40px_rgba(236,72,153,0.3)] hover:shadow-[0_15px_50px_rgba(236,72,153,0.4)] hover:scale-105 transition-all"
+                className=" rounded-full bg-gradient-to-r from-pink-500 to-pink-600 px-10 py-6 text-lg shadow-[0_10px_40px_rgba(236,72,153,0.3)] hover:shadow-[0_15px_50px_rgba(236,72,153,0.4)] hover:scale-105 transition-all"
               >
                 <Sparkles className="w-5 h-5 mr-2" />
                 Comenzar Gratis
@@ -296,7 +297,7 @@ export function HomePage() {
 
       {/* ============= FOOTER CTA ============= */}
       {!isAuthenticated && (
-        <section className="px-6 py-24 bg-gradient-to-br from-pink-50 to-white">
+        <section className="px-6 py-24 bg-gradient-to-br from-pink-50 to-white dark:from-gray-900 dark:to-gray-800">
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-8 inline-flex items-center justify-center w-20 h-20 rounded-full bg-pink-100">
               <BookOpen className="w-10 h-10 text-pink-500" />

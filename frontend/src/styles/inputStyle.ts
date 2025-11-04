@@ -2,7 +2,7 @@ export const inputClassName = `
   rounded-[2rem] border-2 border-secondary/40
   bg-white text-gray-900
   dark:bg-gray-900 dark:text-white dark:border-gray-700
-  placeholder:text-gray-400 dark:placeholder:text-gray-500
+  placeholder:text-gray-400 dark:placeholder:text-white
   px-6 py-6
   flex h-9 w-full min-w-0
   text-base
