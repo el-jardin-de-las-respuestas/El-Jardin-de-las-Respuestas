@@ -17,7 +17,7 @@ export function AboutPage() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 mt-12">
-          <Card>
+          <Card className="bg-white">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <Target className="h-8 w-8 text-pink-500" />
@@ -33,7 +33,7 @@ export function AboutPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-white">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <Heart className="h-8 w-8 text-pink-500" />
@@ -48,7 +48,7 @@ export function AboutPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-white">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <Users className="h-8 w-8 text-pink-500" />
@@ -63,7 +63,7 @@ export function AboutPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-white">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <Shield className="h-8 w-8 text-pink-500" />
