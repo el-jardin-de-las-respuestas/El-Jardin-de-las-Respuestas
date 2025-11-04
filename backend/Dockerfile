@@ -1,21 +1,12 @@
-
 FROM node:20-alpine
 
-WORKDIR /app
+WORKDIR /app/backend
 
-
-COPY package.json pnpm-lock.yaml* ./
-
-
+COPY backend/package.json backend/pnpm-lock.yaml* ./
 RUN npm install -g pnpm
-
-
 RUN pnpm install --frozen-lockfile
 
-
-COPY . .
-
-
+COPY backend/. .
 RUN pnpm run build
 
 EXPOSE 4000
