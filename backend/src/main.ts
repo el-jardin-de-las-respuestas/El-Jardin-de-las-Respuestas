@@ -5,13 +5,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const allowedOrigins = [
-    'http://localhost:3000', 
+    'http://localhost:3000',
     'https://el-jardin-de-las-respuestas.netlify.app',
   ];
 
   app.enableCors({
     origin: (origin, callback) => {
-
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -20,9 +19,6 @@ async function bootstrap() {
     },
     credentials: true,
   });
-
-  const port = process.env.PORT ?? 4000;
-  await app.listen(port);
-  console.log(`Backend escuchando en http://localhost:${port}`);
+  await app.listen(process.env.PORT ?? 4000, '0.0.0.0');
 }
 bootstrap();
