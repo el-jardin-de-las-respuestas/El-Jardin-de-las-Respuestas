@@ -1,17 +1,28 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe, BadRequestException } from '@nestjs/common';
-import { PrismaClient } from '../generated/prisma';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const allowedOrigins = [
+    'http://localhost:3000', 
+    'https://el-jardin-de-las-respuestas.netlify.app',
+  ];
+
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: (origin, callback) => {
+
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('CORS no permitido'));
+      }
+    },
     credentials: true,
   });
 
-  await app.listen(process.env.PORT ?? 4000);
-  console.log(`Backend escuchando en http://localhost:${process.env.PORT ?? 4000}`);
+  const port = process.env.PORT ?? 4000;
+  await app.listen(port);
+  console.log(`Backend escuchando en http://localhost:${port}`);
 }
 bootstrap();
