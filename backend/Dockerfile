@@ -17,10 +17,6 @@ COPY . .
 
 RUN pnpm prisma generate
 
-
-RUN pnpm prisma db seed
-
-
 RUN pnpm run build
 
 EXPOSE 4000
