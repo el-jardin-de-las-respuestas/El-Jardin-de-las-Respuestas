@@ -1,20 +1,11 @@
 services:
-
-  postgres:
-    image: postgres:16
-    container_name: jardin_postgres
-    restart: always
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jardin_backend
     ports:
-      - 5000:5432
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-
-  adminer:
-    image: adminer:latest
-    container_name: jardin_adminer
+      - "4000:4000"
+    env_file:
+      - .env
     restart: always
-    ports:
-      - 8080:8080
-    depends_on:
-      - postgres

@@ -2,23 +2,18 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  // ----------------------------------------------------
+  // DIAGNÓSTICO CRÍTICO:
+  // Si esto imprime vacío o undefined, el problema es de Docker/Entrypoint.
+  console.log('DIAGNÓSTICO: DATABASE_URL disponible en process.env:', process.env.DATABASE_URL);
+  // ----------------------------------------------------
+
   const app = await NestFactory.create(AppModule);
 
-  const allowedOrigins = [
-    'http://localhost:3000',
-    'https://el-jardin-de-las-respuestas.netlify.app',
-  ];
+  // Asegúrate de que el puerto esté bien configurado, usando process.env.PORT o 4000
+  const port = process.env.PORT || 4000; 
 
-  app.enableCors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('CORS no permitido'));
-      }
-    },
-    credentials: true,
-  });
-  await app.listen(process.env.PORT ?? 4000, '0.0.0.0');
+  await app.listen(port);
+  console.log(`La app está corriendo en: ${await app.getUrl()}`);
 }
 bootstrap();

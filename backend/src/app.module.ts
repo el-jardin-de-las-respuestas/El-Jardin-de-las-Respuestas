@@ -8,12 +8,22 @@ import { LibraryModule } from './library/library.module';
 import { ProfessionalModule } from './professional/professional.module';
 import { ChatModule } from './chat/chat.module';
 import { ForumModule } from './forum/forum.module';
+import { ConfigModule } from '@nestjs/config'; // 👈 Importamos ConfigModule
 
 @Module({
-  imports: [AuthModule,PrismaModule,ChatModule,PostForoModule, LibraryModule, ProfessionalModule, ForumModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, 
+    }),
+    AuthModule,
+    PrismaModule,
+    ChatModule,
+    PostForoModule, 
+    LibraryModule, 
+    ProfessionalModule, 
+    ForumModule
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
-
-
