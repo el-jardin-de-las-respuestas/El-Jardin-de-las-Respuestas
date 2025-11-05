@@ -16,7 +16,7 @@ const ArticleDetail: React.FC = () => {
     const navigate = useNavigate();
     const [article, setArticle] = useState<Article | null>(null);
 
-    const API_URL = import.meta.env.VITE_APP_API_URL;
+    const API_URL = import.meta.env.VITE_API_URL;
     async function getLibraryItemById(id: number) {
         const res = await axios.get(`${API_URL}/${id}`);
         return res.data;

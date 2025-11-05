@@ -35,7 +35,7 @@ export default function ProfessionalLibrary() {
     resources: [""],
   });
 
-  const API_URL = import.meta.env.VITE_APP_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
 
      async function getLibraryItems() {
     const res = await axios.get(`${API_URL}/library`);
