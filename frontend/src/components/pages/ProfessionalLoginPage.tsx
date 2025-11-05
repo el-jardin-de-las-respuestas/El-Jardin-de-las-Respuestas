@@ -12,6 +12,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 export function ProfessionalLoginPage() {
+    const API_URL = process.env.REACT_APP_API_URL;
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [message, setMessage] = useState<{
         type: "success" | "error";
@@ -36,7 +37,7 @@ export function ProfessionalLoginPage() {
     const onSubmit = async (data: TLoginFormData) => {
         try {
             const res = await axios.post(
-                "http://localhost:4000/auth/login",
+                `${API_URL}/auth/login`,
                 data
             );
             auth.login(res.data.access_token);

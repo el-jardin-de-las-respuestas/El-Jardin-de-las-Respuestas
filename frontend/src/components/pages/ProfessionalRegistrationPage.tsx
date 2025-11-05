@@ -39,6 +39,7 @@ export function ProfessionalRegistrationPage() {
     });
 
     const navigate = useNavigate();
+    const API_URL = process.env.REACT_APP_API_URL;
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [birthdate, setBirthdate] = useState<Date | null>(null);
@@ -56,7 +57,7 @@ export function ProfessionalRegistrationPage() {
                 specialty: data.specialty,
                 registrationNumber: data.registrationNumber,
             };
-            await axios.post("http://localhost:4000/professional/register", {
+            await axios.post(`${API_URL}/professional/register`, {
                 user: userData,
                 professional: professionalData,
             });

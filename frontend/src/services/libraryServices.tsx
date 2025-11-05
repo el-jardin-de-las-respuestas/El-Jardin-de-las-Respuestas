@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:4000/library";
+const API_URL = process.env.REACT_APP_API_URL;
 
 export async function getLibraryItems() {
-  const res = await axios.get(API_URL);
+  const res = await axios.get(`${API_URL}/endpoint`);
   return res.data;
 }
 
@@ -18,6 +18,6 @@ export async function createLibraryItem(data: {
   content: string;
   icon?: string;
 }) {
-  const res = await axios.post(API_URL, data);
+  const res = await axios.post(`${API_URL}/endpoint`, data);
   return res.data;
 }

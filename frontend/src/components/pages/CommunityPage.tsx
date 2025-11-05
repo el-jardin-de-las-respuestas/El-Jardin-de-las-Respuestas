@@ -57,6 +57,7 @@ export default function CommunityPage() {
     const [selectedForumId, setSelectedForumId] = useState<string>("");
     const [isLoading, setIsLoading] = useState(false);
     const [isAnonymous, setIsAnonymous] = useState(false);
+    const API_URL = process.env.REACT_APP_API_URL;
 
     // Estados para comentarios
     const [expandedPostId, setExpandedPostId] = useState<number | null>(null);
@@ -71,6 +72,7 @@ export default function CommunityPage() {
     const [newCategoryTitle, setNewCategoryTitle] = useState("");
     const [newCategoryDescription, setNewCategoryDescription] = useState("");
     const [isCreatingCategory, setIsCreatingCategory] = useState(false);
+    
 
     useEffect(() => {
         fetchPosts();
@@ -79,7 +81,7 @@ export default function CommunityPage() {
 
     const fetchForums = async () => {
         try {
-            const response = await fetch("http://localhost:4000/forum/forums");
+            const response = await fetch(`${API_URL}/forum/forums`);
             const data = await response.json();
             setForums(data);
         } catch (error) {
@@ -90,7 +92,7 @@ export default function CommunityPage() {
 
     const fetchPosts = async () => {
         try {
-            const response = await fetch("http://localhost:4000/forum/posts");
+            const response = await fetch(`${API_URL}/forum/posts`);
             const data = await response.json();
             setCommunityPosts(data);
         } catch (error) {
@@ -114,7 +116,7 @@ export default function CommunityPage() {
         try {
             const token = localStorage.getItem("token");
 
-            const response = await fetch("http://localhost:4000/forum/posts", {
+            const response = await fetch(`${API_URL}/forum/posts`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -152,7 +154,7 @@ export default function CommunityPage() {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:4000/forum/posts/${postId}/like`,
+                `${API_URL}/forum/posts/${postId}/like`,
                 {
                     method: "POST",
                     headers: {
@@ -182,7 +184,7 @@ export default function CommunityPage() {
             setLoadingComments({ ...loadingComments, [postId]: true });
             try {
                 const response = await fetch(
-                    `http://localhost:4000/forum/posts/${postId}/comments`
+                    `${API_URL}/forum/posts/${postId}/comments`
                 );
                 const data = await response.json();
                 setComments({ ...comments, [postId]: data });
@@ -206,7 +208,7 @@ export default function CommunityPage() {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                `http://localhost:4000/forum/posts/${postId}/comments`,
+                `${API_URL}/forum/posts/${postId}/comments`,
                 {
                     method: "POST",
                     headers: {
@@ -250,7 +252,7 @@ export default function CommunityPage() {
         try {
             const token = localStorage.getItem("token");
 
-            const response = await fetch("http://localhost:4000/forum/forums", {
+            const response = await fetch(`${API_URL}/forum/forums`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

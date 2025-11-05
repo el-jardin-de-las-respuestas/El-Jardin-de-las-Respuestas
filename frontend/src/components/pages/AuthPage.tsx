@@ -21,6 +21,7 @@ registerLocale("es", es);
 
 
 export function AuthPage() {
+    const API_URL = process.env.REACT_APP_API_URL;
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const schema = isLogin ? loginSchema : registerSchema;
@@ -56,7 +57,7 @@ export function AuthPage() {
         try {
             if (isLogin) {
                 const res = await axios.post(
-                    "http://localhost:4000/auth/login",
+                    `${API_URL}/auth/login`,
                     {
                         email: data.email,
                         password: data.password,
@@ -76,7 +77,7 @@ export function AuthPage() {
                 console.log('📤 Datos que se van a enviar:', dataToSend);
 
                 await axios.post(
-                    "http://localhost:4000/users/register",
+                    `${API_URL}/users/register`,
                     sanitizeUserData(data as TRegisterFormData)
                 );
                 toast.success("✅ ¡Se ha registrado correctamente! Ahora puedes iniciar sesión.");
