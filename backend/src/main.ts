@@ -8,6 +8,7 @@ async function bootstrap() {
   const allowedOrigins = [
     'http://localhost:3000', 
     'https://el-jardin-de-las-respuestas.netlify.app/',
+    'https://jardinrespuestas.netlify.app/'
   ];
 
   app.enableCors({
