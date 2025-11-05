@@ -21,7 +21,7 @@ registerLocale("es", es);
 
 
 export function AuthPage() {
-    const API_URL = import.meta.env.env.VITE_APP_API_URL;
+    const API_URL = import.meta.env.VITE_APP_API_URL;
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const schema = isLogin ? loginSchema : registerSchema;
