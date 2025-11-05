@@ -4,24 +4,14 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-
   const allowedOrigins = [
-    'http://localhost:3000', 
-    'https://el-jardin-de-las-respuestas.netlify.app/',
-    'https://jardinrespuestas.netlify.app/'
+    'http://localhost:3000',
+    'https://el-jardin-de-las-respuestas.netlify.app',
+    'https://jardinrespuestas.netlify.app',
   ];
-
   app.enableCors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('No permitido por CORS'));
-      }
-    },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: allowedOrigins,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     credentials: true,
   });
 
