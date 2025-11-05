@@ -57,7 +57,7 @@ export default function CommunityPage() {
     const [selectedForumId, setSelectedForumId] = useState<string>("");
     const [isLoading, setIsLoading] = useState(false);
     const [isAnonymous, setIsAnonymous] = useState(false);
-    const API_URL = process.env.REACT_APP_API_URL;
+    const API_URL = import.meta.env.env.VITE_APP_API_URL;
 
     // Estados para comentarios
     const [expandedPostId, setExpandedPostId] = useState<number | null>(null);

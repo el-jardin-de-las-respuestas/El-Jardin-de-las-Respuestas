@@ -1,4 +1,4 @@
-import { createLibraryItem } from "../services/libraryServices" 
+
 import { useState } from "react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 export default function ProfessionalLibrary() {
@@ -33,6 +34,28 @@ export default function ProfessionalLibrary() {
     keyTakeaways: [""],
     resources: [""],
   });
+
+  const API_URL = import.meta.env.env.VITE_APP_API_URL;
+
+     async function getLibraryItems() {
+    const res = await axios.get(`${API_URL}/library`);
+    return res.data;
+  }
+
+   async function getLibraryItemById(id: number) {
+    const res = await axios.get(`${API_URL}/${id}`);
+    return res.data;
+  }
+
+  async function createLibraryItem(data: {
+    title: string;
+    description: string;
+    content: string;
+    icon?: string;
+  }) {
+    const res = await axios.post(`${API_URL}/library`, data);
+    return res.data;
+  }
 
 const [myArticles, setMyArticles] = useState([
   {

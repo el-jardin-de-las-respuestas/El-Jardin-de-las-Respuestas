@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Clock } from "lucide-react";
-import { getLibraryItems } from "../services/libraryServices";
+import axios from "axios";
 
 interface Article {
   id: number;
@@ -9,6 +9,16 @@ interface Article {
   description: string;
   createdAt: string;
 }
+
+  const API_URL = import.meta.env.VITE_APP_API_URL;
+
+     async function getLibraryItems() {
+    const res = await axios.get(`${API_URL}/library`);
+    return res.data;
+  }
+
+
+
 
 const ArticleCard: React.FC<{ article: Article }> = ({ article }) => {
   const navigate = useNavigate();
